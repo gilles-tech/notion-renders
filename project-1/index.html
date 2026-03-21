@@ -1,166 +1,142 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-.lp{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);overflow:hidden;font-family:var(--font-sans)}
-.nav{display:flex;align-items:center;padding:12px 24px;border-bottom:0.5px solid var(--color-border-tertiary)}
-.nav-logo{font-size:16px;font-weight:500;color:#00B4D8}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-.nav-link{font-size:12px;color:var(--color-text-secondary)}
-.nav-cta{font-size:12px;font-weight:500;color:#fff;background:#7C3AED;padding:6px 14px;border-radius:var(--border-radius-md)}
-.pill{display:inline-block;font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
-.hero{display:flex;padding:32px 24px 24px;gap:24px;align-items:center}
-.hero-left{flex:1}
-.hero-h1{font-size:28px;font-weight:500;color:var(--color-text-primary);line-height:1.2}
-.hero-h1 em{font-style:normal;color:#00B4D8}
-.hero-sub{font-size:13px;color:var(--color-text-secondary);margin-top:12px;line-height:1.6}
-.hero-cta{display:inline-block;margin-top:16px;padding:10px 24px;background:#00B4D8;color:#fff;font-size:14px;font-weight:500;border-radius:var(--border-radius-md);cursor:pointer}
-.hero-trust{font-size:11px;color:var(--color-text-tertiary);margin-top:8px;display:flex;align-items:center;gap:6px}
+.lp-wrap{position:relative;overflow:hidden;border-radius:var(--border-radius-lg)}
+.lp-bg{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.3}
+.blob-1{width:400px;height:400px;background:#00B4D8;top:-100px;left:-80px}
+.blob-2{width:350px;height:350px;background:#7C3AED;top:20%;right:-60px}
+.blob-3{width:250px;height:250px;background:#06D6A0;bottom:-40px;left:40%}
+.blob-4{width:200px;height:200px;background:#F59E0B;bottom:20%;left:-40px;opacity:.15}
+@media(prefers-color-scheme:dark){.blob{opacity:.15}}
+.lp-inner{position:relative;z-index:1}
+.nav{display:flex;align-items:center;padding:14px 28px;background:rgba(255,255,255,0.4);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:0.5px solid rgba(255,255,255,0.3)}
+@media(prefers-color-scheme:dark){.nav{background:rgba(30,30,36,0.4);border-bottom-color:rgba(255,255,255,0.06)}}
+.nav-logo{font-family:var(--font-sans);font-size:18px;font-weight:500;color:#00B4D8;letter-spacing:-0.3px}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.lang-sw{display:flex;overflow:hidden;border-radius:10px;border:0.5px solid rgba(0,0,0,0.08)}
+@media(prefers-color-scheme:dark){.lang-sw{border-color:rgba(255,255,255,0.1)}}
+.lang-b{font-family:var(--font-sans);font-size:11px;padding:5px 11px;cursor:pointer;background:transparent;color:var(--color-text-secondary);border:none;transition:all .2s}
+.lang-b.on{background:linear-gradient(135deg,#00B4D8,#0090ad);color:#fff}
+.nav-link{font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-sans);font-weight:500;cursor:pointer;border:none;border-radius:12px;transition:all .2s}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+.btn-primary{background:linear-gradient(135deg,#00B4D8,#0090ad);color:#fff;font-size:14px;padding:12px 28px}
+.btn-nav{background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;font-size:12px;padding:7px 16px}
+.btn-secondary{background:rgba(255,255,255,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0.5px solid rgba(0,0,0,0.06);color:var(--color-text-secondary);font-size:13px;padding:10px 22px}
+@media(prefers-color-scheme:dark){.btn-secondary{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1)}}
+.badge-pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-sans);font-size:11px;font-weight:500;padding:6px 14px;border-radius:12px;background:rgba(255,255,255,0.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:0.5px solid rgba(255,255,255,0.4);color:var(--color-text-secondary)}
+@media(prefers-color-scheme:dark){.badge-pill{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08)}}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#06D6A0}
+.hero{display:flex;padding:36px 28px 28px;gap:28px;align-items:center;flex-wrap:wrap}
+.hero-left{flex:1;min-width:260px}
+.hero-h1{font-family:var(--font-sans);font-size:32px;font-weight:500;color:var(--color-text-primary);line-height:1.15;letter-spacing:-0.5px}
+.hero-h1 em{font-style:normal;background:linear-gradient(135deg,#00B4D8,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-family:var(--font-sans);font-size:14px;color:var(--color-text-secondary);margin-top:14px;line-height:1.6;max-width:380px}
+.hero-ctas{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.hero-trust{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);margin-top:10px;display:flex;align-items:center;gap:6px}
 .hero-trust svg{width:12px;height:12px;flex-shrink:0}
-.hero-right{width:200px;flex-shrink:0}
-.phone-mini{background:var(--color-background-secondary);border-radius:16px;border:1.5px solid var(--color-border-tertiary);padding:12px;text-align:center}
-.pm-label{font-size:10px;color:var(--color-text-tertiary)}
-.pm-score{font-size:36px;font-weight:500;color:var(--color-text-primary);margin:4px 0}
-.pm-ring{width:80px;height:80px;margin:8px auto}
-.pm-ring svg{width:100%;height:100%}
-.pm-ring circle{fill:none;stroke-width:6;stroke-linecap:round}
-.ring-bg{stroke:var(--color-border-tertiary)}
-.ring-fill{stroke:#00B4D8;transform:rotate(-90deg);transform-origin:center}
-.pm-bars{margin-top:8px;text-align:left}
-.pm-bar{display:flex;align-items:center;gap:6px;margin:3px 0}
-.pm-bar-label{font-size:9px;color:var(--color-text-tertiary);width:54px}
-.pm-bar-track{flex:1;height:4px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden}
-.pm-bar-fill{height:100%;background:#00B4D8;border-radius:2px}
-.pm-bar-val{font-size:9px;color:var(--color-text-secondary);width:24px;text-align:right}
-.rgpd-bar{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 24px;background:var(--color-background-secondary);font-size:11px;color:var(--color-text-secondary);border-top:0.5px solid var(--color-border-tertiary)}
-.rgpd-item{display:flex;align-items:center;gap:4px}
-.steps{display:flex;gap:12px;padding:20px 24px;align-items:flex-start}
-.step{flex:1;text-align:center}
-.step-num{width:28px;height:28px;border-radius:50%;background:#00B4D8;color:#fff;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
-.step-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
-.step-desc{font-size:11px;color:var(--color-text-tertiary);margin-top:4px;line-height:1.4}
-.cta2-row{text-align:center;padding:0 24px 16px}
-.cta2{display:inline-block;padding:10px 28px;background:#00B4D8;color:#fff;font-size:13px;font-weight:500;border-radius:var(--border-radius-md)}
-.partners{padding:12px 24px 16px;text-align:center;border-top:0.5px solid var(--color-border-tertiary)}
-.partners-label{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.partners-logos{display:flex;justify-content:center;gap:20px;align-items:center;flex-wrap:wrap}
-.partner-pill{font-size:10px;color:var(--color-text-secondary);padding:4px 12px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
-.b2b-banner{background:#E6F1FB;padding:10px 24px;display:none;align-items:center;gap:8px;border-radius:0}
-.b2b-banner.show{display:flex}
-.b2b-text{font-size:12px;color:#0C447C}
-.b2b-logo{font-size:11px;font-weight:500;color:#185FA5;padding:2px 8px;background:#fff;border-radius:4px}
-.toggle-row{display:flex;gap:6px;justify-content:center;padding:12px 0 4px}
-.t-btn{font-size:11px;padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
-.t-btn.active{background:#00B4D8;color:#fff;border-color:#00B4D8}
-.anim-label{text-align:center;font-size:10px;color:var(--color-text-tertiary);padding:4px}
+.hero-right{width:220px;flex-shrink:0}
+@media(max-width:600px){.hero-right{width:100%;max-width:260px;margin:0 auto}}
+.phone-glass{background:rgba(255,255,255,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.5);border-radius:20px;padding:16px;text-align:center}
+@media(prefers-color-scheme:dark){.phone-glass{background:rgba(30,30,36,0.45);border-color:rgba(255,255,255,0.08)}}
+.pg-label{font-family:var(--font-sans);font-size:10px;color:var(--color-text-tertiary)}
+.pg-ring{width:90px;height:90px;margin:10px auto}
+.pg-ring svg{width:100%;height:100%}
+.pg-ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.ring-bg{stroke:rgba(0,0,0,0.06)}
+@media(prefers-color-scheme:dark){.ring-bg{stroke:rgba(255,255,255,0.08)}}
+.ring-fill{stroke:url(#ring-grad);transform:rotate(-90deg);transform-origin:center}
+.pg-score{font-family:var(--font-sans);font-size:38px;font-weight:500;color:var(--color-text-primary);margin:4px 0}
+.pg-bars{margin-top:10px;text-align:left;display:flex;flex-direction:column;gap:5px}
+.pg-bar{display:flex;align-items:center;gap:6px}
+.pg-bar-l{font-family:var(--font-sans);font-size:10px;color:var(--color-text-tertiary);width:58px}
+.pg-bar-t{flex:1;height:4px;border-radius:2px;overflow:hidden;background:rgba(0,0,0,0.05)}
+@media(prefers-color-scheme:dark){.pg-bar-t{background:rgba(255,255,255,0.08)}}
+.pg-bar-f{height:100%;border-radius:2px;background:linear-gradient(90deg,#00B4D8,#7C3AED)}
+.pg-bar-v{font-family:var(--font-sans);font-size:10px;color:var(--color-text-secondary);width:26px;text-align:right}
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:20px;padding:10px 28px;background:rgba(255,255,255,0.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:0.5px solid rgba(255,255,255,0.3);flex-wrap:wrap}
+@media(prefers-color-scheme:dark){.trust-bar{background:rgba(30,30,36,0.3);border-top-color:rgba(255,255,255,0.05)}}
+.trust-item{display:flex;align-items:center;gap:5px;font-family:var(--font-sans);font-size:11px;color:var(--color-text-secondary)}
+.trust-item svg{width:14px;height:14px;flex-shrink:0;opacity:.6}
+.steps-section{padding:24px 28px}
+.steps-row{display:flex;gap:14px;flex-wrap:wrap}
+.step-card{flex:1;min-width:140px;background:rgba(255,255,255,0.4);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:0.5px solid rgba(255,255,255,0.4);border-radius:16px;padding:18px 16px;text-align:center;transition:transform .2s}
+.step-card:hover{transform:translateY(-2px)}
+@media(prefers-color-scheme:dark){.step-card{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)}}
+.step-num{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.step-title{font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.step-desc{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);margin-top:4px;line-height:1.4}
+.cta2-section{text-align:center;padding:4px 28px 20px}
+.partners-section{padding:16px 28px 20px;text-align:center;border-top:0.5px solid rgba(0,0,0,0.04)}
+@media(prefers-color-scheme:dark){.partners-section{border-top-color:rgba(255,255,255,0.04)}}
+.partners-label{font-family:var(--font-sans);font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.partners-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.partner-chip{font-family:var(--font-sans);font-size:10px;padding:6px 14px;border-radius:10px;background:rgba(255,255,255,0.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:0.5px solid rgba(255,255,255,0.3);color:var(--color-text-secondary)}
+@media(prefers-color-scheme:dark){.partner-chip{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)}}
+.b2b-bar{display:none;align-items:center;gap:10px;padding:12px 28px;background:rgba(0,180,216,0.06);border-bottom:0.5px solid rgba(0,180,216,0.1)}
+.b2b-bar.show{display:flex}
+.b2b-logo{font-family:var(--font-sans);font-size:11px;font-weight:500;padding:3px 10px;border-radius:8px;background:rgba(255,255,255,0.7);color:#185FA5}
+@media(prefers-color-scheme:dark){.b2b-logo{background:rgba(255,255,255,0.1)}}
+.b2b-text{font-family:var(--font-sans);font-size:12px;color:var(--color-text-info)}
+.toggle-row{display:flex;gap:6px;justify-content:center;padding:12px 0 4px;position:relative;z-index:1}
+.tog{font-family:var(--font-sans);font-size:11px;padding:5px 12px;border-radius:10px;border:0.5px solid var(--color-border-tertiary);background:rgba(255,255,255,0.4);backdrop-filter:blur(8px);color:var(--color-text-secondary);cursor:pointer;transition:all .2s}
+@media(prefers-color-scheme:dark){.tog{background:rgba(255,255,255,0.04)}}
+.tog.on{background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;border-color:transparent}
+@media(max-width:480px){.hero{padding:24px 16px 20px}.hero-h1{font-size:26px}.steps-section{padding:16px}.step-card{min-width:100%;flex:none}.nav{padding:12px 16px}.trust-bar{gap:10px;padding:10px 16px}}
 </style>
-
 <div style="padding:1rem 0">
-
-<div class="lp">
-  <div class="b2b-banner" id="b2b-banner">
-    <div class="b2b-logo">CSE Renault</div>
-    <div class="b2b-text">Votre comite d'entreprise vous offre CareerNEXT. Profitez de l'accompagnement complet, finance par votre CSE.</div>
-  </div>
-
-  <div class="nav">
-    <div class="nav-logo">CareerNEXT</div>
-    <div class="nav-right">
-      <div class="nav-link">FR</div>
-      <div class="nav-link">Se connecter</div>
-      <div class="nav-cta">Analyser mon CV</div>
-    </div>
-  </div>
-
-  <div style="padding:8px 24px 0"><div class="pill">Analyse IA gratuite en 58 secondes</div></div>
-
-  <div class="hero">
-    <div class="hero-left">
-      <div class="hero-h1">Trouvez votre<br>prochain emploi.<br><em>Plus vite.</em></div>
-      <div class="hero-sub">L'IA analyse votre CV, optimise votre candidature et vous guide semaine par semaine jusqu'a la signature.</div>
-      <div class="hero-cta">Analyser mon CV gratuitement</div>
-      <div class="hero-trust">
-        <svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1"/><path d="M3.5 6L5.5 8L8.5 4.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Sans carte bancaire &middot; Resultats en 3 min
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="phone-mini">
-        <div class="pm-label">Analyse terminee</div>
-        <div class="pm-ring">
-          <svg viewBox="0 0 80 80">
-            <circle class="ring-bg" cx="40" cy="40" r="34"/>
-            <circle class="ring-fill" cx="40" cy="40" r="34" stroke-dasharray="214" stroke-dashoffset="58" id="hero-ring"/>
-          </svg>
-        </div>
-        <div class="pm-score" id="hero-score">87%</div>
-        <div class="pm-label">Score de recrutement</div>
-        <div class="pm-bars">
-          <div class="pm-bar"><span class="pm-bar-label">Mots-cles</span><div class="pm-bar-track"><div class="pm-bar-fill" style="width:92%"></div></div><span class="pm-bar-val">92%</span></div>
-          <div class="pm-bar"><span class="pm-bar-label">Format</span><div class="pm-bar-track"><div class="pm-bar-fill" style="width:85%"></div></div><span class="pm-bar-val">85%</span></div>
-          <div class="pm-bar"><span class="pm-bar-label">Impact</span><div class="pm-bar-track"><div class="pm-bar-fill" style="width:78%"></div></div><span class="pm-bar-val">78%</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="rgpd-bar">
-    <div class="rgpd-item"><svg viewBox="0 0 12 12" width="12" height="12" fill="none"><rect x="1" y="4" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1"/><path d="M3.5 4V3a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1"/></svg> Donnees hebergees en Europe</div>
-    <div class="rgpd-item"><svg viewBox="0 0 12 12" width="12" height="12" fill="none"><path d="M6 1L1.5 4v3.5c0 2.5 2 4 4.5 4.5 2.5-.5 4.5-2 4.5-4.5V4L6 1z" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg> Conformite RGPD</div>
-    <div class="rgpd-item"><svg viewBox="0 0 12 12" width="12" height="12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg> Suppression sur demande</div>
-  </div>
-
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div class="step-title">Uploadez</div><div class="step-desc">Deposez votre CV en PDF ou Word</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-title">Analysez</div><div class="step-desc">L'IA evalue votre profil sur 7 dimensions</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-title">Agissez</div><div class="step-desc">Plan d'action + offres compatibles</div></div>
-  </div>
-
-  <div class="cta2-row"><div class="cta2">Commencer gratuitement</div></div>
-
-  <div class="partners">
-    <div class="partners-label">Utilise par des professionnels accompagnes par</div>
-    <div class="partners-logos">
-      <div class="partner-pill">Comites Sociaux et Economiques</div>
-      <div class="partner-pill">Cabinets d'outplacement</div>
-      <div class="partner-pill">Organismes de prevoyance</div>
-    </div>
-  </div>
+<div class="lp-wrap">
+<div class="lp-bg"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="blob blob-4"></div></div>
+<div class="lp-inner">
+<div class="b2b-bar" id="b2b"><div class="b2b-logo">CSE Renault</div><div class="b2b-text" id="b2b-txt">Your works council provides CareerNEXT. Access full career support, funded by your CSE.</div></div>
+<div class="nav"><div class="nav-logo">CareerNEXT</div><div class="nav-r"><div class="lang-sw"><div class="lang-b on" id="lb-en" onclick="setL('en')">EN</div><div class="lang-b" id="lb-fr" onclick="setL('fr')">FR</div></div><div class="nav-link" id="nav-signin">Sign in</div><div class="btn btn-nav" id="nav-cta">Analyze my CV</div></div></div>
+<div style="padding:12px 28px 0"><div class="badge-pill"><div class="badge-dot"></div><span id="badge-txt">Free AI analysis in 58 seconds</span></div></div>
+<div class="hero">
+<div class="hero-left">
+<div class="hero-h1" id="hero-h1">Find your<br>next job.<br><em>Faster.</em></div>
+<div class="hero-sub" id="hero-sub">AI analyzes your CV, optimizes your application, and guides you week by week until you sign.</div>
+<div class="hero-ctas"><div class="btn btn-primary" id="cta1">Analyze my CV for free</div><div class="btn btn-secondary" id="cta1b">Watch a demo</div></div>
+<div class="hero-trust"><svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="currentColor" stroke-width="1"/><path d="M3.5 6L5.5 8L8.5 4.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="trust-line">No credit card &middot; Results in 3 min</span></div>
 </div>
-
-<div class="anim-label">Hero score : animation de 54 a 87 en boucle (GSAP ScrollTrigger)</div>
-
-<div class="toggle-row">
-  <div class="t-btn active" onclick="showVariant('default',this)">Version standard</div>
-  <div class="t-btn" onclick="showVariant('b2b',this)">Version B2B2C (CSE)</div>
+<div class="hero-right">
+<div class="phone-glass">
+<div class="pg-label" id="pg-lbl1">Analysis complete</div>
+<div class="pg-ring"><svg viewBox="0 0 90 90"><defs><linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00B4D8"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient></defs><circle class="ring-bg" cx="45" cy="45" r="38"/><circle class="ring-fill" cx="45" cy="45" r="38" stroke-dasharray="239" stroke-dashoffset="65" id="hero-ring"/></svg></div>
+<div class="pg-score" id="hero-score">87%</div>
+<div class="pg-label" id="pg-lbl2">Recruitment score</div>
+<div class="pg-bars">
+<div class="pg-bar"><span class="pg-bar-l" id="bar1-l">Keywords</span><div class="pg-bar-t"><div class="pg-bar-f" style="width:92%"></div></div><span class="pg-bar-v">92%</span></div>
+<div class="pg-bar"><span class="pg-bar-l" id="bar2-l">Format</span><div class="pg-bar-t"><div class="pg-bar-f" style="width:85%"></div></div><span class="pg-bar-v">85%</span></div>
+<div class="pg-bar"><span class="pg-bar-l" id="bar3-l">Impact</span><div class="pg-bar-t"><div class="pg-bar-f" style="width:78%"></div></div><span class="pg-bar-v">78%</span></div>
+<div class="pg-bar"><span class="pg-bar-l" id="bar4-l">Readability</span><div class="pg-bar-t"><div class="pg-bar-f" style="width:94%"></div></div><span class="pg-bar-v">94%</span></div>
 </div>
 </div>
-
+</div>
+</div>
+<div class="trust-bar">
+<div class="trust-item"><svg viewBox="0 0 14 14" fill="none"><rect x="1.5" y="5" width="11" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 5V3.5a3 3 0 016 0V5" stroke="currentColor" stroke-width="1.2"/></svg><span id="tr1">Data hosted in Europe</span></div>
+<div class="trust-item"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5L2 4.5v4c0 2.8 2.2 4.5 5 5 2.8-.5 5-2.2 5-5v-4L7 1.5z" stroke="currentColor" stroke-width="1.2"/><path d="M5 7.5l1.5 1.5L9 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span id="tr2">GDPR compliant</span></div>
+<div class="trust-item"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7h4M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span id="tr3">Deletion on request</span></div>
+</div>
+<div class="steps-section"><div class="steps-row">
+<div class="step-card"><div class="step-num">1</div><div class="step-title" id="s1t">Upload</div><div class="step-desc" id="s1d">Drop your CV in PDF or Word format</div></div>
+<div class="step-card"><div class="step-num">2</div><div class="step-title" id="s2t">Analyze</div><div class="step-desc" id="s2d">AI evaluates your profile across 7 dimensions</div></div>
+<div class="step-card"><div class="step-num">3</div><div class="step-title" id="s3t">Act</div><div class="step-desc" id="s3d">Action plan + matching job opportunities</div></div>
+</div></div>
+<div class="cta2-section"><div class="btn btn-primary" id="cta2">Get started for free</div></div>
+<div class="partners-section">
+<div class="partners-label" id="p-lbl">Used by professionals supported by</div>
+<div class="partners-row"><div class="partner-chip" id="p1">Works councils (CSE)</div><div class="partner-chip" id="p2">Outplacement firms</div><div class="partner-chip" id="p3">Insurance providers</div></div>
+</div>
+</div>
+</div>
+<div class="toggle-row"><div class="tog on" onclick="showV('std',this)">Standard</div><div class="tog" onclick="showV('b2b',this)">B2B2C (CSE partner)</div></div>
+</div>
 <script>
-function showVariant(v, el) {
-  document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('b2b-banner').classList.toggle('show', v === 'b2b');
-}
-
-function animateScore() {
-  const scoreEl = document.getElementById('hero-score');
-  const ringEl = document.getElementById('hero-ring');
-  if (!scoreEl || !ringEl) return;
-  let start = Date.now();
-  const duration = 3000;
-  const pause = 2000;
-  function tick() {
-    const elapsed = (Date.now() - start) % (duration + pause);
-    if (elapsed < duration) {
-      const progress = elapsed / duration;
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const val = Math.round(54 + (87 - 54) * eased);
-      scoreEl.textContent = val + '%';
-      const offset = 214 - (214 * val / 100);
-      ringEl.setAttribute('stroke-dashoffset', offset);
-    }
-    requestAnimationFrame(tick);
-  }
-  tick();
-}
-animateScore();
+var lang='en';
+var tx={en:{badge:"Free AI analysis in 58 seconds",h1:"Find your<br>next job.<br><em>Faster.</em>",sub:"AI analyzes your CV, optimizes your application, and guides you week by week until you sign.",cta1:"Analyze my CV for free",cta1b:"Watch a demo",cta2:"Get started for free",trust:"No credit card \u00B7 Results in 3 min",signin:"Sign in",navcta:"Analyze my CV",pg1:"Analysis complete",pg2:"Recruitment score",b1:"Keywords",b2:"Format",b3:"Impact",b4:"Readability",tr1:"Data hosted in Europe",tr2:"GDPR compliant",tr3:"Deletion on request",s1t:"Upload",s1d:"Drop your CV in PDF or Word format",s2t:"Analyze",s2d:"AI evaluates your profile across 7 dimensions",s3t:"Act",s3d:"Action plan + matching job opportunities",plbl:"Used by professionals supported by",p1:"Works councils (CSE)",p2:"Outplacement firms",p3:"Insurance providers",b2b:"Your works council provides CareerNEXT. Access full career support, funded by your CSE."},fr:{badge:"Analyse IA gratuite en 58 secondes",h1:"Trouvez votre<br>prochain emploi.<br><em>Plus vite.</em>",sub:"L\u2019IA analyse votre CV, optimise votre candidature et vous guide semaine par semaine jusqu\u2019\u00e0 la signature.",cta1:"Analyser mon CV gratuitement",cta1b:"Voir une d\u00e9mo",cta2:"Commencer gratuitement",trust:"Sans carte bancaire \u00B7 R\u00e9sultats en 3 min",signin:"Se connecter",navcta:"Analyser mon CV",pg1:"Analyse termin\u00e9e",pg2:"Score de recrutement",b1:"Mots-cl\u00e9s",b2:"Format",b3:"Impact",b4:"Lisibilit\u00e9",tr1:"Donn\u00e9es h\u00e9berg\u00e9es en Europe",tr2:"Conformit\u00e9 RGPD",tr3:"Suppression sur demande",s1t:"Uploadez",s1d:"D\u00e9posez votre CV en PDF ou Word",s2t:"Analysez",s2d:"L\u2019IA \u00e9value votre profil sur 7 dimensions",s3t:"Agissez",s3d:"Plan d\u2019action + offres compatibles",plbl:"Utilis\u00e9 par des professionnels accompagn\u00e9s par",p1:"Comit\u00e9s Sociaux et \u00c9conomiques",p2:"Cabinets d\u2019outplacement",p3:"Organismes de pr\u00e9voyance",b2b:"Votre comit\u00e9 d\u2019entreprise vous offre CareerNEXT. Accompagnement complet financ\u00e9 par votre CSE."}};
+function setL(l){lang=l;document.getElementById('lb-en').className='lang-b'+(l==='en'?' on':'');document.getElementById('lb-fr').className='lang-b'+(l==='fr'?' on':'');var t=tx[l];document.getElementById('badge-txt').textContent=t.badge;document.getElementById('hero-h1').innerHTML=t.h1;document.getElementById('hero-sub').textContent=t.sub;document.getElementById('cta1').textContent=t.cta1;document.getElementById('cta1b').textContent=t.cta1b;document.getElementById('cta2').textContent=t.cta2;document.getElementById('trust-line').textContent=t.trust;document.getElementById('nav-signin').textContent=t.signin;document.getElementById('nav-cta').textContent=t.navcta;document.getElementById('pg-lbl1').textContent=t.pg1;document.getElementById('pg-lbl2').textContent=t.pg2;document.getElementById('bar1-l').textContent=t.b1;document.getElementById('bar2-l').textContent=t.b2;document.getElementById('bar3-l').textContent=t.b3;document.getElementById('bar4-l').textContent=t.b4;document.getElementById('tr1').textContent=t.tr1;document.getElementById('tr2').textContent=t.tr2;document.getElementById('tr3').textContent=t.tr3;document.getElementById('s1t').textContent=t.s1t;document.getElementById('s1d').textContent=t.s1d;document.getElementById('s2t').textContent=t.s2t;document.getElementById('s2d').textContent=t.s2d;document.getElementById('s3t').textContent=t.s3t;document.getElementById('s3d').textContent=t.s3d;document.getElementById('p-lbl').textContent=t.plbl;document.getElementById('p1').textContent=t.p1;document.getElementById('p2').textContent=t.p2;document.getElementById('p3').textContent=t.p3;document.getElementById('b2b-txt').textContent=t.b2b}
+function showV(v,el){document.querySelectorAll('.tog').forEach(function(b){b.classList.remove('on')});el.classList.add('on');document.getElementById('b2b').classList.toggle('show',v==='b2b')}
+function animScore(){var s=document.getElementById('hero-score'),r=document.getElementById('hero-ring'),st=Date.now();function t(){var e=(Date.now()-st)%(3000+2500);if(e<3000){var p=e/3000,v=1-Math.pow(1-p,3),n=Math.round(54+(87-54)*v);s.textContent=n+'%';r.setAttribute('stroke-dashoffset',Math.round(239-(239*n/100)))}requestAnimationFrame(t)}t()}
+animScore();
 </script>
