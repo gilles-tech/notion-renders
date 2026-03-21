@@ -1,32 +1,357 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 2</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            display: flex; justify-content: center; align-items: center; 
-            height: 100vh; margin: 0; background-color: #ffffff; color: #37352f;
-        }
-        .card { 
-            padding: 40px; border-radius: 12px; border: 1px solid #edeef0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; max-width: 400px;
-        }
-        h1 { font-size: 1.5rem; margin-bottom: 10px; }
-        p { color: #6b6b6b; line-height: 1.5; }
-        .tag { 
-            display: inline-block; background: #ebf5fe; color: #2883d7; 
-            padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <div class="tag">Live Render</div>
-        <h1>Project 2 Interface</h1>
-        <p>This is your custom HTML content for project number 2, hosted on GitHub and rendered perfectly inside Notion.</p>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+.ob-wrap{padding:1.5rem 0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:relative}
+
+.ob-bg{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;z-index:0;pointer-events:none}
+.ob-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35}
+.ob-blob-1{width:300px;height:300px;background:#00B4D8;top:-60px;left:-40px}
+.ob-blob-2{width:250px;height:250px;background:#7C3AED;bottom:-40px;right:-30px}
+.ob-blob-3{width:180px;height:180px;background:#06D6A0;top:40%;left:60%}
+
+.glass-card{
+  position:relative;z-index:1;
+  width:100%;max-width:420px;
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,0.4);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  min-height:560px;
+}
+@media(prefers-color-scheme:dark){
+  .glass-card{background:rgba(30,30,36,0.55);border:1px solid rgba(255,255,255,0.08)}
+  .ob-blob{opacity:.2}
+}
+
+.card-header{padding:16px 20px 10px;display:flex;align-items:center;gap:10px}
+.logo-mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#00B4D8,#7C3AED);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.logo-text{font-family:var(--font-sans);font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.lang-toggle{margin-left:auto;display:flex;border-radius:var(--border-radius-md);overflow:hidden;border:0.5px solid var(--color-border-secondary)}
+.lang-btn{font-family:var(--font-sans);font-size:11px;padding:4px 10px;cursor:pointer;background:transparent;color:var(--color-text-secondary);border:none;transition:all .2s}
+.lang-btn.active{background:#00B4D8;color:#fff}
+
+.card-sub{font-family:var(--font-sans);font-size:12px;color:var(--color-text-tertiary);padding:0 20px 8px;line-height:1.4}
+
+.prog-wrap{padding:0 20px;margin-bottom:2px}
+.prog-track{height:3px;background:rgba(0,0,0,0.06);border-radius:2px;overflow:hidden}
+@media(prefers-color-scheme:dark){.prog-track{background:rgba(255,255,255,0.08)}}
+.prog-fill{height:100%;background:linear-gradient(90deg,#00B4D8,#7C3AED);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prog-label{font-family:var(--font-sans);font-size:10px;color:var(--color-text-tertiary);text-align:right;padding:3px 20px 0}
+
+.chat-area{flex:1;padding:10px 16px 16px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}
+
+.bubble{max-width:88%;font-family:var(--font-sans);font-size:13px;line-height:1.55;padding:10px 14px;animation:bub .35s cubic-bezier(.2,.8,.4,1)}
+@keyframes bub{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+
+.b-bot{
+  align-self:flex-start;
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:0.5px solid rgba(255,255,255,0.5);
+  border-radius:16px 16px 16px 4px;
+  color:var(--color-text-primary);
+}
+@media(prefers-color-scheme:dark){.b-bot{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.1)}}
+
+.b-user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#00B4D8,#0090ad);
+  border:none;
+  border-radius:16px 16px 4px 16px;
+  color:#fff;
+}
+
+.b-insight{
+  align-self:flex-start;
+  background:rgba(0,180,216,0.08);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:0.5px solid rgba(0,180,216,0.2);
+  border-radius:16px 16px 16px 4px;
+  color:var(--color-text-info);
+  display:flex;align-items:flex-start;gap:8px;
+}
+.b-insight svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;opacity:.7}
+
+.b-ctx{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);align-self:flex-start;padding:0 6px}
+
+.pills-wrap{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;max-width:88%}
+.pill-btn{
+  font-family:var(--font-sans);font-size:12px;padding:7px 14px;
+  border-radius:20px;cursor:pointer;transition:all .2s;
+  background:rgba(255,255,255,0.5);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:0.5px solid var(--color-border-secondary);
+  color:var(--color-text-secondary);
+}
+@media(prefers-color-scheme:dark){.pill-btn{background:rgba(255,255,255,0.06)}}
+.pill-btn:hover{border-color:#00B4D8;color:#00B4D8}
+.pill-btn.sel{background:linear-gradient(135deg,#00B4D8,#0090ad);color:#fff;border-color:transparent}
+
+.slider-glass{
+  align-self:flex-start;width:88%;
+  background:rgba(255,255,255,0.5);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:0.5px solid rgba(255,255,255,0.4);
+  border-radius:16px 16px 16px 4px;
+  padding:14px 16px;
+}
+@media(prefers-color-scheme:dark){.slider-glass{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1)}}
+.sl-top{display:flex;justify-content:space-between;font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary)}
+.sl-val{font-family:var(--font-sans);font-size:28px;font-weight:500;color:var(--color-text-primary);text-align:center;margin:6px 0 2px}
+
+.act-btn{
+  display:block;width:100%;padding:11px;border:none;border-radius:14px;
+  font-family:var(--font-sans);font-size:13px;font-weight:500;cursor:pointer;
+  background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;
+  margin-top:6px;transition:opacity .2s;
+}
+.act-btn:hover{opacity:.9}
+
+.upload-glass{
+  align-self:flex-start;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 20px;
+  background:linear-gradient(135deg,#00B4D8,#7C3AED);
+  border-radius:14px;border:none;
+  font-family:var(--font-sans);font-size:13px;font-weight:500;color:#fff;
+  cursor:pointer;transition:opacity .2s;
+}
+.upload-glass:hover{opacity:.9}
+.upload-glass svg{width:16px;height:16px}
+.file-hint{font-family:var(--font-sans);font-size:10px;color:var(--color-text-tertiary);align-self:flex-start;padding:2px 6px}
+
+.nav-dots{display:flex;gap:6px;justify-content:center;padding:10px 0 2px;position:relative;z-index:1}
+.nav-dot{font-family:var(--font-sans);font-size:11px;padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:rgba(255,255,255,0.4);backdrop-filter:blur(8px);color:var(--color-text-secondary);cursor:pointer;transition:all .2s}
+@media(prefers-color-scheme:dark){.nav-dot{background:rgba(255,255,255,0.06)}}
+.nav-dot.on{background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;border-color:transparent}
+
+@media(max-width:480px){
+  .glass-card{max-width:100%;border-radius:20px;min-height:520px}
+  .bubble{max-width:92%}
+  .pills-wrap{max-width:92%}
+  .slider-glass{width:92%}
+  .nav-dots{flex-wrap:wrap}
+}
+</style>
+
+<div class="ob-wrap">
+  <div class="ob-bg">
+    <div class="ob-blob ob-blob-1"></div>
+    <div class="ob-blob ob-blob-2"></div>
+    <div class="ob-blob ob-blob-3"></div>
+  </div>
+
+  <div class="glass-card">
+    <div class="card-header">
+      <div class="logo-mark"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="#fff" stroke-width="1.5"/><path d="M5.5 8l2 2L10.5 6" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="logo-text">CareerNEXT</div>
+      <div class="lang-toggle">
+        <div class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</div>
+        <div class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</div>
+      </div>
     </div>
-</body>
-</html>
+    <div class="card-sub" id="card-sub">We want to understand your career project to better support you.</div>
+    <div class="prog-wrap"><div class="prog-track"><div class="prog-fill" id="pbar" style="width:0%"></div></div></div>
+    <div class="prog-label" id="plabel"></div>
+    <div class="chat-area" id="chat"></div>
+  </div>
+
+  <div class="nav-dots">
+    <div class="nav-dot on" onclick="go(0,this)">1. Upload</div>
+    <div class="nav-dot" onclick="go(1,this)">2. Detected</div>
+    <div class="nav-dot" onclick="go(2,this)">3. Satisfaction</div>
+    <div class="nav-dot" onclick="go(3,this)">4. Preview</div>
+    <div class="nav-dot" onclick="go(4,this)">5. Priorities</div>
+    <div class="nav-dot" onclick="go(5,this)">6. Ready</div>
+  </div>
+</div>
+
+<script>
+var lang = 'en';
+
+var data = {
+  en: {
+    sub: "We want to understand your career project to better support you.",
+    steps: [
+      { p:0, l:"",
+        m:[
+          {t:"bot",x:"Hello! I'm your career transition assistant. Start by uploading your resume."},
+          {t:"ctx",x:"PDF or Word \u00B7 10 MB max \u00B7 Your data stays confidential"},
+          {t:"upload",x:"Select your resume"}
+        ]},
+      { p:25, l:"Step 1 of 4",
+        m:[
+          {t:"bot",x:"Hello! I'm your career transition assistant. Start by uploading your resume."},
+          {t:"user",x:"CV_ALSchuler_Director_Communication.pdf"},
+          {t:"bot",x:"Resume received! We're analyzing it while you answer a few questions."},
+          {t:"insight",x:"<strong>8 experiences</strong> and <strong>4 degrees</strong> detected. Profile oriented toward <strong>Strategic Communication & International Development</strong>."}
+        ]},
+      { p:50, l:"Step 2 of 4",
+        m:[
+          {t:"user",x:"CV_ALSchuler_Director_Communication.pdf"},
+          {t:"insight",x:"<strong>8 experiences</strong> and <strong>4 degrees</strong> detected. Profile: <strong>Strategic Communication</strong>."},
+          {t:"ctx",x:"This helps us calibrate recommendations to your real situation."},
+          {t:"bot",x:"On a scale of 1 to 10, how satisfied are you with your current professional situation?"},
+          {t:"slider"}
+        ]},
+      { p:65, l:"Step 3 of 4",
+        m:[
+          {t:"insight",x:"<strong>8 experiences</strong> and <strong>4 degrees</strong> detected."},
+          {t:"bot",x:"On a scale of 1 to 10, how satisfied are you with your current situation?"},
+          {t:"user",x:"6"},
+          {t:"insight",x:"Preliminary score: <strong style='font-size:17px'>73/100</strong>. One more question to refine your results."}
+        ]},
+      { p:80, l:"Step 3 of 4",
+        m:[
+          {t:"user",x:"6"},
+          {t:"insight",x:"Preliminary score: <strong style='font-size:17px'>73/100</strong>. One more question to refine."},
+          {t:"ctx",x:"Select one or more priorities. This shapes your job recommendations."},
+          {t:"bot",x:"Which factors are priorities in your career change?"},
+          {t:"pills",x:["Better pay","Work-life balance","Skill development","Impact & purpose","Flexibility / autonomy","Job security"]}
+        ]},
+      { p:100, l:"Complete!",
+        m:[
+          {t:"bot",x:"Which factors are priorities in your career change?"},
+          {t:"user",x:"Work-life balance, Skill development"},
+          {t:"insight",x:"Priorities saved. <strong>7 jobs</strong> already match your profile. Your full analysis is ready!"},
+          {t:"bot",x:"Discover your detailed score and personalized action plan."},
+          {t:"cta",x:"See my full score"}
+        ]}
+    ]
+  },
+  fr: {
+    sub: "Nous voulons comprendre votre projet de carri\u00e8re pour mieux vous accompagner.",
+    steps: [
+      { p:0, l:"",
+        m:[
+          {t:"bot",x:"Bonjour ! Je suis votre assistant de transition professionnelle. Commencez par d\u00e9poser votre CV."},
+          {t:"ctx",x:"PDF ou Word \u00B7 10 Mo max \u00B7 Vos donn\u00e9es restent confidentielles"},
+          {t:"upload",x:"S\u00e9lectionnez votre CV"}
+        ]},
+      { p:25, l:"\u00c9tape 1 sur 4",
+        m:[
+          {t:"bot",x:"Bonjour ! Je suis votre assistant de transition. Commencez par d\u00e9poser votre CV."},
+          {t:"user",x:"CV_ALSchuler_20250918_Directeur_Communication.pdf"},
+          {t:"bot",x:"CV re\u00e7u ! Nous l\u2019analysons pendant que vous r\u00e9pondez \u00e0 quelques questions."},
+          {t:"insight",x:"<strong>8 exp\u00e9riences</strong> et <strong>4 formations</strong> d\u00e9tect\u00e9es. Profil orient\u00e9 <strong>Communication strat\u00e9gique & D\u00e9veloppement international</strong>."}
+        ]},
+      { p:50, l:"\u00c9tape 2 sur 4",
+        m:[
+          {t:"user",x:"CV_ALSchuler_20250918_Directeur_Communication.pdf"},
+          {t:"insight",x:"<strong>8 exp\u00e9riences</strong> et <strong>4 formations</strong> d\u00e9tect\u00e9es. Profil : <strong>Communication strat\u00e9gique</strong>."},
+          {t:"ctx",x:"Cette information nous aide \u00e0 calibrer nos recommandations \u00e0 votre situation r\u00e9elle."},
+          {t:"bot",x:"Sur une \u00e9chelle de 1 \u00e0 10, quel est votre niveau de satisfaction avec votre situation professionnelle actuelle ?"},
+          {t:"slider"}
+        ]},
+      { p:65, l:"\u00c9tape 3 sur 4",
+        m:[
+          {t:"insight",x:"<strong>8 exp\u00e9riences</strong> et <strong>4 formations</strong> d\u00e9tect\u00e9es."},
+          {t:"bot",x:"Sur une \u00e9chelle de 1 \u00e0 10, quel est votre niveau de satisfaction professionnelle ?"},
+          {t:"user",x:"6"},
+          {t:"insight",x:"Score pr\u00e9liminaire : <strong style='font-size:17px'>73/100</strong>. Encore 1 question pour affiner vos r\u00e9sultats."}
+        ]},
+      { p:80, l:"\u00c9tape 3 sur 4",
+        m:[
+          {t:"user",x:"6"},
+          {t:"insight",x:"Score pr\u00e9liminaire : <strong style='font-size:17px'>73/100</strong>. Encore 1 question pour affiner."},
+          {t:"ctx",x:"S\u00e9lectionnez une ou plusieurs priorit\u00e9s. Cela oriente nos recommandations d\u2019offres."},
+          {t:"bot",x:"Quels facteurs sont prioritaires dans votre \u00e9volution de carri\u00e8re ?"},
+          {t:"pills",x:["Meilleure r\u00e9mun\u00e9ration","\u00c9quilibre vie pro/perso","D\u00e9veloppement des comp\u00e9tences","Impact & sens","Flexibilit\u00e9 / autonomie","S\u00e9curit\u00e9 de l\u2019emploi"]}
+        ]},
+      { p:100, l:"Termin\u00e9 !",
+        m:[
+          {t:"bot",x:"Quels facteurs sont prioritaires dans votre \u00e9volution de carri\u00e8re ?"},
+          {t:"user",x:"\u00c9quilibre vie pro/perso, D\u00e9veloppement des comp\u00e9tences"},
+          {t:"insight",x:"Priorit\u00e9s enregistr\u00e9es. <strong>7 offres</strong> correspondent d\u00e9j\u00e0 \u00e0 votre profil. Votre analyse compl\u00e8te est pr\u00eate !"},
+          {t:"bot",x:"D\u00e9couvrez votre score d\u00e9taill\u00e9 et votre plan d\u2019action personnalis\u00e9."},
+          {t:"cta",x:"Voir mon score complet"}
+        ]}
+    ]
+  }
+};
+
+var curStep = 0;
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-en').className = 'lang-btn' + (l==='en'?' active':'');
+  document.getElementById('btn-fr').className = 'lang-btn' + (l==='fr'?' active':'');
+  document.getElementById('card-sub').textContent = data[lang].sub;
+  render(curStep);
+}
+
+function render(idx) {
+  curStep = idx;
+  var s = data[lang].steps[idx];
+  var area = document.getElementById('chat');
+  area.innerHTML = '';
+  document.getElementById('pbar').style.width = s.p + '%';
+  document.getElementById('plabel').textContent = s.l;
+
+  s.m.forEach(function(m, i) {
+    var el;
+    if (m.t === 'bot') {
+      el = document.createElement('div');
+      el.className = 'bubble b-bot';
+      el.textContent = m.x;
+    } else if (m.t === 'user') {
+      el = document.createElement('div');
+      el.className = 'bubble b-user';
+      el.textContent = m.x;
+    } else if (m.t === 'insight') {
+      el = document.createElement('div');
+      el.className = 'bubble b-insight';
+      el.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M6 8l1.5 1.5L10 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>' + m.x + '</span>';
+    } else if (m.t === 'ctx') {
+      el = document.createElement('div');
+      el.className = 'b-ctx';
+      el.textContent = m.x;
+    } else if (m.t === 'upload') {
+      el = document.createElement('button');
+      el.className = 'upload-glass';
+      el.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 5l3-3 3 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11v2a1 1 0 001 1h8a1 1 0 001-1v-2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>' + m.x;
+    } else if (m.t === 'slider') {
+      el = document.createElement('div');
+      el.className = 'slider-glass';
+      el.innerHTML = '<div class="sl-top"><span>1</span><span>10</span></div><input type="range" min="1" max="10" value="6" step="1" style="width:100%" oninput="this.parentElement.querySelector(\'.sl-val\').textContent=this.value"><div class="sl-val">6</div><button class="act-btn">' + (lang==='fr'?'Valider':'Submit') + '</button>';
+    } else if (m.t === 'pills') {
+      el = document.createElement('div');
+      el.className = 'pills-wrap';
+      m.x.forEach(function(item) {
+        var btn = document.createElement('div');
+        btn.className = 'pill-btn';
+        btn.textContent = item;
+        btn.onclick = function(){ this.classList.toggle('sel'); };
+        el.appendChild(btn);
+      });
+      var sub = document.createElement('button');
+      sub.className = 'act-btn';
+      sub.textContent = lang==='fr'?'Valider':'Submit';
+      sub.style.marginTop = '8px';
+      area.appendChild(el);
+      area.appendChild(sub);
+      return;
+    } else if (m.t === 'cta') {
+      el = document.createElement('button');
+      el.className = 'act-btn';
+      el.textContent = m.x;
+      el.style.margin = '8px 0';
+    }
+    if (el) {
+      el.style.animationDelay = (i * 0.12) + 's';
+      area.appendChild(el);
+    }
+  });
+}
+
+function go(idx, el) {
+  document.querySelectorAll('.nav-dot').forEach(function(d){ d.classList.remove('on'); });
+  el.classList.add('on');
+  render(idx);
+}
+
+render(0);
+</script>
