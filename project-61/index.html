@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef2f7;min-height:100vh;overflow:hidden;user-select:none;-webkit-user-select:none}
+.app{width:100%;height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+
+.bg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.18;transition:transform 2s ease}
+.b1{width:340px;height:340px;background:#00B4D8;top:-80px;left:-100px}
+.b2{width:280px;height:280px;background:#7C3AED;bottom:40px;right:-80px}
+.b3{width:220px;height:220px;background:#06D6A0;top:45%;left:65%}
+
+.top{display:flex;align-items:center;padding:10px 18px;position:relative;z-index:10;background:rgba(255,255,255,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.3)}
+.logo{font-size:15px;font-weight:500;color:#00B4D8}
+.top-r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.saved-pill{font-size:10px;color:#7C3AED;font-weight:600;background:rgba(124,58,237,.06);padding:4px 10px;border-radius:20px;cursor:pointer;border:1px solid rgba(124,58,237,.1)}
+.av{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#00B4D8,#7C3AED);font-size:9px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+.filters{display:flex;gap:6px;padding:8px 18px;overflow-x:auto;position:relative;z-index:10;background:rgba(255,255,255,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.2)}
+.filters::-webkit-scrollbar{display:none}
+.fpill{font-size:10px;padding:5px 12px;border-radius:20px;white-space:nowrap;cursor:pointer;transition:all .15s;border:1px solid rgba(0,0,0,.05);background:rgba(255,255,255,.5);color:#475569;font-weight:500;box-shadow:2px 2px 6px rgba(0,0,0,.03),-1px -1px 4px rgba(255,255,255,.6)}
+.fpill.on{background:rgba(0,180,216,.12);color:#0284C7;border-color:rgba(0,180,216,.2)}
+.fpill:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.04);transform:scale(.97)}
+
+/* ═══ CAROUSEL — the magic zone ═══ */
+.carousel{flex:1;position:relative;z-index:5;overflow:hidden;cursor:grab;perspective:1200px}
+.carousel:active{cursor:grabbing}
+.carousel-track{display:flex;align-items:center;height:100%;position:relative;will-change:transform}
+.card-slot{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 8px;will-change:transform,opacity;transition:filter .3s}
+
+/* Job card — glass + neumorphic */
+.jcard{width:320px;background:rgba(255,255,255,.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:20px;border:1px solid rgba(255,255,255,.5);box-shadow:8px 8px 28px rgba(0,0,0,.06),-4px -4px 14px rgba(255,255,255,.8),inset 0 1px 0 rgba(255,255,255,.6);overflow:hidden;transform-origin:center center;will-change:transform}
+.jc-brand{height:5px;width:100%}
+.jc-body{padding:16px 18px 14px}
+.jc-company{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.jc-logo{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.jc-co{font-size:11.5px;color:#64748b;font-weight:500}
+.jc-sector{font-size:9px;color:#94a3b8}
+.jc-match-wrap{position:relative;display:inline-block;margin-bottom:10px}
+.jc-match{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:18px;font-size:13px;font-weight:600;cursor:help;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),2px 2px 5px rgba(0,0,0,.03)}
+.jc-match:hover ~ .jc-tooltip{opacity:1;transform:translateY(0);pointer-events:auto}
+.mdot{width:7px;height:7px;border-radius:50%}
+.mg{background:#16a34a}.mt{background:#0d9488}.ma{background:#d97706}
+
+.jc-tooltip{position:absolute;top:100%;left:-10px;right:-10px;margin-top:6px;padding:12px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:12px;border:1px solid rgba(255,255,255,.4);box-shadow:0 8px 24px rgba(0,0,0,.08);font-size:9.5px;color:#475569;line-height:1.5;opacity:0;transform:translateY(-4px);transition:all .2s;pointer-events:none;z-index:20}
+.jc-tooltip:hover{opacity:1;transform:translateY(0);pointer-events:auto}
+.tt-title{font-weight:600;color:#0f172a;margin-bottom:4px;font-size:10px}
+.tt-row{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,.03)}
+.tt-val{font-weight:600}.tt-g{color:#16a34a}.tt-m{color:#d97706}.tt-l{color:#dc2626}
+.tt-advice{margin-top:6px;padding:6px 8px;background:rgba(0,180,216,.05);border-radius:6px;font-size:9px;color:#0284C7;line-height:1.4}
+.tt-advice strong{color:#0f172a}
+
+.jc-title{font-size:17px;font-weight:600;color:#0f172a;line-height:1.3;margin-bottom:8px;letter-spacing:-.2px}
+.jc-meta{font-size:11px;color:#64748b;margin-bottom:10px}
+.jc-tags{display:flex;gap:4px;margin-bottom:10px}
+.jc-tag{font-size:9px;padding:3px 9px;border-radius:7px;font-weight:500;background:rgba(255,255,255,.5);border:1px solid rgba(0,0,0,.03);color:#475569;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.jc-skills{display:flex;align-items:center;gap:7px}
+.sk-l{font-size:9.5px;color:#94a3b8;white-space:nowrap}
+.sk-t{flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,.03);overflow:hidden;box-shadow:inset 0 1px 1px rgba(0,0,0,.03)}
+.sk-f{height:100%;border-radius:2px}
+
+/* Actions */
+.actions{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 18px 6px;position:relative;z-index:10;flex-wrap:wrap}
+.abtn{border:none;cursor:pointer;display:flex;align-items:center;gap:4px;border-radius:12px;font-size:9.5px;font-weight:600;background:rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:3px 3px 10px rgba(0,0,0,.04),-2px -2px 6px rgba(255,255,255,.7),inset 0 1px 0 rgba(255,255,255,.5);transition:all .12s;border:1px solid rgba(255,255,255,.3);padding:9px 14px}
+.abtn:active{box-shadow:inset 2px 2px 5px rgba(0,0,0,.04);transform:scale(.96)}
+.bp{color:#94a3b8}.bp:hover{color:#dc2626}
+.bs{color:#7C3AED}.bs:hover{background:rgba(124,58,237,.06)}
+.ba{color:#0284C7}.ba:hover{background:rgba(0,180,216,.06)}
+.bay{color:#fff;background:rgba(22,163,74,.85);border-color:rgba(22,163,74,.2);box-shadow:3px 3px 10px rgba(22,163,74,.1),-2px -2px 6px rgba(255,255,255,.5)}.bay:hover{background:rgba(22,163,74,.95)}
+.ai{font-size:13px}
+
+/* Saved shelf */
+.shelf{padding:6px 18px;position:relative;z-index:10;background:rgba(255,255,255,.3);backdrop-filter:blur(10px)}
+.shelf:empty{display:none;padding:0}
+.shelf-label{font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:4px}
+.shelf-items{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px}.shelf-items::-webkit-scrollbar{display:none}
+.si{flex-shrink:0;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:8px;background:rgba(255,255,255,.45);backdrop-filter:blur(6px);border:1px solid rgba(124,58,237,.08);font-size:8.5px;color:#475569}
+.si-logo{width:16px;height:16px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff}
+.si-m{font-weight:600;color:#7C3AED;font-size:8px}
+
+/* Dots */
+.dots{display:flex;justify-content:center;gap:4px;padding:5px 0;position:relative;z-index:6}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,.1);transition:all .3s}
+.dot.active{background:#00B4D8;width:16px;border-radius:3px}
+.dot.stored{background:#7C3AED}
+
+/* Nav */
+.bnav{display:flex;position:relative;z-index:10;background:rgba(255,255,255,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.3);padding:7px 0 4px}
+.bn{flex:1;text-align:center;font-size:8px;color:#94a3b8;cursor:pointer}.bn.on{color:#00B4D8}
+.bn-i{font-size:14px;display:block;margin-bottom:1px}
+.bn-b{font-size:7px;background:#00B4D8;color:#fff;padding:1px 4px;border-radius:3px}
+</style></head><body>
+<div class="app">
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<div class="top"><div class="logo">CareerNEXT</div><div class="top-r"><div class="saved-pill" id="sp">♡ 0 saved</div><div class="av">AL</div></div></div>
+
+<div class="filters">
+<div class="fpill on">All</div><div class="fpill">CDI</div><div class="fpill">Remote</div><div class="fpill">Paris/IDF</div><div class="fpill">60K+</div><div class="fpill">90%+</div><div class="fpill">New</div>
+</div>
+
+<div class="carousel" id="carousel">
+<div class="carousel-track" id="track"></div>
+</div>
+
+<div class="dots" id="dots"></div>
+
+<div class="actions">
+<button class="abtn bp" onclick="act('pass')"><span class="ai">✕</span> Pass</button>
+<button class="abtn bs" onclick="act('store')"><span class="ai">♡</span> Store</button>
+<button class="abtn ba" onclick="act('adapt')"><span class="ai">✎</span> Adapt CV</button>
+<button class="abtn bay" onclick="act('apply')"><span class="ai">✓</span> Apply now</button>
+</div>
+
+<div class="shelf" id="shelf"></div>
+
+<div class="bnav">
+<div class="bn"><span class="bn-i">⊞</span>Hub</div>
+<div class="bn"><span class="bn-i">☰</span>Resume <span class="bn-b">88</span></div>
+<div class="bn on"><span class="bn-i">◎</span>Jobs <span class="bn-b">12</span></div>
+<div class="bn"><span class="bn-i">⛨</span>Coach</div>
+</div>
+</div>
+
+<script>
+var J=[
+{l:"MdM",c:"Médecins du Monde",sec:"ONG · Healthcare",t:"Directrice Communication Stratégique",m:"Paris 19e · CDI · 65-80K€",p:92,sk:"10/12",sw:83,t1:"CDI",t2:"Remote 2d",col:"#dc2626",
+ sc:{kw:{s:88,d:"'Communication stratégique' direct profile match"},ex:{s:95,d:"24.8 yrs exceeds 10+ by 148%"},sk:{s:83,d:"10/12 skills. Gaps: grant writing, advocacy"},lo:{s:90,d:"Paris 19e — within IDF preference"},sa:{s:85,d:"65-80K€ matches your 65-85K€ target"}},
+ adv:"Lead with partnerships (12, €2.3M). Add 'advocacy' — appears 3× in requirements."},
+{l:"UN",c:"UNICEF France",sec:"ONG · Children",t:"Resp. Communication Institutionnelle",m:"Paris 8e · CDI · 60-75K€",p:91,sk:"9/11",sw:82,t1:"CDI",t2:"Hybrid",col:"#0ea5e9",
+ sc:{kw:{s:86,d:"'Communication institutionnelle' direct expertise match"},ex:{s:92,d:"Senior profile exceeds reqs. MBA valued."},sk:{s:82,d:"9/11 skills. Gaps: UN protocols"},lo:{s:95,d:"Paris 8e — excellent proximity"},sa:{s:78,d:"60-75K€ — negotiate higher"}},
+ adv:"Highlight multilingual (FR/EN/ES). Mention Dauphine MBA in opening."},
+{l:"MSF",c:"MSF International",sec:"ONG · Humanitarian",t:"Director of Communications",m:"Geneva · CDI · 80-100K CHF",p:89,sk:"11/13",sw:85,t1:"CDI",t2:"Remote 3d",col:"#dc2626",
+ sc:{kw:{s:84,d:"'Director' + 'Communications' align well"},ex:{s:96,d:"Seniority far exceeds needs. Global exp valued."},sk:{s:85,d:"11/13 skills. Gaps: humanitarian law, crisis comms"},lo:{s:65,d:"Geneva — relocation needed. Remote 3d helps."},sa:{s:95,d:"80-100K CHF — premium compensation"}},
+ adv:"Lead with '8 orgs, 3 countries.' Address Geneva relocation in letter."},
+{l:"ACF",c:"Action contre la Faim",sec:"ONG · Humanitarian",t:"Head of Partnerships & Fundraising",m:"Paris 10e · CDI · 70-85K€",p:84,sk:"9/11",sw:82,t1:"CDI",t2:"Hybrid",col:"#ea580c",
+ sc:{kw:{s:90,d:"'Partnerships' + 'Fundraising' are core to your CV"},ex:{s:90,d:"Partnership track record is ideal"},sk:{s:82,d:"9/11 skills. Gaps: grant writing, donor stewardship"},lo:{s:95,d:"Paris 10e — excellent match"},sa:{s:82,d:"70-85K€ — within target"}},
+ adv:"Your numbers (12 partnerships, €2.3M) are what they want. Add 'grant writing.'"},
+{l:"BNP",c:"BNP Paribas Cardif",sec:"Banking · Insurance",t:"Directeur Marketing & Communication",m:"Nanterre · CDI · 75-95K€",p:78,sk:"7/10",sw:70,t1:"CDI",t2:"Remote 3d",col:"#059669",
+ sc:{kw:{s:72,d:"'Marketing' adjacent, 'Communication' matches"},ex:{s:88,d:"Seniority OK. Sector transition = risk for recruiter."},sk:{s:70,d:"7/10 skills. Gaps: financial marketing, compliance"},lo:{s:80,d:"Nanterre — accessible from IDF"},sa:{s:90,d:"75-95K€ — top of your range"}},
+ adv:"Stretch role. Lead with transferable: budget, leadership, stakeholders. Add 'marketing digital.'"},
+];
+
+var cur=0, saved=[], scrollPos=0, targetPos=0, velocity=0, cardW=336;
+var track=document.getElementById('track');
+var carousel=document.getElementById('carousel');
+
+// Build cards
+J.forEach(function(j,i){
+  var slot=document.createElement('div');
+  slot.className='card-slot';
+  slot.style.width=cardW+'px';
+  var sc=j.sc;
+  var ttRows=[['Keywords',sc.kw],['Experience',sc.ex],['Skills',sc.sk],['Location',sc.lo],['Salary',sc.sa]];
+  var ttHtml='<div class="tt-title">Why '+j.p+'% match</div>';
+  ttRows.forEach(function(r){var cls=r[1].s>=80?'tt-g':r[1].s>=60?'tt-m':'tt-l';
+    ttHtml+='<div class="tt-row"><span>'+r[0]+'</span><span class="tt-val '+cls+'">'+r[1].s+'%</span></div>';
+    ttHtml+='<div style="font-size:8.5px;color:#94a3b8;padding-left:3px;margin-bottom:2px">'+r[1].d+'</div>';});
+  ttHtml+='<div class="tt-advice"><strong>To stand out:</strong> '+j.adv+'</div>';
+
+  slot.innerHTML='<div class="jcard"><div class="jc-brand" style="background:linear-gradient(90deg,'+j.col+','+j.col+'cc)"></div><div class="jc-body">'
+    +'<div class="jc-company"><div class="jc-logo" style="background:linear-gradient(135deg,'+j.col+','+j.col+'cc)">'+j.l+'</div><div><div class="jc-co">'+j.c+'</div><div class="jc-sector">'+j.sec+'</div></div></div>'
+    +'<div class="jc-match-wrap"><div class="jc-match"><div class="mdot '+(j.p>=85?'mg':j.p>=70?'mt':'ma')+'"></div>'+j.p+'% match</div>'
+    +'<div class="jc-tooltip">'+ttHtml+'</div></div>'
+    +'<div class="jc-title">'+j.t+'</div>'
+    +'<div class="jc-meta">'+j.m+'</div>'
+    +'<div class="jc-tags"><div class="jc-tag">'+j.t1+'</div><div class="jc-tag">'+j.t2+'</div></div>'
+    +'<div class="jc-skills"><div class="sk-l">'+j.sk+'</div><div class="sk-t"><div class="sk-f" style="width:'+j.sw+'%;background:'+(j.p>=85?'#16a34a':j.p>=70?'#0d9488':'#d97706')+'"></div></div></div>'
+    +'</div></div>';
+  track.appendChild(slot);
+});
+
+// ═══ SPRING PHYSICS CAROUSEL ═══
+function lerp(a,b,t){return a+(b-a)*t}
+
+// Target position based on current index
+function getTarget(){return -cur*cardW + (carousel.offsetWidth/2 - cardW/2)}
+
+targetPos=getTarget(); scrollPos=targetPos;
+
+// Animation loop — Lusion spring physics
+function animate(){
+  scrollPos=lerp(scrollPos,targetPos,0.09); // Spring constant
+  if(Math.abs(scrollPos-targetPos)<0.5) scrollPos=targetPos;
+  track.style.transform='translateX('+scrollPos+'px)';
+  
+  // Update card transforms — scale, opacity, blur, tilt
+  var slots=track.children;
+  for(var i=0;i<slots.length;i++){
+    var card=slots[i].querySelector('.jcard');
+    var dist=Math.abs(i-cur-(scrollPos-getTarget())/cardW);
+    var s=Math.max(0.68, 1-dist*0.14); // Scale: 1.0 → 0.86 → 0.72
+    var o=Math.max(0.35, 1-dist*0.28); // Opacity: 1.0 → 0.72 → 0.44
+    var b=Math.min(dist*1.5, 4); // Blur: 0 → 1.5 → 3
+    card.style.transform='scale('+s+')';
+    card.style.opacity=o;
+    card.style.filter='blur('+b+'px)';
+  }
+  
+  // Parallax blobs
+  var drift=(scrollPos-getTarget())*0.15;
+  document.querySelector('.b1').style.transform='translate('+drift*0.3+'px,0)';
+  document.querySelector('.b2').style.transform='translate('+(-drift*0.2)+'px,0)';
+  document.querySelector('.b3').style.transform='translate('+drift*0.1+'px,0)';
+  
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ═══ WHEEL / TRACKPAD — smooth swoosh ═══
+var wheelAccum=0, wheelTimer;
+carousel.addEventListener('wheel',function(e){
+  e.preventDefault();
+  wheelAccum+=e.deltaX||e.deltaY;
+  clearTimeout(wheelTimer);
+  wheelTimer=setTimeout(function(){
+    if(Math.abs(wheelAccum)>30){
+      if(wheelAccum>0&&cur<J.length-1){cur++;buildDots();}
+      else if(wheelAccum<0&&cur>0){cur--;buildDots();}
+      targetPos=getTarget();
+    }
+    wheelAccum=0;
+  },80);
+},{passive:false});
+
+// ═══ TOUCH / MOUSE DRAG — inertia ═══
+var dragging=false, startX=0, dragStart=0, lastX=0, lastT=0;
+carousel.addEventListener('mousedown',function(e){dragging=true;startX=e.clientX;dragStart=scrollPos;lastX=e.clientX;lastT=Date.now()});
+carousel.addEventListener('touchstart',function(e){dragging=true;startX=e.touches[0].clientX;dragStart=scrollPos;lastX=startX;lastT=Date.now()});
+window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-startX;targetPos=dragStart+dx;velocity=(e.clientX-lastX)/(Date.now()-lastT+1);lastX=e.clientX;lastT=Date.now()});
+window.addEventListener('touchmove',function(e){if(!dragging)return;var dx=e.touches[0].clientX-startX;targetPos=dragStart+dx;velocity=(e.touches[0].clientX-lastX)/(Date.now()-lastT+1);lastX=e.touches[0].clientX;lastT=Date.now()});
+function endDrag(){
+  if(!dragging)return;dragging=false;
+  // Magnetic snap with inertia
+  var projected=targetPos+velocity*200; // Coast prediction
+  var best=0,bestDist=Infinity;
+  for(var i=0;i<J.length;i++){
+    var snap=-i*cardW+(carousel.offsetWidth/2-cardW/2);
+    var d=Math.abs(projected-snap);
+    if(d<bestDist){bestDist=d;best=i;}
+  }
+  cur=best;targetPos=getTarget();buildDots();
+}
+window.addEventListener('mouseup',endDrag);
+window.addEventListener('touchend',endDrag);
+
+// ═══ CURSOR TILT on center card (Dogstudio) ═══
+carousel.addEventListener('mousemove',function(e){
+  var rect=carousel.getBoundingClientRect();
+  var cx=(e.clientX-rect.left)/rect.width-0.5; // -0.5 to 0.5
+  var cy=(e.clientY-rect.top)/rect.height-0.5;
+  var centerSlot=track.children[cur];
+  if(centerSlot){
+    var card=centerSlot.querySelector('.jcard');
+    var s=Math.max(0.68,1); // Center card scale
+    card.style.transform='scale('+s+') rotateY('+(cx*4)+'deg) rotateX('+(-cy*3)+'deg)';
+  }
+});
+carousel.addEventListener('mouseleave',function(){
+  var centerSlot=track.children[cur];
+  if(centerSlot) centerSlot.querySelector('.jcard').style.transform='scale(1)';
+});
+
+// ═══ ACTIONS ═══
+function act(type){
+  if(type==='store'){
+    saved.push(J[cur]); updateShelf();
+    if(cur<J.length-1){cur++;targetPos=getTarget();buildDots();}
+  } else if(type==='pass'){
+    if(cur<J.length-1){cur++;targetPos=getTarget();buildDots();}
+  } else if(type==='apply'){
+    saved.push(J[cur]); updateShelf();
+    alert('AI Cover Letter for:\n'+J[cur].t+' at '+J[cur].c+'\n\nAdvice: '+J[cur].adv);
+    if(cur<J.length-1){cur++;targetPos=getTarget();buildDots();}
+  } else if(type==='adapt'){
+    var gaps=J[cur].sc.sk.d.split('Gaps: ')[1]||'';
+    alert('Opening Resume Studio\n\nFor: '+J[cur].t+' at '+J[cur].c+'\nAdd keywords: '+gaps+'\n\n'+J[cur].adv);
+  }
+}
+
+// ═══ DOTS ═══
+function buildDots(){
+  var d=document.getElementById('dots');d.innerHTML='';
+  for(var i=0;i<J.length;i++){
+    var dot=document.createElement('div');dot.className='dot';
+    if(i===cur)dot.classList.add('active');
+    if(saved.some(function(s){return s.t===J[i].t}))dot.classList.add('stored');
+    (function(idx){dot.onclick=function(){cur=idx;targetPos=getTarget();buildDots()}})(i);
+    d.appendChild(dot);
+  }
+  document.getElementById('sp').textContent='♡ '+saved.length+' saved';
+}
+
+// ═══ SHELF ═══
+function updateShelf(){
+  var sh=document.getElementById('shelf');
+  if(!saved.length){sh.innerHTML='';return;}
+  var h='<div class="shelf-label">Saved pipeline</div><div class="shelf-items">';
+  saved.forEach(function(j){h+='<div class="si"><div class="si-logo" style="background:'+j.col+'">'+j.l+'</div>'+j.c+' <span class="si-m">'+j.p+'%</span></div>'});
+  sh.innerHTML=h+'</div>';
+}
+
+buildDots();
+</script>
+</body></html>
