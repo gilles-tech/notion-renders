@@ -2,253 +2,384 @@
 <html><head><meta charset="utf-8">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc}
-.app{max-width:960px;margin:0 auto}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#1e293b}
+.app{max-width:520px;margin:0 auto;min-height:100vh}
+.top{padding:12px 20px;background:#fff;border-bottom:1px solid #e2e8f0;font-size:14px;font-weight:500;text-align:center}
 
-/* ═══ TOPBAR ═══ */
-.topbar{display:flex;align-items:center;padding:14px 24px;background:#fff;border-bottom:1px solid #e2e8f0}
-.logo{font-size:16px;font-weight:500;color:#00B4D8;letter-spacing:-.3px}
-.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
-.view-tog{display:flex;background:#f1f5f9;border-radius:8px;padding:2px}
-.vt{font-size:11px;padding:5px 14px;border-radius:6px;cursor:pointer;color:#94a3b8;border:none;background:transparent;font-weight:500}
-.vt.on{background:#fff;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-.av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#00B4D8,#7C3AED);font-size:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+/* ═══ DIMENSION DEEP DIVE ═══ */
+.dim{padding:20px}
+.dim-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.dim-score{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;flex-shrink:0}
+.dim-lo{background:#fee2e2;color:#991b1b}
+.dim-info h2{font-size:16px;font-weight:600;margin-bottom:2px}
+.dim-info p{font-size:11px;color:#64748b}
 
-/* ═══ PROFILE CONTEXT ═══ */
-.ctx{display:flex;align-items:center;gap:12px;padding:12px 24px;background:#fff;border-bottom:1px solid #f1f5f9}
-.ctx-score{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#00B4D8,#06D6A0);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
-.ctx-text{font-size:12.5px;color:#475569}
-.ctx-text strong{color:#0f172a;font-weight:500}
-.ctx-pills{margin-left:auto;display:flex;gap:5px}
-.ctx-pill{font-size:10px;padding:4px 10px;border-radius:20px;background:#f1f5f9;color:#64748b;border:none;cursor:pointer;transition:all .15s}
-.ctx-pill:hover{background:#e2e8f0}
+/* Score breakdown bars */
+.breakdown{margin-bottom:20px}
+.bd-title{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px}
+.bd-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bd-label{width:130px;font-size:11px;color:#475569;flex-shrink:0}
+.bd-bar-bg{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden;position:relative}
+.bd-bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.bd-bar-max{position:absolute;right:0;top:0;height:100%;border-right:2px dashed #cbd5e1}
+.bd-val{width:60px;font-size:11px;color:#94a3b8;text-align:right}
+.bd-val strong{color:#1e293b}
 
-.main{padding:16px 0 24px}
+/* Protocol steps */
+.protocol{margin-bottom:20px}
+.proto-title{font-size:13px;font-weight:600;margin-bottom:12px;color:#0f172a}
+.proto-step{display:flex;gap:10px;margin-bottom:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid #e2e8f0}
+.proto-num{width:28px;height:28px;border-radius:8px;background:#00B4D8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.proto-content{flex:1}
+.proto-action{font-size:12px;font-weight:500;color:#0f172a;margin-bottom:3px}
+.proto-detail{font-size:10.5px;color:#64748b;line-height:1.5}
 
-/* ═══ CAREER DJ ═══ */
-.dj{margin:0 24px 22px;padding:16px 18px;background:linear-gradient(135deg,rgba(0,180,216,0.03),rgba(124,58,237,0.02));border:1px solid rgba(0,180,216,0.1);border-radius:14px}
-.dj-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.dj-dot{width:7px;height:7px;border-radius:50%;background:#00B4D8;animation:pulse 2.5s ease infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
-.dj-label{font-size:10px;font-weight:600;color:#0284C7;text-transform:uppercase;letter-spacing:.6px}
-.dj-timer{margin-left:auto;font-size:10px;color:#b0b8c4}
-.dj-row{display:flex;gap:12px}
-.dj-card{flex:1;background:#fff;border-radius:10px;border:1px solid rgba(0,0,0,0.04);padding:14px;cursor:pointer;transition:all .2s}
-.dj-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06);border-color:rgba(0,180,216,0.2)}
-.dj-brand{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.dj-color{width:4px;height:28px;border-radius:2px;flex-shrink:0}
-.dj-co{font-size:11px;color:#64748b;font-weight:500}
-.dj-match{font-size:20px;font-weight:500;margin-bottom:2px}
-.dj-title{font-size:12.5px;font-weight:500;color:#0f172a;line-height:1.35}
-.dj-meta{font-size:10px;color:#94a3b8;margin-top:4px}
-.dj-unlock{text-align:center;font-size:10px;color:#7C3AED;font-weight:500;margin-top:10px;opacity:.6}
+/* Before/after */
+.ba-block{margin:12px 0;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0}
+.ba-side{padding:10px 14px}
+.ba-before-bg{background:#fef2f2}
+.ba-after-bg{background:#f0fdf4}
+.ba-tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.ba-tag-red{color:#991b1b}
+.ba-tag-green{color:#166534}
+.ba-text{font-size:11px;line-height:1.5}
+.ba-text s{color:#94a3b8}
 
-/* ═══ ROW SECTIONS ═══ */
-.row{margin-bottom:22px}
-.row-h{display:flex;align-items:baseline;padding:0 24px 10px;gap:8px}
-.row-title{font-size:15px;font-weight:600;color:#0f172a}
-.row-count{font-size:11px;color:#b0b8c4;font-weight:400}
-.row-see{margin-left:auto;font-size:11px;color:#00B4D8;font-weight:500;cursor:pointer;opacity:.7;transition:opacity .15s}
-.row-see:hover{opacity:1}
-.row-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 24px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-.row-scroll::-webkit-scrollbar{height:0}
+/* Points gained */
+.points-box{background:linear-gradient(135deg,rgba(0,180,216,.05),rgba(124,58,237,.03));border:1px solid rgba(0,180,216,.12);border-radius:12px;padding:14px 16px;margin:16px 0}
+.points-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:11px;color:#475569}
+.points-val{font-weight:600;color:#16a34a}
+.points-total{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid rgba(0,180,216,.12);font-size:13px;font-weight:600}
+.points-total .new{color:#16a34a;font-size:16px}
 
-/* ═══ JOB CARD — MINIMAL ═══ */
-/* 3 information units at rest: WHO + WHAT + WHY ME */
-.jc{
-  min-width:200px;max-width:200px;flex-shrink:0;scroll-snap-align:start;
-  background:#fff;border-radius:12px;
-  border:1px solid rgba(0,0,0,0.04);
-  cursor:pointer;transition:all .25s ease;
-  overflow:hidden;
-  position:relative;
-}
-.jc:hover{
-  transform:translateY(-4px) scale(1.02);
-  box-shadow:0 12px 32px rgba(0,0,0,0.08);
-  border-color:rgba(0,180,216,0.15);
-}
+/* Projection ring */
+.projection{text-align:center;margin:16px 0}
+.proj-rings{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:8px}
+.proj-ring{width:64px;height:64px;position:relative}
+.proj-ring svg{width:100%;height:100%}
+.proj-ring circle{fill:none;stroke-width:5;stroke-linecap:round}
+.proj-bg{stroke:#f1f5f9}
+.proj-old{stroke:#dc2626;stroke-dasharray:188;transform:rotate(-90deg);transform-origin:center}
+.proj-new{stroke:#16a34a;stroke-dasharray:188;transform:rotate(-90deg);transform-origin:center}
+.proj-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:600}
+.proj-arrow{font-size:20px;color:#94a3b8}
+.proj-label{font-size:10px;color:#64748b}
 
-/* Brand stripe — the "poster" */
-.jc-brand{
-  height:52px;display:flex;align-items:center;gap:10px;padding:0 14px;
-  position:relative;
-}
-.jc-logo{
-  width:30px;height:30px;border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:#fff;
-  background:rgba(255,255,255,0.2);flex-shrink:0;
-}
-.jc-coname{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.jc-pct{
-  position:absolute;top:8px;right:10px;
-  font-size:13px;font-weight:600;
-  background:rgba(255,255,255,0.88);backdrop-filter:blur(4px);
-  padding:2px 8px;border-radius:6px;
-}
+/* What this unlocks */
+.unlock{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin:14px 0}
+.unlock-title{font-size:11px;font-weight:600;color:#0f172a;margin-bottom:6px}
+.unlock-item{font-size:10.5px;color:#475569;line-height:1.6;padding-left:16px;position:relative}
+.unlock-item::before{content:">";position:absolute;left:0;color:#16a34a;font-weight:600}
 
-/* Card body — REST state: just title + one meta line */
-.jc-body{padding:12px 14px 14px}
-.jc-title{font-size:13px;font-weight:500;color:#0f172a;line-height:1.35;margin-bottom:6px;min-height:36px}
-.jc-meta{font-size:10.5px;color:#94a3b8}
+/* CTA */
+.cta-bar{padding:14px 20px;position:sticky;bottom:0;background:#fff;border-top:1px solid #e2e8f0}
+.cta-btn{display:block;width:100%;padding:13px;background:#00B4D8;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:500;text-align:center;cursor:pointer}
 
-/* HOVER reveal — slides up from bottom */
-.jc-reveal{
-  max-height:0;overflow:hidden;transition:max-height .3s ease, padding .3s ease;
-  padding:0 14px;
-}
-.jc:hover .jc-reveal{
-  max-height:60px;
-  padding:0 14px 12px;
-}
-.jc-reveal-inner{
-  padding-top:8px;border-top:1px solid #f1f5f9;
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
-}
-.jc-tag{font-size:9px;padding:3px 8px;border-radius:4px;background:#f1f5f9;color:#64748b}
-.jc-skill{display:flex;align-items:center;gap:5px;font-size:9px;color:#94a3b8;width:100%;margin-top:4px}
-.sk-bar{flex:1;height:3px;background:#f1f5f9;border-radius:2px;overflow:hidden}
-.sk-fill{height:100%;border-radius:2px}
+/* ═══ SEPARATOR ═══ */
+.sep{height:8px;background:#f1f5f9;margin:0}
 
-/* Match % colors */
-.pct-green{color:#166534}.pct-teal{color:#0d9488}.pct-amber{color:#92400e}.pct-orange{color:#9a3412}
+/* ═══ FREEMIUM PREVIEW ═══ */
+.freemium{padding:20px}
+.free-head{font-size:15px;font-weight:600;margin-bottom:4px}
+.free-sub{font-size:11px;color:#64748b;margin-bottom:16px}
+.cv-preview{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+.cv-section{padding:12px 16px}
+.cv-section-title{font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.cv-bullet{display:flex;gap:8px;margin-bottom:8px;font-size:11px;line-height:1.5}
+.cv-bullet-dot{width:5px;height:5px;border-radius:50%;background:#94a3b8;margin-top:6px;flex-shrink:0}
+.cv-original{color:#475569}
+.cv-improved{color:#16a34a;font-weight:500}
+.cv-blurred{filter:blur(4px);user-select:none;color:#16a34a;font-weight:500}
+.cv-lock-overlay{position:relative;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.95) 20%,#fff);margin-top:-20px;text-align:center;border-top:none}
+.cv-lock-text{font-size:12px;color:#0f172a;font-weight:500;margin-bottom:8px}
+.cv-lock-sub{font-size:10px;color:#64748b;margin-bottom:10px}
+.cv-lock-btn{display:inline-block;padding:10px 24px;background:#7C3AED;color:#fff;border-radius:8px;font-size:12px;font-weight:500;border:none;cursor:pointer}
 
-/* Brand colors */
-.bg-mdm{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-.bg-unicef{background:linear-gradient(135deg,#0ea5e9,#0284c7)}
-.bg-msf{background:linear-gradient(135deg,#dc2626,#991b1b)}
-.bg-oxfam{background:linear-gradient(135deg,#16a34a,#15803d)}
-.bg-wfp{background:linear-gradient(135deg,#0369a1,#075985)}
-.bg-bnp{background:linear-gradient(135deg,#059669,#047857)}
-.bg-acf{background:linear-gradient(135deg,#ea580c,#c2410c)}
-.bg-car{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
-.bg-se{background:linear-gradient(135deg,#475569,#334155)}
-.bg-edf{background:linear-gradient(135deg,#f97316,#ea580c)}
-.bg-afd{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
-.bg-ig{background:linear-gradient(135deg,#0284c7,#0369a1)}
-
-/* ═══ BOTTOM NAV ═══ */
-.bnav{display:flex;background:#fff;border-top:1px solid #e2e8f0;padding:10px 0 6px}
-.bn{flex:1;text-align:center;font-size:9px;color:#b0b8c4;cursor:pointer;padding:2px;letter-spacing:.2px}
-.bn.on{color:#00B4D8}
-.bn-icon{font-size:17px;display:block;margin-bottom:1px}
-.bn-badge{font-size:7.5px;background:#00B4D8;color:#fff;padding:1px 5px;border-radius:3px;margin-left:2px}
+/* ═══ JOURNEY TIMELINE ═══ */
+.journey{padding:20px}
+.j-head{font-size:15px;font-weight:600;margin-bottom:4px}
+.j-sub{font-size:11px;color:#64748b;margin-bottom:16px}
+.j-step{display:flex;gap:12px;margin-bottom:0;position:relative}
+.j-line{position:absolute;left:17px;top:36px;bottom:-4px;width:2px;background:#e2e8f0}
+.j-step:last-child .j-line{display:none}
+.j-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;position:relative;z-index:1}
+.j-free{background:#dcfce7;color:#166534}
+.j-pay{background:#f3e8ff;color:#6d28d9}
+.j-daily{background:#dbeafe;color:#1e40af}
+.j-goal{background:#fef3c7;color:#92400e}
+.j-body{flex:1;padding-bottom:20px}
+.j-title{font-size:12px;font-weight:600;color:#0f172a;margin-bottom:2px}
+.j-meta{font-size:10px;color:#64748b;margin-bottom:4px}
+.j-desc{font-size:10.5px;color:#475569;line-height:1.5}
+.j-tag{display:inline-block;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.j-tag-free{background:#dcfce7;color:#166534}
+.j-tag-paid{background:#f3e8ff;color:#6d28d9}
+.j-tag-daily{background:#dbeafe;color:#1e40af}
+.j-score-change{display:inline-block;font-size:10px;font-weight:600;color:#16a34a;background:#f0fdf4;padding:2px 8px;border-radius:4px;margin-top:4px}
 </style></head><body>
 <div class="app">
 
-<div class="topbar">
-<div class="logo">CareerNEXT</div>
-<div class="nav-r">
-<div class="view-tog"><div class="vt on">Browse</div><div class="vt">List</div></div>
-<div class="av">AL</div>
+<div class="top">The CareerNEXT Scoring Protocol</div>
+
+<!-- ═══ DIMENSION: MANAGER PASS ═══ -->
+<div class="dim">
+<div class="dim-head">
+<div class="dim-score dim-lo">28</div>
+<div class="dim-info"><h2>Manager Pass</h2><p>How a hiring manager evaluates your CV in a 2-minute deep read</p></div>
+</div>
+
+<div class="breakdown">
+<div class="bd-title">How your 28/100 is calculated</div>
+
+<div class="bd-row">
+<div class="bd-label">Metrics density</div>
+<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:0%;background:#dc2626"></div></div>
+<div class="bd-val"><strong>0</strong>/40</div>
+</div>
+
+<div class="bd-row">
+<div class="bd-label">Impact evidence</div>
+<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:27%;background:#f59e0b"></div></div>
+<div class="bd-val"><strong>8</strong>/30</div>
+</div>
+
+<div class="bd-row">
+<div class="bd-label">Leadership signals</div>
+<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:60%;background:#16a34a"></div></div>
+<div class="bd-val"><strong>12</strong>/20</div>
+</div>
+
+<div class="bd-row">
+<div class="bd-label">Strategic framing</div>
+<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:80%;background:#16a34a"></div></div>
+<div class="bd-val"><strong>8</strong>/10</div>
 </div>
 </div>
 
-<div class="ctx">
-<div class="ctx-score">73</div>
-<div class="ctx-text"><strong>Anne-Laure</strong> · Communication & Intl. Dev. · 12 matches</div>
-<div class="ctx-pills">
-<div class="ctx-pill">CDI</div>
-<div class="ctx-pill">IDF</div>
-<div class="ctx-pill">60K+</div>
-<div class="ctx-pill">+ Filters</div>
+<div class="proto-title">The protocol: 28 → 64 in 15 minutes</div>
+
+<div class="proto-step">
+<div class="proto-num">1</div>
+<div class="proto-content">
+<div class="proto-action">Open your 3 most recent roles</div>
+<div class="proto-detail">Find them in Resume Studio. Each role has 2-4 bullet points describing what you did. We need 6 bullets total.</div>
 </div>
 </div>
 
-<div class="main">
-
-<!-- CAREER DJ -->
-<div class="dj">
-<div class="dj-h"><div class="dj-dot"></div><div class="dj-label">Your daily 3</div><div class="dj-timer">New picks in 14h 23m</div></div>
-<div class="dj-row">
-<div class="dj-card">
-<div class="dj-brand"><div class="dj-color" style="background:#dc2626"></div><div class="dj-co">Médecins du Monde</div></div>
-<div class="dj-match pct-green">92%</div>
-<div class="dj-title">Directrice Communication Stratégique</div>
-<div class="dj-meta">Paris 19e · CDI · 65-80K€</div>
-</div>
-<div class="dj-card">
-<div class="dj-brand"><div class="dj-color" style="background:#0ea5e9"></div><div class="dj-co">UNICEF France</div></div>
-<div class="dj-match pct-green">91%</div>
-<div class="dj-title">Resp. Communication Institutionnelle</div>
-<div class="dj-meta">Paris 8e · CDI · 60-75K€</div>
-</div>
-<div class="dj-card">
-<div class="dj-brand"><div class="dj-color" style="background:#ea580c"></div><div class="dj-co">Action contre la Faim</div></div>
-<div class="dj-match pct-teal">84%</div>
-<div class="dj-title">Head of Partnerships & Dev.</div>
-<div class="dj-meta">Paris 10e · CDI · 70-85K€</div>
+<div class="proto-step">
+<div class="proto-num">2</div>
+<div class="proto-content">
+<div class="proto-action">For each bullet, add: [number] + [unit] + [result]</div>
+<div class="proto-detail">A manager scans for evidence of impact. Numbers are proof. No number = no proof = skip.</div>
 </div>
 </div>
-<div class="dj-unlock">Engage with all 3 to unlock hidden gems</div>
+
+<div class="ba-block">
+<div class="ba-side ba-before-bg">
+<div class="ba-tag ba-tag-red">Your current bullet</div>
+<div class="ba-text"><s>Managed institutional partnerships and developed communication strategies for multiple stakeholders across public and private sectors</s></div>
+</div>
+<div class="ba-side ba-after-bg">
+<div class="ba-tag ba-tag-green">After applying the protocol</div>
+<div class="ba-text">Secured <strong>12 institutional partnerships</strong> generating <strong>€2.3M</strong> in annual funding (<strong>+18% YoY</strong>). Led <strong>6-person team</strong> across 3 countries.</div>
+</div>
 </div>
 
-<!-- ROW: BEST MATCHES -->
-<div class="row">
-<div class="row-h"><div class="row-title">Best matches for you</div><div class="row-count">8</div><div class="row-see">See all →</div></div>
-<div class="row-scroll">
-
-<div class="jc"><div class="jc-brand bg-mdm"><div class="jc-logo">MdM</div><div class="jc-coname">Médecins du Monde</div><div class="jc-pct pct-green">92%</div></div><div class="jc-body"><div class="jc-title">Directrice Communication Stratégique</div><div class="jc-meta">Paris 19e · 65-80K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>10/12</span><div class="sk-bar"><div class="sk-fill" style="width:83%;background:#16a34a"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-unicef"><div class="jc-logo">UN</div><div class="jc-coname">UNICEF France</div><div class="jc-pct pct-green">91%</div></div><div class="jc-body"><div class="jc-title">Resp. Communication Institutionnelle</div><div class="jc-meta">Paris 8e · 60-75K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Hybrid</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#16a34a"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-msf"><div class="jc-logo">MSF</div><div class="jc-coname">MSF International</div><div class="jc-pct pct-green">89%</div></div><div class="jc-body"><div class="jc-title">Director of Communications</div><div class="jc-meta">Geneva · 80-100K CHF</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>11/13</span><div class="sk-bar"><div class="sk-fill" style="width:85%;background:#16a34a"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-oxfam"><div class="jc-logo">Ox</div><div class="jc-coname">Oxfam France</div><div class="jc-pct pct-green">87%</div></div><div class="jc-body"><div class="jc-title">Resp. Plaidoyer & Communication</div><div class="jc-meta">Paris 11e · 55-68K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">On-site</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#16a34a"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-wfp"><div class="jc-logo">WFP</div><div class="jc-coname">World Food Programme</div><div class="jc-pct pct-teal">85%</div></div><div class="jc-body"><div class="jc-title">Senior Communications Officer</div><div class="jc-meta">Paris · 70-90K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDD 2yr</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>10/12</span><div class="sk-bar"><div class="sk-fill" style="width:83%;background:#0d9488"></div></div></div></div></div></div>
-
-</div></div>
-
-<!-- ROW: STRETCH ROLES -->
-<div class="row">
-<div class="row-h"><div class="row-title">Stretch roles worth exploring</div><div class="row-count">6</div><div class="row-see">See all →</div></div>
-<div class="row-scroll">
-
-<div class="jc"><div class="jc-brand bg-bnp"><div class="jc-logo">BNP</div><div class="jc-coname">BNP Paribas Cardif</div><div class="jc-pct pct-teal">78%</div></div><div class="jc-body"><div class="jc-title">Directeur Marketing & Communication</div><div class="jc-meta">Nanterre · 75-95K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>7/10</span><div class="sk-bar"><div class="sk-fill" style="width:70%;background:#0d9488"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-acf"><div class="jc-logo">ACF</div><div class="jc-coname">Action contre la Faim</div><div class="jc-pct pct-teal">76%</div></div><div class="jc-body"><div class="jc-title">Head of Partnerships & Fundraising</div><div class="jc-meta">Paris 10e · 70-85K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Hybrid</div><div class="jc-skill"><span>8/11</span><div class="sk-bar"><div class="sk-fill" style="width:73%;background:#0d9488"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-car"><div class="jc-logo">CF</div><div class="jc-coname">Carrefour Foundation</div><div class="jc-pct pct-amber">72%</div></div><div class="jc-body"><div class="jc-title">Directrice RSE & Engagement</div><div class="jc-meta">Massy · 65-80K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>7/10</span><div class="sk-bar"><div class="sk-fill" style="width:70%;background:#d97706"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-se"><div class="jc-logo">SE</div><div class="jc-coname">Schneider Electric</div><div class="jc-pct pct-amber">68%</div></div><div class="jc-body"><div class="jc-title">VP Communications Europe</div><div class="jc-meta">Rueil · 90-110K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>6/10</span><div class="sk-bar"><div class="sk-fill" style="width:60%;background:#d97706"></div></div></div></div></div></div>
-
-</div></div>
-
-<!-- ROW: NEW THIS WEEK -->
-<div class="row">
-<div class="row-h"><div class="row-title">New this week</div><div class="row-count">4</div><div class="row-see">See all →</div></div>
-<div class="row-scroll">
-
-<div class="jc"><div class="jc-brand bg-acf"><div class="jc-logo">ACF</div><div class="jc-coname">Action contre la Faim</div><div class="jc-pct pct-teal">84%</div></div><div class="jc-body"><div class="jc-title">Head of Partnerships & Development</div><div class="jc-meta">Paris · 70-85K€ · 2d ago</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#0d9488"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-edf"><div class="jc-logo">EDF</div><div class="jc-coname">EDF</div><div class="jc-pct pct-amber">71%</div></div><div class="jc-body"><div class="jc-title">Responsable Communication RSE</div><div class="jc-meta">La Défense · 60-72K€ · Today</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Hybrid</div><div class="jc-skill"><span>7/10</span><div class="sk-bar"><div class="sk-fill" style="width:70%;background:#d97706"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-afd"><div class="jc-logo">AFD</div><div class="jc-coname">AFD</div><div class="jc-pct pct-teal">79%</div></div><div class="jc-body"><div class="jc-title">Chargée Communication Internationale</div><div class="jc-meta">Paris 12e · 50-62K€ · 3d ago</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDD 18m</div><div class="jc-tag">Remote 1d</div><div class="jc-skill"><span>8/10</span><div class="sk-bar"><div class="sk-fill" style="width:80%;background:#0d9488"></div></div></div></div></div></div>
-
-</div></div>
-
-<!-- ROW: REMOTE FIRST -->
-<div class="row">
-<div class="row-h"><div class="row-title">Remote-first</div><div class="row-count">5</div><div class="row-see">See all →</div></div>
-<div class="row-scroll">
-
-<div class="jc"><div class="jc-brand bg-msf"><div class="jc-logo">MSF</div><div class="jc-coname">MSF International</div><div class="jc-pct pct-green">89%</div></div><div class="jc-body"><div class="jc-title">Director of Communications</div><div class="jc-meta">Remote EU · 80-100K CHF</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Full remote</div><div class="jc-skill"><span>11/13</span><div class="sk-bar"><div class="sk-fill" style="width:85%;background:#16a34a"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-ig"><div class="jc-logo">IG</div><div class="jc-coname">International Growth</div><div class="jc-pct pct-teal">82%</div></div><div class="jc-body"><div class="jc-title">Head of Brand & Communications</div><div class="jc-meta">Remote EU · 70-90K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Full remote</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#0d9488"></div></div></div></div></div></div>
-
-<div class="jc"><div class="jc-brand bg-se"><div class="jc-logo">SE</div><div class="jc-coname">Schneider Electric</div><div class="jc-pct pct-amber">68%</div></div><div class="jc-body"><div class="jc-title">VP Communications Europe</div><div class="jc-meta">Remote 3d · 90-110K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>6/10</span><div class="sk-bar"><div class="sk-fill" style="width:60%;background:#d97706"></div></div></div></div></div></div>
-
-</div></div>
-
+<div class="proto-step">
+<div class="proto-num">3</div>
+<div class="proto-content">
+<div class="proto-action">Apply the same pattern to all 6 bullets</div>
+<div class="proto-detail">Budget managed (€X), team size (X people), revenue/savings (€X or +X%), event scale (X attendees), partnerships count (X partners). Pick whichever metric fits each bullet.</div>
+</div>
 </div>
 
-<div class="bnav">
-<div class="bn"><span class="bn-icon">⊞</span>Hub</div>
-<div class="bn"><span class="bn-icon">☰</span>Resume <span class="bn-badge">73</span></div>
-<div class="bn on"><span class="bn-icon">◎</span>Jobs <span class="bn-badge">12</span></div>
-<div class="bn"><span class="bn-icon">⛨</span>Coach</div>
+<div class="proto-step">
+<div class="proto-num">4</div>
+<div class="proto-content">
+<div class="proto-action">Re-upload your CV</div>
+<div class="proto-detail">The system automatically re-scores. Ghost CV overlay shows the before/after on every dimension.</div>
+</div>
+</div>
+
+<div class="points-box">
+<div class="bd-title" style="margin-bottom:8px">Points gained</div>
+<div class="points-row"><span>Metrics density: 0 → 6 metrics detected</span><span class="points-val">+24 pts</span></div>
+<div class="points-row"><span>Impact evidence: verbs + numbers combined</span><span class="points-val">+8 pts</span></div>
+<div class="points-row"><span>Leadership signals: team size mentioned</span><span class="points-val">+4 pts</span></div>
+<div class="points-total"><span>Manager Pass</span><span><span style="color:#dc2626;text-decoration:line-through;font-size:13px">28</span> → <span class="new">64</span></span></div>
+</div>
+
+<div class="unlock">
+<div class="unlock-title">What 64 unlocks (vs 28)</div>
+<div class="unlock-item">Passes the manager deep-read filter at 78% of target companies (vs 12% at 28)</div>
+<div class="unlock-item">4 additional job matches now show 85%+ compatibility</div>
+<div class="unlock-item">Competitiveness ranking improves from bottom 30% to top 40% in your sector</div>
+</div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══ FREEMIUM CV PREVIEW ═══ -->
+<div class="freemium">
+<div class="free-head">Your improved CV</div>
+<div class="free-sub">We applied Fix #1 (add metrics) to your 3 most recent roles. Here is what changes.</div>
+
+<div class="cv-preview">
+<div class="cv-section">
+<div class="cv-section-title">Role: Directrice Communication — ONG Internationale (2019-2024)</div>
+
+<div class="cv-bullet">
+<div class="cv-bullet-dot" style="background:#dc2626"></div>
+<div class="cv-original"><s>Managed institutional partnerships and communication strategies</s></div>
+</div>
+<div class="cv-bullet">
+<div class="cv-bullet-dot" style="background:#16a34a"></div>
+<div class="cv-improved">Secured 12 institutional partnerships generating €2.3M annual funding, +18% YoY</div>
+</div>
+
+<div style="height:8px"></div>
+
+<div class="cv-bullet">
+<div class="cv-bullet-dot" style="background:#dc2626"></div>
+<div class="cv-original"><s>Led digital transformation of communication department</s></div>
+</div>
+<div class="cv-bullet">
+<div class="cv-bullet-dot" style="background:#16a34a"></div>
+<div class="cv-blurred">Piloted €340K digital migration across 4 channels, reducing production costs by 31% while increasing audience reach to 2.4M...</div>
+</div>
+</div>
+
+<div class="cv-section" style="padding-top:0">
+<div class="cv-section-title" style="margin-top:0">Role: Responsable Partenariats — Fondation (2015-2019)</div>
+<div class="cv-bullet">
+<div class="cv-bullet-dot" style="background:#dc2626"></div>
+<div class="cv-original"><s>Developed fundraising strategy and managed donor relations</s></div>
+</div>
+<div class="cv-bullet">
+<div class="cv-bullet-dot" style="background:#16a34a"></div>
+<div class="cv-blurred">Built fundraising pipeline from €0 to €1.8M in 3 years across 47 institutional donors, achieving 94% renewal rate through quarterly impact reporting...</div>
+</div>
+</div>
+
+<div class="cv-lock-overlay">
+<div class="cv-lock-text">3 more roles improved. Full rewrite available.</div>
+<div class="cv-lock-sub">See every bullet point transformed with specific metrics from your experience.</div>
+<div class="cv-lock-btn">Unlock full improvement</div>
+</div>
+</div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══ COMPLETE JOURNEY ═══ -->
+<div class="journey">
+<div class="j-head">Anne-Laure's complete journey</div>
+<div class="j-sub">From first click to signed contract. What happens at each step.</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-free">1</div>
+<div class="j-body">
+<div class="j-tag j-tag-free">Free · 30 seconds</div>
+<div class="j-title">Arrives from CSE link</div>
+<div class="j-desc">Sees personalized hero "Votre CSE vous offre CareerNEXT." Clicks "Analyser mon CV." Uploads PDF.</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-free">2</div>
+<div class="j-body">
+<div class="j-tag j-tag-free">Free · 2 minutes</div>
+<div class="j-title">Onboarding with micro-results</div>
+<div class="j-desc">"8 experiences detected. Profile: Strategic Communication." Answers 2 questions. Gets preliminary score: 73. "7 jobs already match."</div>
+<div class="j-score-change">Score: 73/100</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-free">3</div>
+<div class="j-body">
+<div class="j-tag j-tag-free">Free · 1 minute</div>
+<div class="j-title">Hub orientation</div>
+<div class="j-desc">Score Theatre plays (4.5s). She sees her score with context: "Top 35% of 234 pros." Hub shows journey timeline, first action.</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-free">4</div>
+<div class="j-body">
+<div class="j-tag j-tag-free">Free · 2 minutes</div>
+<div class="j-title">Sees profile shape + top 2 sub-scores</div>
+<div class="j-desc">Profile Quality: 90 ✓ ATS Pass: 87 ✓ Remaining 5 dimensions blurred. Quick Fix #1 visible. She sees her own CV improved — first bullet clear, rest blurred.</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-pay">5</div>
+<div class="j-body">
+<div class="j-tag j-tag-paid">Conversion moment</div>
+<div class="j-title">Sees blurred CV improvement — pays</div>
+<div class="j-desc">She can see her bullet was improved but cannot read the full version. "Unlock full improvement." She enters CSE activation code or starts trial. All 7 sub-scores, all 3 fixes, full CV preview unlocked.</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-pay">6</div>
+<div class="j-body">
+<div class="j-tag j-tag-paid">Paid · 15 minutes</div>
+<div class="j-title">Applies 3 levers in Resume Studio</div>
+<div class="j-desc">Lever 1: adds metrics to 6 bullets (15 min). Re-uploads. Ghost CV: Manager Pass 28→64, Human Pass 41→56. Lever 2: adds 3 ATS keywords (5 min). ATS 87→93. Lever 3: rewrites summary (5 min). Readability 73→80.</div>
+<div class="j-score-change">Score: 73 → 88 (+15 pts in 25 min)</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-pay">7</div>
+<div class="j-body">
+<div class="j-tag j-tag-paid">Paid · 5 minutes</div>
+<div class="j-title">Browses Netflix job rows</div>
+<div class="j-desc">Score 88 matches 4 more jobs than 73. "Best matches" row: 92%, 91%, 89%... She saves 3, clicks detail on Médecins du Monde (92% match). "10/12 skills. You rank top 15%."</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-pay">8</div>
+<div class="j-body">
+<div class="j-tag j-tag-paid">Paid · 3 minutes</div>
+<div class="j-title">Applies in 1 click</div>
+<div class="j-desc">"Apply with AI cover letter." System generates personalized letter from her profile + job description. She reviews, edits 2 sentences, sends. Application logged.</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-daily">9</div>
+<div class="j-body">
+<div class="j-tag j-tag-daily">Daily loop · Day 2-14</div>
+<div class="j-title">Career DJ + streaks + refinement</div>
+<div class="j-desc">08:00: 3 new jobs. She views, saves, applies. Streak builds. Score refinements for specific targets ("For this job, add 'advocacy'"). Weekly report: "Score 88→90. 3 applications. Streak: 7 days."</div>
+<div class="j-score-change">Score: 88 → 91 (targeted improvements)</div>
+</div>
+</div>
+
+<div class="j-step">
+<div class="j-line"></div>
+<div class="j-dot j-goal">10</div>
+<div class="j-body">
+<div class="j-tag" style="background:#fef3c7;color:#92400e">Outcome · Week 4-8</div>
+<div class="j-title">Interview → Negotiation → Signed</div>
+<div class="j-desc">Interview prep module. Mock interviews. Salary benchmarks. She signs a CDI at Médecins du Monde. Transition Certificate generated. CSE advisor sees full journey in Advisor Mirror: "Anne-Laure: 73→91, 12 applications, 3 interviews, hired in 6 weeks."</div>
+<div class="j-score-change">Transition complete</div>
+</div>
+</div>
+
 </div>
 
 </div>
