@@ -1,386 +1,258 @@
-<!DOCTYPE html>
-<html><head><meta charset="utf-8">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#1e293b}
-.app{max-width:520px;margin:0 auto;min-height:100vh}
-.top{padding:12px 20px;background:#fff;border-bottom:1px solid #e2e8f0;font-size:14px;font-weight:500;text-align:center}
+.hub{position:relative;width:100%;max-width:520px;margin:0 auto;overflow:hidden;border-radius:var(--border-radius-lg);font-family:var(--font-sans)}
+.hub-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bl{position:absolute;border-radius:50%;filter:blur(90px);opacity:.15}
+.b1{width:300px;height:300px;background:#00B4D8;top:-80px;left:-60px}
+.b2{width:240px;height:240px;background:#7C3AED;bottom:-40px;right:-50px}
+@media(prefers-color-scheme:dark){.bl{opacity:.08}}
+.hub-in{position:relative;z-index:1}
 
-/* ═══ DIMENSION DEEP DIVE ═══ */
-.dim{padding:20px}
-.dim-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.dim-score{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;flex-shrink:0}
-.dim-lo{background:#fee2e2;color:#991b1b}
-.dim-info h2{font-size:16px;font-weight:600;margin-bottom:2px}
-.dim-info p{font-size:11px;color:#64748b}
+.topbar{display:flex;align-items:center;padding:12px 20px;background:rgba(255,255,255,0.35);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:0.5px solid rgba(255,255,255,0.2)}
+@media(prefers-color-scheme:dark){.topbar{background:rgba(25,25,30,0.4);border-color:rgba(255,255,255,0.04)}}
+.logo{font-size:15px;font-weight:500;color:#00B4D8}
+.top-r{margin-left:auto;display:flex;align-items:center;gap:6px}
+.lang{display:flex;overflow:hidden;border-radius:6px;border:0.5px solid rgba(0,0,0,0.06)}
+@media(prefers-color-scheme:dark){.lang{border-color:rgba(255,255,255,0.06)}}
+.lb{font-size:9px;padding:3px 7px;cursor:pointer;background:transparent;color:var(--color-text-tertiary);border:none;transition:all .12s}
+.lb.on{background:#00B4D8;color:#fff}
+.av{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#00B4D8,#7C3AED);font-size:9px;font-weight:500;color:#fff;display:flex;align-items:center;justify-content:center}
 
-/* Score breakdown bars */
-.breakdown{margin-bottom:20px}
-.bd-title{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px}
-.bd-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.bd-label{width:130px;font-size:11px;color:#475569;flex-shrink:0}
-.bd-bar-bg{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden;position:relative}
-.bd-bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
-.bd-bar-max{position:absolute;right:0;top:0;height:100%;border-right:2px dashed #cbd5e1}
-.bd-val{width:60px;font-size:11px;color:#94a3b8;text-align:right}
-.bd-val strong{color:#1e293b}
+.welcome{padding:20px 20px 16px}
+.w-name{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.w-context{font-size:13px;color:var(--color-text-secondary);margin-top:6px;line-height:1.55}
+.w-context strong{font-weight:500;color:var(--color-text-primary)}
 
-/* Protocol steps */
-.protocol{margin-bottom:20px}
-.proto-title{font-size:13px;font-weight:600;margin-bottom:12px;color:#0f172a}
-.proto-step{display:flex;gap:10px;margin-bottom:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid #e2e8f0}
-.proto-num{width:28px;height:28px;border-radius:8px;background:#00B4D8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
-.proto-content{flex:1}
-.proto-action{font-size:12px;font-weight:500;color:#0f172a;margin-bottom:3px}
-.proto-detail{font-size:10.5px;color:#64748b;line-height:1.5}
+.score-banner{margin:0 20px 16px;background:rgba(255,255,255,0.4);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:0.5px solid rgba(255,255,255,0.3);border-radius:16px;padding:16px;display:flex;align-items:center;gap:16px}
+@media(prefers-color-scheme:dark){.score-banner{background:rgba(25,25,30,0.35);border-color:rgba(255,255,255,0.05)}}
+.sb-ring{width:64px;height:64px;flex-shrink:0}
+.sb-ring svg{width:100%;height:100%}
+.sb-ring circle{fill:none;stroke-linecap:round}
+.sr-bg{stroke:rgba(0,0,0,0.04);stroke-width:6}
+@media(prefers-color-scheme:dark){.sr-bg{stroke:rgba(255,255,255,0.05)}}
+.sr-fill{stroke:url(#sg);stroke-width:6;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
+.sb-info{flex:1}
+.sb-label{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.3px}
+.sb-val{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:1px}
+.sb-hint{font-size:11px;color:var(--color-text-secondary);margin-top:2px;line-height:1.4}
+.sb-btn{font-size:11px;font-weight:500;color:#00B4D8;margin-top:4px;cursor:pointer}
+.sb-btn:hover{text-decoration:underline}
 
-/* Before/after */
-.ba-block{margin:12px 0;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0}
-.ba-side{padding:10px 14px}
-.ba-before-bg{background:#fef2f2}
-.ba-after-bg{background:#f0fdf4}
-.ba-tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
-.ba-tag-red{color:#991b1b}
-.ba-tag-green{color:#166534}
-.ba-text{font-size:11px;line-height:1.5}
-.ba-text s{color:#94a3b8}
+.section{padding:0 20px 16px}
+.sec-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.sec-desc{font-size:11px;color:var(--color-text-tertiary);margin-bottom:12px;line-height:1.4}
 
-/* Points gained */
-.points-box{background:linear-gradient(135deg,rgba(0,180,216,.05),rgba(124,58,237,.03));border:1px solid rgba(0,180,216,.12);border-radius:12px;padding:14px 16px;margin:16px 0}
-.points-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:11px;color:#475569}
-.points-val{font-weight:600;color:#16a34a}
-.points-total{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid rgba(0,180,216,.12);font-size:13px;font-weight:600}
-.points-total .new{color:#16a34a;font-size:16px}
+.journey{display:flex;flex-direction:column;gap:0;position:relative;padding-left:28px}
+.j-line{position:absolute;left:9px;top:20px;bottom:20px;width:1.5px;background:rgba(0,0,0,0.06)}
+@media(prefers-color-scheme:dark){.j-line{background:rgba(255,255,255,0.05)}}
+.j-step{position:relative;padding:10px 0}
+.j-dot{position:absolute;left:-28px;top:12px;width:18px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500}
+.jd-done{background:#16A34A;color:#fff}
+.jd-current{background:#00B4D8;color:#fff;box-shadow:0 0 0 3px rgba(0,180,216,0.15)}
+.jd-locked{background:rgba(0,0,0,0.04);color:var(--color-text-tertiary)}
+@media(prefers-color-scheme:dark){.jd-locked{background:rgba(255,255,255,0.04)}}
+.j-card{background:rgba(255,255,255,0.4);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:0.5px solid rgba(255,255,255,0.3);border-radius:14px;padding:12px 14px;cursor:pointer;transition:all .2s}
+.j-card:hover{transform:translateY(-1px);border-color:rgba(0,180,216,0.15)}
+.j-card.highlight{border-color:#00B4D8;border-width:1.5px}
+@media(prefers-color-scheme:dark){.j-card{background:rgba(25,25,30,0.3);border-color:rgba(255,255,255,0.04)}}
+.jc-top{display:flex;align-items:center;gap:8px}
+.jc-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.jc-icon svg{width:14px;height:14px}
+.ji-resume{background:rgba(0,180,216,0.1);color:#0284C7}
+.ji-jobs{background:rgba(124,58,237,0.1);color:#7C3AED}
+.ji-apply{background:rgba(245,158,11,0.1);color:#B45309}
+.ji-coach{background:rgba(22,163,74,0.1);color:#16A34A}
+.jc-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.jc-badge{margin-left:auto;font-size:9px;font-weight:500;padding:2px 7px;border-radius:6px}
+.badge-start{background:rgba(0,180,216,0.1);color:#0284C7}
+.badge-new{background:rgba(124,58,237,0.1);color:#7C3AED}
+.badge-soon{background:rgba(0,0,0,0.04);color:var(--color-text-tertiary)}
+@media(prefers-color-scheme:dark){.badge-soon{background:rgba(255,255,255,0.04)}}
+.jc-desc{font-size:11px;color:var(--color-text-secondary);margin-top:4px;line-height:1.4}
+.jc-action{font-size:11px;font-weight:500;color:#00B4D8;margin-top:6px;display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+.jc-action:hover{text-decoration:underline}
 
-/* Projection ring */
-.projection{text-align:center;margin:16px 0}
-.proj-rings{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:8px}
-.proj-ring{width:64px;height:64px;position:relative}
-.proj-ring svg{width:100%;height:100%}
-.proj-ring circle{fill:none;stroke-width:5;stroke-linecap:round}
-.proj-bg{stroke:#f1f5f9}
-.proj-old{stroke:#dc2626;stroke-dasharray:188;transform:rotate(-90deg);transform-origin:center}
-.proj-new{stroke:#16a34a;stroke-dasharray:188;transform:rotate(-90deg);transform-origin:center}
-.proj-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:600}
-.proj-arrow{font-size:20px;color:#94a3b8}
-.proj-label{font-size:10px;color:#64748b}
+.first-action{margin:0 20px 16px;background:linear-gradient(135deg,rgba(0,180,216,0.08),rgba(124,58,237,0.06));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(0,180,216,0.15);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s}
+.first-action:hover{transform:translateY(-1px);border-color:rgba(0,180,216,0.3)}
+.fa-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.fa-pulse{width:8px;height:8px;border-radius:50%;background:#00B4D8;animation:pls 2s ease infinite;flex-shrink:0}
+@keyframes pls{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
+.fa-label{font-size:10px;font-weight:500;color:#0284C7;text-transform:uppercase;letter-spacing:.4px}
+.fa-xp{margin-left:auto;font-size:10px;font-weight:500;color:#7C3AED}
+.fa-title{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.fa-desc{font-size:12px;color:var(--color-text-secondary);margin-top:4px;line-height:1.5}
+.fa-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:9px 18px;border-radius:10px;background:linear-gradient(135deg,#00B4D8,#0090ad);color:#fff;font-size:12px;font-weight:500;border:none;cursor:pointer;transition:all .15s}
+.fa-btn:hover{transform:translateY(-1px)}
 
-/* What this unlocks */
-.unlock{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin:14px 0}
-.unlock-title{font-size:11px;font-weight:600;color:#0f172a;margin-bottom:6px}
-.unlock-item{font-size:10.5px;color:#475569;line-height:1.6;padding-left:16px;position:relative}
-.unlock-item::before{content:">";position:absolute;left:0;color:#16a34a;font-weight:600}
+.bottom-nav{display:flex;margin:4px 20px 16px;background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:0.5px solid rgba(255,255,255,0.3);border-radius:14px;overflow:hidden}
+@media(prefers-color-scheme:dark){.bottom-nav{background:rgba(25,25,30,0.4);border-color:rgba(255,255,255,0.05)}}
+.bn{flex:1;text-align:center;padding:10px 4px;cursor:pointer;transition:all .12s;font-size:10px;color:var(--color-text-tertiary);display:flex;flex-direction:column;align-items:center;gap:2px}
+.bn:hover{background:rgba(0,180,216,0.03)}
+.bn.on{color:#00B4D8}
+.bn svg{width:18px;height:18px}
+.bn-b{font-size:8px;font-weight:500;padding:1px 5px;border-radius:4px;background:#00B4D8;color:#fff}
+</style>
 
-/* CTA */
-.cta-bar{padding:14px 20px;position:sticky;bottom:0;background:#fff;border-top:1px solid #e2e8f0}
-.cta-btn{display:block;width:100%;padding:13px;background:#00B4D8;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:500;text-align:center;cursor:pointer}
+<div style="padding:.5rem 0">
+<div class="hub">
+<div class="hub-bg"><div class="bl b1"></div><div class="bl b2"></div></div>
+<div class="hub-in">
 
-/* ═══ SEPARATOR ═══ */
-.sep{height:8px;background:#f1f5f9;margin:0}
-
-/* ═══ FREEMIUM PREVIEW ═══ */
-.freemium{padding:20px}
-.free-head{font-size:15px;font-weight:600;margin-bottom:4px}
-.free-sub{font-size:11px;color:#64748b;margin-bottom:16px}
-.cv-preview{border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
-.cv-section{padding:12px 16px}
-.cv-section-title{font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
-.cv-bullet{display:flex;gap:8px;margin-bottom:8px;font-size:11px;line-height:1.5}
-.cv-bullet-dot{width:5px;height:5px;border-radius:50%;background:#94a3b8;margin-top:6px;flex-shrink:0}
-.cv-original{color:#475569}
-.cv-improved{color:#16a34a;font-weight:500}
-.cv-blurred{filter:blur(4px);user-select:none;color:#16a34a;font-weight:500}
-.cv-lock-overlay{position:relative;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.95) 20%,#fff);margin-top:-20px;text-align:center;border-top:none}
-.cv-lock-text{font-size:12px;color:#0f172a;font-weight:500;margin-bottom:8px}
-.cv-lock-sub{font-size:10px;color:#64748b;margin-bottom:10px}
-.cv-lock-btn{display:inline-block;padding:10px 24px;background:#7C3AED;color:#fff;border-radius:8px;font-size:12px;font-weight:500;border:none;cursor:pointer}
-
-/* ═══ JOURNEY TIMELINE ═══ */
-.journey{padding:20px}
-.j-head{font-size:15px;font-weight:600;margin-bottom:4px}
-.j-sub{font-size:11px;color:#64748b;margin-bottom:16px}
-.j-step{display:flex;gap:12px;margin-bottom:0;position:relative}
-.j-line{position:absolute;left:17px;top:36px;bottom:-4px;width:2px;background:#e2e8f0}
-.j-step:last-child .j-line{display:none}
-.j-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;position:relative;z-index:1}
-.j-free{background:#dcfce7;color:#166534}
-.j-pay{background:#f3e8ff;color:#6d28d9}
-.j-daily{background:#dbeafe;color:#1e40af}
-.j-goal{background:#fef3c7;color:#92400e}
-.j-body{flex:1;padding-bottom:20px}
-.j-title{font-size:12px;font-weight:600;color:#0f172a;margin-bottom:2px}
-.j-meta{font-size:10px;color:#64748b;margin-bottom:4px}
-.j-desc{font-size:10.5px;color:#475569;line-height:1.5}
-.j-tag{display:inline-block;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
-.j-tag-free{background:#dcfce7;color:#166534}
-.j-tag-paid{background:#f3e8ff;color:#6d28d9}
-.j-tag-daily{background:#dbeafe;color:#1e40af}
-.j-score-change{display:inline-block;font-size:10px;font-weight:600;color:#16a34a;background:#f0fdf4;padding:2px 8px;border-radius:4px;margin-top:4px}
-</style></head><body>
-<div class="app">
-
-<div class="top">The CareerNEXT Scoring Protocol</div>
-
-<!-- ═══ DIMENSION: MANAGER PASS ═══ -->
-<div class="dim">
-<div class="dim-head">
-<div class="dim-score dim-lo">28</div>
-<div class="dim-info"><h2>Manager Pass</h2><p>How a hiring manager evaluates your CV in a 2-minute deep read</p></div>
+<div class="topbar">
+  <div class="logo">CareerNEXT</div>
+  <div class="top-r">
+    <div class="lang"><div class="lb on" id="le" onclick="sL('en')">EN</div><div class="lb" id="lf" onclick="sL('fr')">FR</div></div>
+    <div class="av">AL</div>
+  </div>
 </div>
 
-<div class="breakdown">
-<div class="bd-title">How your 28/100 is calculated</div>
-
-<div class="bd-row">
-<div class="bd-label">Metrics density</div>
-<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:0%;background:#dc2626"></div></div>
-<div class="bd-val"><strong>0</strong>/40</div>
+<div class="welcome">
+  <div class="w-name" id="wn">Welcome, Anne-Laure</div>
+  <div class="w-context" id="wc">We've analyzed your CV. Your profile is oriented toward <strong>Strategic Communication & International Development</strong> with 8 experiences and 4 degrees detected. Here's your personalized transition hub — everything you need is organized in 4 steps below.</div>
 </div>
 
-<div class="bd-row">
-<div class="bd-label">Impact evidence</div>
-<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:27%;background:#f59e0b"></div></div>
-<div class="bd-val"><strong>8</strong>/30</div>
+<div class="score-banner">
+  <div class="sb-ring">
+    <svg viewBox="0 0 64 64">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00B4D8"/><stop offset="100%" stop-color="#06D6A0"/></linearGradient></defs>
+      <circle class="sr-bg" cx="32" cy="32" r="26"/>
+      <circle class="sr-fill" id="srf" cx="32" cy="32" r="26" stroke-dasharray="163" stroke-dashoffset="163"/>
+      <text x="32" y="30" text-anchor="middle" dominant-baseline="central" font-family="var(--font-sans)" font-size="18" font-weight="500" fill="var(--color-text-primary)" id="srn">0</text>
+      <text x="32" y="44" text-anchor="middle" font-family="var(--font-sans)" font-size="8" fill="var(--color-text-tertiary)">/100</text>
+    </svg>
+  </div>
+  <div class="sb-info">
+    <div class="sb-label" id="sbl">Your CV score</div>
+    <div class="sb-val" id="sbv">3 quick improvements could bring you to 85</div>
+    <div class="sb-btn" id="sbb">See detailed breakdown &#8594;</div>
+  </div>
 </div>
 
-<div class="bd-row">
-<div class="bd-label">Leadership signals</div>
-<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:60%;background:#16a34a"></div></div>
-<div class="bd-val"><strong>12</strong>/20</div>
+<div class="section">
+  <div class="sec-title" id="st1">Your transition journey</div>
+  <div class="sec-desc" id="sd1">Four modules guide you from CV optimization to signed contract. Here's where you are and what each one does.</div>
 </div>
 
-<div class="bd-row">
-<div class="bd-label">Strategic framing</div>
-<div class="bd-bar-bg"><div class="bd-bar-fill" style="width:80%;background:#16a34a"></div></div>
-<div class="bd-val"><strong>8</strong>/10</div>
-</div>
-</div>
-
-<div class="proto-title">The protocol: 28 → 64 in 15 minutes</div>
-
-<div class="proto-step">
-<div class="proto-num">1</div>
-<div class="proto-content">
-<div class="proto-action">Open your 3 most recent roles</div>
-<div class="proto-detail">Find them in Resume Studio. Each role has 2-4 bullet points describing what you did. We need 6 bullets total.</div>
-</div>
-</div>
-
-<div class="proto-step">
-<div class="proto-num">2</div>
-<div class="proto-content">
-<div class="proto-action">For each bullet, add: [number] + [unit] + [result]</div>
-<div class="proto-detail">A manager scans for evidence of impact. Numbers are proof. No number = no proof = skip.</div>
-</div>
-</div>
-
-<div class="ba-block">
-<div class="ba-side ba-before-bg">
-<div class="ba-tag ba-tag-red">Your current bullet</div>
-<div class="ba-text"><s>Managed institutional partnerships and developed communication strategies for multiple stakeholders across public and private sectors</s></div>
-</div>
-<div class="ba-side ba-after-bg">
-<div class="ba-tag ba-tag-green">After applying the protocol</div>
-<div class="ba-text">Secured <strong>12 institutional partnerships</strong> generating <strong>€2.3M</strong> in annual funding (<strong>+18% YoY</strong>). Led <strong>6-person team</strong> across 3 countries.</div>
-</div>
-</div>
-
-<div class="proto-step">
-<div class="proto-num">3</div>
-<div class="proto-content">
-<div class="proto-action">Apply the same pattern to all 6 bullets</div>
-<div class="proto-detail">Budget managed (€X), team size (X people), revenue/savings (€X or +X%), event scale (X attendees), partnerships count (X partners). Pick whichever metric fits each bullet.</div>
-</div>
-</div>
-
-<div class="proto-step">
-<div class="proto-num">4</div>
-<div class="proto-content">
-<div class="proto-action">Re-upload your CV</div>
-<div class="proto-detail">The system automatically re-scores. Ghost CV overlay shows the before/after on every dimension.</div>
-</div>
-</div>
-
-<div class="points-box">
-<div class="bd-title" style="margin-bottom:8px">Points gained</div>
-<div class="points-row"><span>Metrics density: 0 → 6 metrics detected</span><span class="points-val">+24 pts</span></div>
-<div class="points-row"><span>Impact evidence: verbs + numbers combined</span><span class="points-val">+8 pts</span></div>
-<div class="points-row"><span>Leadership signals: team size mentioned</span><span class="points-val">+4 pts</span></div>
-<div class="points-total"><span>Manager Pass</span><span><span style="color:#dc2626;text-decoration:line-through;font-size:13px">28</span> → <span class="new">64</span></span></div>
-</div>
-
-<div class="unlock">
-<div class="unlock-title">What 64 unlocks (vs 28)</div>
-<div class="unlock-item">Passes the manager deep-read filter at 78% of target companies (vs 12% at 28)</div>
-<div class="unlock-item">4 additional job matches now show 85%+ compatibility</div>
-<div class="unlock-item">Competitiveness ranking improves from bottom 30% to top 40% in your sector</div>
-</div>
-</div>
-
-<div class="sep"></div>
-
-<!-- ═══ FREEMIUM CV PREVIEW ═══ -->
-<div class="freemium">
-<div class="free-head">Your improved CV</div>
-<div class="free-sub">We applied Fix #1 (add metrics) to your 3 most recent roles. Here is what changes.</div>
-
-<div class="cv-preview">
-<div class="cv-section">
-<div class="cv-section-title">Role: Directrice Communication — ONG Internationale (2019-2024)</div>
-
-<div class="cv-bullet">
-<div class="cv-bullet-dot" style="background:#dc2626"></div>
-<div class="cv-original"><s>Managed institutional partnerships and communication strategies</s></div>
-</div>
-<div class="cv-bullet">
-<div class="cv-bullet-dot" style="background:#16a34a"></div>
-<div class="cv-improved">Secured 12 institutional partnerships generating €2.3M annual funding, +18% YoY</div>
-</div>
-
-<div style="height:8px"></div>
-
-<div class="cv-bullet">
-<div class="cv-bullet-dot" style="background:#dc2626"></div>
-<div class="cv-original"><s>Led digital transformation of communication department</s></div>
-</div>
-<div class="cv-bullet">
-<div class="cv-bullet-dot" style="background:#16a34a"></div>
-<div class="cv-blurred">Piloted €340K digital migration across 4 channels, reducing production costs by 31% while increasing audience reach to 2.4M...</div>
-</div>
-</div>
-
-<div class="cv-section" style="padding-top:0">
-<div class="cv-section-title" style="margin-top:0">Role: Responsable Partenariats — Fondation (2015-2019)</div>
-<div class="cv-bullet">
-<div class="cv-bullet-dot" style="background:#dc2626"></div>
-<div class="cv-original"><s>Developed fundraising strategy and managed donor relations</s></div>
-</div>
-<div class="cv-bullet">
-<div class="cv-bullet-dot" style="background:#16a34a"></div>
-<div class="cv-blurred">Built fundraising pipeline from €0 to €1.8M in 3 years across 47 institutional donors, achieving 94% renewal rate through quarterly impact reporting...</div>
-</div>
-</div>
-
-<div class="cv-lock-overlay">
-<div class="cv-lock-text">3 more roles improved. Full rewrite available.</div>
-<div class="cv-lock-sub">See every bullet point transformed with specific metrics from your experience.</div>
-<div class="cv-lock-btn">Unlock full improvement</div>
-</div>
-</div>
-</div>
-
-<div class="sep"></div>
-
-<!-- ═══ COMPLETE JOURNEY ═══ -->
+<div class="section">
 <div class="journey">
-<div class="j-head">Anne-Laure's complete journey</div>
-<div class="j-sub">From first click to signed contract. What happens at each step.</div>
+  <div class="j-line"></div>
 
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-free">1</div>
-<div class="j-body">
-<div class="j-tag j-tag-free">Free · 30 seconds</div>
-<div class="j-title">Arrives from CSE link</div>
-<div class="j-desc">Sees personalized hero "Votre CSE vous offre CareerNEXT." Clicks "Analyser mon CV." Uploads PDF.</div>
-</div>
-</div>
+  <div class="j-step">
+    <div class="j-dot jd-current">1</div>
+    <div class="j-card highlight">
+      <div class="jc-top">
+        <div class="jc-icon ji-resume"><svg viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4.5h4M5 7h4M5 9.5h2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></div>
+        <div class="jc-name" id="j1n">Resume Studio</div>
+        <div class="jc-badge badge-start" id="j1b">Start here</div>
+      </div>
+      <div class="jc-desc" id="j1d">Optimize your CV based on your score. See exactly what to fix, track improvements, and compare versions. Your score is 73 — the top 3 fixes can push it above 85.</div>
+      <div class="jc-action" id="j1a">Open Resume Studio &#8594;</div>
+    </div>
+  </div>
 
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-free">2</div>
-<div class="j-body">
-<div class="j-tag j-tag-free">Free · 2 minutes</div>
-<div class="j-title">Onboarding with micro-results</div>
-<div class="j-desc">"8 experiences detected. Profile: Strategic Communication." Answers 2 questions. Gets preliminary score: 73. "7 jobs already match."</div>
-<div class="j-score-change">Score: 73/100</div>
-</div>
-</div>
+  <div class="j-step">
+    <div class="j-dot jd-locked">2</div>
+    <div class="j-card">
+      <div class="jc-top">
+        <div class="jc-icon ji-jobs"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="jc-name" id="j2n">NextJobs</div>
+        <div class="jc-badge badge-new" id="j2b">12 matches</div>
+      </div>
+      <div class="jc-desc" id="j2d">Browse jobs matched to your profile. Filter by location, salary, contract type. See exactly why each job is a match and what skills gaps to close.</div>
+      <div class="jc-action" id="j2a">Browse matching jobs &#8594;</div>
+    </div>
+  </div>
 
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-free">3</div>
-<div class="j-body">
-<div class="j-tag j-tag-free">Free · 1 minute</div>
-<div class="j-title">Hub orientation</div>
-<div class="j-desc">Score Theatre plays (4.5s). She sees her score with context: "Top 35% of 234 pros." Hub shows journey timeline, first action.</div>
-</div>
-</div>
+  <div class="j-step">
+    <div class="j-dot jd-locked">3</div>
+    <div class="j-card">
+      <div class="jc-top">
+        <div class="jc-icon ji-apply"><svg viewBox="0 0 14 14" fill="none"><path d="M2 4l5 3.5L12 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="2" y="3" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg></div>
+        <div class="jc-name" id="j3n">Applications</div>
+        <div class="jc-badge badge-soon" id="j3b">Coming next</div>
+      </div>
+      <div class="jc-desc" id="j3d">Apply with one click. AI generates a personalized cover letter for each job. Track every application from sent to interview to offer.</div>
+    </div>
+  </div>
 
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-free">4</div>
-<div class="j-body">
-<div class="j-tag j-tag-free">Free · 2 minutes</div>
-<div class="j-title">Sees profile shape + top 2 sub-scores</div>
-<div class="j-desc">Profile Quality: 90 ✓ ATS Pass: 87 ✓ Remaining 5 dimensions blurred. Quick Fix #1 visible. She sees her own CV improved — first bullet clear, rest blurred.</div>
-</div>
-</div>
-
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-pay">5</div>
-<div class="j-body">
-<div class="j-tag j-tag-paid">Conversion moment</div>
-<div class="j-title">Sees blurred CV improvement — pays</div>
-<div class="j-desc">She can see her bullet was improved but cannot read the full version. "Unlock full improvement." She enters CSE activation code or starts trial. All 7 sub-scores, all 3 fixes, full CV preview unlocked.</div>
-</div>
-</div>
-
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-pay">6</div>
-<div class="j-body">
-<div class="j-tag j-tag-paid">Paid · 15 minutes</div>
-<div class="j-title">Applies 3 levers in Resume Studio</div>
-<div class="j-desc">Lever 1: adds metrics to 6 bullets (15 min). Re-uploads. Ghost CV: Manager Pass 28→64, Human Pass 41→56. Lever 2: adds 3 ATS keywords (5 min). ATS 87→93. Lever 3: rewrites summary (5 min). Readability 73→80.</div>
-<div class="j-score-change">Score: 73 → 88 (+15 pts in 25 min)</div>
+  <div class="j-step">
+    <div class="j-dot jd-locked">4</div>
+    <div class="j-card">
+      <div class="jc-top">
+        <div class="jc-icon ji-coach"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1.5L2 4.5v4c0 2.5 2 4 5 4.5 3-.5 5-2 5-4.5v-4L7 1.5z" stroke="currentColor" stroke-width="1.2"/></svg></div>
+        <div class="jc-name" id="j4n">Interview prep</div>
+        <div class="jc-badge badge-soon" id="j4b">Coming next</div>
+      </div>
+      <div class="jc-desc" id="j4d">Practice mock interviews with AI. Get feedback on your pitch, answers, and negotiation approach. Prepare talking points tailored to each role.</div>
+    </div>
+  </div>
 </div>
 </div>
 
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-pay">7</div>
-<div class="j-body">
-<div class="j-tag j-tag-paid">Paid · 5 minutes</div>
-<div class="j-title">Browses Netflix job rows</div>
-<div class="j-desc">Score 88 matches 4 more jobs than 73. "Best matches" row: 92%, 91%, 89%... She saves 3, clicks detail on Médecins du Monde (92% match). "10/12 skills. You rank top 15%."</div>
-</div>
-</div>
-
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-pay">8</div>
-<div class="j-body">
-<div class="j-tag j-tag-paid">Paid · 3 minutes</div>
-<div class="j-title">Applies in 1 click</div>
-<div class="j-desc">"Apply with AI cover letter." System generates personalized letter from her profile + job description. She reviews, edits 2 sentences, sends. Application logged.</div>
-</div>
+<div class="first-action" id="fa">
+  <div class="fa-top">
+    <div class="fa-pulse"></div>
+    <div class="fa-label" id="fal">Suggested first action</div>
+    <div class="fa-xp">+50 XP</div>
+  </div>
+  <div class="fa-title" id="fat">Fix your top 3 CV issues</div>
+  <div class="fa-desc" id="fad">Your ATS score is 62 — below the recruiter threshold of 75. Adding industry keywords like "institutional strategy," "public relations," and "budget management" could push it above 80. Takes 15 minutes.</div>
+  <div class="fa-btn" id="fab">Go to Resume Studio &#8594;</div>
 </div>
 
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-daily">9</div>
-<div class="j-body">
-<div class="j-tag j-tag-daily">Daily loop · Day 2-14</div>
-<div class="j-title">Career DJ + streaks + refinement</div>
-<div class="j-desc">08:00: 3 new jobs. She views, saves, applies. Streak builds. Score refinements for specific targets ("For this job, add 'advocacy'"). Weekly report: "Score 88→90. 3 applications. Streak: 7 days."</div>
-<div class="j-score-change">Score: 88 → 91 (targeted improvements)</div>
-</div>
-</div>
-
-<div class="j-step">
-<div class="j-line"></div>
-<div class="j-dot j-goal">10</div>
-<div class="j-body">
-<div class="j-tag" style="background:#fef3c7;color:#92400e">Outcome · Week 4-8</div>
-<div class="j-title">Interview → Negotiation → Signed</div>
-<div class="j-desc">Interview prep module. Mock interviews. Salary benchmarks. She signs a CDI at Médecins du Monde. Transition Certificate generated. CSE advisor sees full journey in Advisor Mirror: "Anne-Laure: 73→91, 12 applications, 3 interviews, hired in 6 weeks."</div>
-<div class="j-score-change">Transition complete</div>
-</div>
+<div class="bottom-nav">
+  <div class="bn on"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="10" y="2" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="10" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="10" y="10" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg><span id="bn0">Hub</span></div>
+  <div class="bn"><svg viewBox="0 0 18 18" fill="none"><rect x="3" y="2" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 6h6M6 9h6M6 12h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg><span id="bn1">Resume</span><span class="bn-b">73</span></div>
+  <div class="bn"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span id="bn2">Jobs</span><span class="bn-b">12</span></div>
+  <div class="bn"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L2 6v5c0 3.5 3 5.5 7 6.5 4-1 7-3 7-6.5V6L9 2z" stroke="currentColor" stroke-width="1.2"/></svg><span id="bn3">Coach</span></div>
 </div>
 
 </div>
-
 </div>
-</body></html>
+</div>
+
+<script>
+function animScore(){
+  var ring=document.getElementById('srf'),num=document.getElementById('srn'),target=73,circ=163;
+  setTimeout(function(){
+    ring.style.strokeDashoffset=circ-(circ*target/100);
+    var start=Date.now(),dur=1200;
+    function tick(){var p=Math.min((Date.now()-start)/dur,1);num.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)}
+    tick();
+  },400);
+}
+animScore();
+
+function sL(l){
+  document.getElementById('le').className='lb'+(l==='en'?' on':'');
+  document.getElementById('lf').className='lb'+(l==='fr'?' on':'');
+  var e=l==='en';
+  document.getElementById('wn').textContent=e?'Welcome, Anne-Laure':'Bienvenue, Anne-Laure';
+  document.getElementById('wc').innerHTML=e?'We\u2019ve analyzed your CV. Your profile is oriented toward <strong>Strategic Communication & International Development</strong> with 8 experiences and 4 degrees detected. Here\u2019s your personalized transition hub \u2014 everything you need is organized in 4 steps below.':'Nous avons analys\u00e9 votre CV. Votre profil est orient\u00e9 <strong>Communication strat\u00e9gique & D\u00e9veloppement international</strong> avec 8 exp\u00e9riences et 4 formations d\u00e9tect\u00e9es. Voici votre hub de transition personnalis\u00e9 \u2014 tout est organis\u00e9 en 4 \u00e9tapes ci-dessous.';
+  document.getElementById('sbl').textContent=e?'Your CV score':'Score de votre CV';
+  document.getElementById('sbv').textContent=e?'3 quick improvements could bring you to 85':'3 am\u00e9liorations rapides pourraient vous amener \u00e0 85';
+  document.getElementById('sbb').innerHTML=e?'See detailed breakdown &#8594;':'Voir le d\u00e9tail &#8594;';
+  document.getElementById('st1').textContent=e?'Your transition journey':'Votre parcours de transition';
+  document.getElementById('sd1').textContent=e?'Four modules guide you from CV optimization to signed contract. Here\u2019s where you are and what each one does.':'Quatre modules vous guident de l\u2019optimisation CV au contrat sign\u00e9. Voici o\u00f9 vous en \u00eates et ce que chacun fait.';
+  document.getElementById('j1n').textContent='Resume Studio';
+  document.getElementById('j1b').textContent=e?'Start here':'Commencer ici';
+  document.getElementById('j1d').textContent=e?'Optimize your CV based on your score. See exactly what to fix, track improvements, and compare versions. Your score is 73 \u2014 the top 3 fixes can push it above 85.':'Optimisez votre CV selon votre score. Voyez exactement quoi corriger, suivez les am\u00e9liorations et comparez les versions. Score actuel : 73 \u2014 les 3 corrections prioritaires peuvent le pousser au-dessus de 85.';
+  document.getElementById('j1a').innerHTML=e?'Open Resume Studio &#8594;':'Ouvrir Resume Studio &#8594;';
+  document.getElementById('j2n').textContent='NextJobs';
+  document.getElementById('j2b').textContent=e?'12 matches':'12 offres';
+  document.getElementById('j2d').textContent=e?'Browse jobs matched to your profile. Filter by location, salary, contract type. See exactly why each job is a match and what skills gaps to close.':'Parcourez les offres correspondant \u00e0 votre profil. Filtrez par lieu, salaire, type de contrat. Voyez pourquoi chaque offre correspond et quels \u00e9carts combler.';
+  document.getElementById('j2a').innerHTML=e?'Browse matching jobs &#8594;':'Voir les offres &#8594;';
+  document.getElementById('j3n').textContent=e?'Applications':'Candidatures';
+  document.getElementById('j3b').textContent=e?'Coming next':'Prochainement';
+  document.getElementById('j3d').textContent=e?'Apply with one click. AI generates a personalized cover letter for each job. Track every application from sent to interview to offer.':'Postulez en un clic. L\u2019IA g\u00e9n\u00e8re une lettre de motivation personnalis\u00e9e. Suivez chaque candidature de l\u2019envoi \u00e0 l\u2019entretien.';
+  document.getElementById('j4n').textContent=e?'Interview prep':'Pr\u00e9pa entretiens';
+  document.getElementById('j4b').textContent=e?'Coming next':'Prochainement';
+  document.getElementById('j4d').textContent=e?'Practice mock interviews with AI. Get feedback on your pitch, answers, and negotiation approach.':'Entra\u00eenez-vous avec des simulations IA. Recevez du feedback sur votre pitch, vos r\u00e9ponses et votre approche de n\u00e9gociation.';
+  document.getElementById('fal').textContent=e?'Suggested first action':'Premi\u00e8re action sugg\u00e9r\u00e9e';
+  document.getElementById('fat').textContent=e?'Fix your top 3 CV issues':'Corrigez vos 3 probl\u00e8mes CV prioritaires';
+  document.getElementById('fad').textContent=e?'Your ATS score is 62 \u2014 below the recruiter threshold of 75. Adding industry keywords like \u201Cinstitutional strategy,\u201D \u201Cpublic relations,\u201D and \u201Cbudget management\u201D could push it above 80. Takes 15 minutes.':'Votre score ATS est 62 \u2014 sous le seuil recruteur de 75. Ajouter des mots-cl\u00e9s comme \u00AB strat\u00e9gie institutionnelle \u00BB, \u00AB relations publiques \u00BB et \u00AB gestion budg\u00e9taire \u00BB pourrait le pousser au-dessus de 80. 15 minutes.';
+  document.getElementById('fab').innerHTML=e?'Go to Resume Studio &#8594;':'Aller au Resume Studio &#8594;';
+  document.getElementById('bn0').textContent='Hub';document.getElementById('bn1').textContent=e?'Resume':'CV';
+  document.getElementById('bn2').textContent=e?'Jobs':'Offres';document.getElementById('bn3').textContent='Coach';
+}
+</script>
