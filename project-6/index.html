@@ -1,651 +1,255 @@
 <!DOCTYPE html>
 <html><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#1e293b;padding:24px}
-.header{max-width:900px;margin:0 auto 24px;text-align:center}
-.header h1{font-size:24px;font-weight:600;margin-bottom:6px}
-.header p{font-size:13px;color:#64748b}
-.stats{display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap}
-.stat{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 18px;text-align:center}
-.stat-num{font-size:22px;font-weight:600}
-.stat-label{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.4px}
-.step-group{max-width:900px;margin:0 auto 28px}
-.step-title{font-size:16px;font-weight:600;margin-bottom:12px;padding:8px 14px;border-radius:8px;display:inline-block;color:#fff}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;transition:all .2s;position:relative;overflow:hidden}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
-.card-stripe{position:absolute;top:0;left:0;right:0;height:3px}
-.card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.card-id{font-size:10px;font-weight:600;color:#94a3b8;background:#f1f5f9;padding:2px 6px;border-radius:4px}
-.card-type{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:500}
-.card-pri{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;margin-left:auto}
-.pri-P0{background:#fee2e2;color:#991b1b}
-.pri-P1{background:#ffedd5;color:#9a3412}
-.pri-P2{background:#fef3c7;color:#92400e}
-.pri-P3{background:#dcfce7;color:#166534}
-.type-miss-screen{background:#fee2e2;color:#991b1b}
-.type-miss-state{background:#ffedd5;color:#9a3412}
-.type-miss-interaction{background:#fef3c7;color:#92400e}
-.type-miss-flow{background:#f3e8ff;color:#6d28d9}
-.type-inconsistency{background:#fce7f3;color:#9d174d}
-.type-edge{background:#f1f5f9;color:#475569}
-.type-conversion{background:#dcfce7;color:#166534}
-.card-title{font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;line-height:1.35}
-.card-feels{font-size:10.5px;color:#7C3AED;font-style:italic;margin-bottom:8px;line-height:1.4;padding:6px 10px;background:#faf5ff;border-radius:6px}
-.card-desc{font-size:10.5px;color:#475569;line-height:1.55}
-@media print{
-  body{padding:12px}
-  .card{break-inside:avoid;page-break-inside:avoid}
-  .step-group{page-break-inside:avoid}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc}
+.app{max-width:960px;margin:0 auto}
+
+/* ═══ TOPBAR ═══ */
+.topbar{display:flex;align-items:center;padding:14px 24px;background:#fff;border-bottom:1px solid #e2e8f0}
+.logo{font-size:16px;font-weight:500;color:#00B4D8;letter-spacing:-.3px}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.view-tog{display:flex;background:#f1f5f9;border-radius:8px;padding:2px}
+.vt{font-size:11px;padding:5px 14px;border-radius:6px;cursor:pointer;color:#94a3b8;border:none;background:transparent;font-weight:500}
+.vt.on{background:#fff;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.av{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#00B4D8,#7C3AED);font-size:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+/* ═══ PROFILE CONTEXT ═══ */
+.ctx{display:flex;align-items:center;gap:12px;padding:12px 24px;background:#fff;border-bottom:1px solid #f1f5f9}
+.ctx-score{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#00B4D8,#06D6A0);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0}
+.ctx-text{font-size:12.5px;color:#475569}
+.ctx-text strong{color:#0f172a;font-weight:500}
+.ctx-pills{margin-left:auto;display:flex;gap:5px}
+.ctx-pill{font-size:10px;padding:4px 10px;border-radius:20px;background:#f1f5f9;color:#64748b;border:none;cursor:pointer;transition:all .15s}
+.ctx-pill:hover{background:#e2e8f0}
+
+.main{padding:16px 0 24px}
+
+/* ═══ CAREER DJ ═══ */
+.dj{margin:0 24px 22px;padding:16px 18px;background:linear-gradient(135deg,rgba(0,180,216,0.03),rgba(124,58,237,0.02));border:1px solid rgba(0,180,216,0.1);border-radius:14px}
+.dj-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.dj-dot{width:7px;height:7px;border-radius:50%;background:#00B4D8;animation:pulse 2.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
+.dj-label{font-size:10px;font-weight:600;color:#0284C7;text-transform:uppercase;letter-spacing:.6px}
+.dj-timer{margin-left:auto;font-size:10px;color:#b0b8c4}
+.dj-row{display:flex;gap:12px}
+.dj-card{flex:1;background:#fff;border-radius:10px;border:1px solid rgba(0,0,0,0.04);padding:14px;cursor:pointer;transition:all .2s}
+.dj-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06);border-color:rgba(0,180,216,0.2)}
+.dj-brand{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.dj-color{width:4px;height:28px;border-radius:2px;flex-shrink:0}
+.dj-co{font-size:11px;color:#64748b;font-weight:500}
+.dj-match{font-size:20px;font-weight:500;margin-bottom:2px}
+.dj-title{font-size:12.5px;font-weight:500;color:#0f172a;line-height:1.35}
+.dj-meta{font-size:10px;color:#94a3b8;margin-top:4px}
+.dj-unlock{text-align:center;font-size:10px;color:#7C3AED;font-weight:500;margin-top:10px;opacity:.6}
+
+/* ═══ ROW SECTIONS ═══ */
+.row{margin-bottom:22px}
+.row-h{display:flex;align-items:baseline;padding:0 24px 10px;gap:8px}
+.row-title{font-size:15px;font-weight:600;color:#0f172a}
+.row-count{font-size:11px;color:#b0b8c4;font-weight:400}
+.row-see{margin-left:auto;font-size:11px;color:#00B4D8;font-weight:500;cursor:pointer;opacity:.7;transition:opacity .15s}
+.row-see:hover{opacity:1}
+.row-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 24px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.row-scroll::-webkit-scrollbar{height:0}
+
+/* ═══ JOB CARD — MINIMAL ═══ */
+/* 3 information units at rest: WHO + WHAT + WHY ME */
+.jc{
+  min-width:200px;max-width:200px;flex-shrink:0;scroll-snap-align:start;
+  background:#fff;border-radius:12px;
+  border:1px solid rgba(0,0,0,0.04);
+  cursor:pointer;transition:all .25s ease;
+  overflow:hidden;
+  position:relative;
 }
-@media(max-width:600px){
-  .cards{grid-template-columns:1fr}
-  body{padding:12px}
+.jc:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 12px 32px rgba(0,0,0,0.08);
+  border-color:rgba(0,180,216,0.15);
 }
+
+/* Brand stripe — the "poster" */
+.jc-brand{
+  height:52px;display:flex;align-items:center;gap:10px;padding:0 14px;
+  position:relative;
+}
+.jc-logo{
+  width:30px;height:30px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;
+  background:rgba(255,255,255,0.2);flex-shrink:0;
+}
+.jc-coname{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jc-pct{
+  position:absolute;top:8px;right:10px;
+  font-size:13px;font-weight:600;
+  background:rgba(255,255,255,0.88);backdrop-filter:blur(4px);
+  padding:2px 8px;border-radius:6px;
+}
+
+/* Card body — REST state: just title + one meta line */
+.jc-body{padding:12px 14px 14px}
+.jc-title{font-size:13px;font-weight:500;color:#0f172a;line-height:1.35;margin-bottom:6px;min-height:36px}
+.jc-meta{font-size:10.5px;color:#94a3b8}
+
+/* HOVER reveal — slides up from bottom */
+.jc-reveal{
+  max-height:0;overflow:hidden;transition:max-height .3s ease, padding .3s ease;
+  padding:0 14px;
+}
+.jc:hover .jc-reveal{
+  max-height:60px;
+  padding:0 14px 12px;
+}
+.jc-reveal-inner{
+  padding-top:8px;border-top:1px solid #f1f5f9;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.jc-tag{font-size:9px;padding:3px 8px;border-radius:4px;background:#f1f5f9;color:#64748b}
+.jc-skill{display:flex;align-items:center;gap:5px;font-size:9px;color:#94a3b8;width:100%;margin-top:4px}
+.sk-bar{flex:1;height:3px;background:#f1f5f9;border-radius:2px;overflow:hidden}
+.sk-fill{height:100%;border-radius:2px}
+
+/* Match % colors */
+.pct-green{color:#166534}.pct-teal{color:#0d9488}.pct-amber{color:#92400e}.pct-orange{color:#9a3412}
+
+/* Brand colors */
+.bg-mdm{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+.bg-unicef{background:linear-gradient(135deg,#0ea5e9,#0284c7)}
+.bg-msf{background:linear-gradient(135deg,#dc2626,#991b1b)}
+.bg-oxfam{background:linear-gradient(135deg,#16a34a,#15803d)}
+.bg-wfp{background:linear-gradient(135deg,#0369a1,#075985)}
+.bg-bnp{background:linear-gradient(135deg,#059669,#047857)}
+.bg-acf{background:linear-gradient(135deg,#ea580c,#c2410c)}
+.bg-car{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+.bg-se{background:linear-gradient(135deg,#475569,#334155)}
+.bg-edf{background:linear-gradient(135deg,#f97316,#ea580c)}
+.bg-afd{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+.bg-ig{background:linear-gradient(135deg,#0284c7,#0369a1)}
+
+/* ═══ BOTTOM NAV ═══ */
+.bnav{display:flex;background:#fff;border-top:1px solid #e2e8f0;padding:10px 0 6px}
+.bn{flex:1;text-align:center;font-size:9px;color:#b0b8c4;cursor:pointer;padding:2px;letter-spacing:.2px}
+.bn.on{color:#00B4D8}
+.bn-icon{font-size:17px;display:block;margin-bottom:1px}
+.bn-badge{font-size:7.5px;background:#00B4D8;color:#fff;padding:1px 5px;border-radius:3px;margin-left:2px}
 </style></head><body>
-<div class="header">
-<h1>CareerNEXT — User Journey Tickets</h1>
-<p>Ultra-micro tickets covering every user touchpoint. No tech, no system — just what the user sees, feels, and does.<br>Generated from 3 rounds of self-challenge across the entire product playbook.</p>
+<div class="app">
+
+<div class="topbar">
+<div class="logo">CareerNEXT</div>
+<div class="nav-r">
+<div class="view-tog"><div class="vt on">Browse</div><div class="vt">List</div></div>
+<div class="av">AL</div>
 </div>
-<div class="stats">
-<div class="stat"><div class="stat-num">51</div><div class="stat-label">Total tickets</div></div><div class="stat"><div class="stat-num" style="color:#dc2626">3</div><div class="stat-label">P0 Blocker</div></div><div class="stat"><div class="stat-num" style="color:#ea580c">16</div><div class="stat-label">P1 Critical</div></div><div class="stat"><div class="stat-num" style="color:#d97706">22</div><div class="stat-label">P2 Important</div></div><div class="stat"><div class="stat-num" style="color:#16a34a">10</div><div class="stat-label">P3 Nice to have</div></div></div>
-<div class="step-group">
-<div class="step-title" style="background:#0284C7">1 Arrive (6 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#0284C7"></div>
-<div class="card-top">
-<div class="card-id">A01</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P1">P1</div>
 </div>
-<div class="card-title">Demo path for visitors without a CV</div>
-<div class="card-feels">"I want to see what this does before uploading my personal document"</div>
-<div class="card-desc">A secondary CTA 'Watch a demo in 60 seconds' shows the Score Theatre on a fictional profile. Visitor sees the full journey without uploading anything. Reduces bounce from visitors who are curious but not committed.</div>
+
+<div class="ctx">
+<div class="ctx-score">73</div>
+<div class="ctx-text"><strong>Anne-Laure</strong> · Communication & Intl. Dev. · 12 matches</div>
+<div class="ctx-pills">
+<div class="ctx-pill">CDI</div>
+<div class="ctx-pill">IDF</div>
+<div class="ctx-pill">60K+</div>
+<div class="ctx-pill">+ Filters</div>
 </div>
-<div class="card">
-<div class="card-stripe" style="background:#0284C7"></div>
-<div class="card-top">
-<div class="card-id">A02</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P2">P2</div>
 </div>
-<div class="card-title">Dynamic social proof counter on landing</div>
-<div class="card-feels">"Is this tool used by real people or is it abandoned?"</div>
-<div class="card-desc">'2,847 CV analyzed this week' — must be live from database, not hardcoded. If count < 100, show institutional credibility instead: 'Used by CSE, outplacement firms, and career consultants.'</div>
+
+<div class="main">
+
+<!-- CAREER DJ -->
+<div class="dj">
+<div class="dj-h"><div class="dj-dot"></div><div class="dj-label">Your daily 3</div><div class="dj-timer">New picks in 14h 23m</div></div>
+<div class="dj-row">
+<div class="dj-card">
+<div class="dj-brand"><div class="dj-color" style="background:#dc2626"></div><div class="dj-co">Médecins du Monde</div></div>
+<div class="dj-match pct-green">92%</div>
+<div class="dj-title">Directrice Communication Stratégique</div>
+<div class="dj-meta">Paris 19e · CDI · 65-80K€</div>
 </div>
-<div class="card">
-<div class="card-stripe" style="background:#0284C7"></div>
-<div class="card-top">
-<div class="card-id">A03</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P2">P2</div>
+<div class="dj-card">
+<div class="dj-brand"><div class="dj-color" style="background:#0ea5e9"></div><div class="dj-co">UNICEF France</div></div>
+<div class="dj-match pct-green">91%</div>
+<div class="dj-title">Resp. Communication Institutionnelle</div>
+<div class="dj-meta">Paris 8e · CDI · 60-75K€</div>
 </div>
-<div class="card-title">Language detection: browser English but user is French</div>
-<div class="card-feels">"Why is this page in the wrong language?"</div>
-<div class="card-desc">Default to French (primary market). If browser lang is EN and no partner slug, show a discreet 'Switch to English' pill in the topbar. Never show English by default to a French visitor.</div>
+<div class="dj-card">
+<div class="dj-brand"><div class="dj-color" style="background:#ea580c"></div><div class="dj-co">Action contre la Faim</div></div>
+<div class="dj-match pct-teal">84%</div>
+<div class="dj-title">Head of Partnerships & Dev.</div>
+<div class="dj-meta">Paris 10e · CDI · 70-85K€</div>
 </div>
-<div class="card">
-<div class="card-stripe" style="background:#0284C7"></div>
-<div class="card-top">
-<div class="card-id">A04</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P1">P1</div>
 </div>
-<div class="card-title">Loading state after clicking 'Analyser mon CV'</div>
-<div class="card-feels">"Did it work? Is it broken? Should I click again?"</div>
-<div class="card-desc">After file selection: progress bar with 'Uploading...' then 'Analyzing...' with subtle pulse animation. If >5 seconds, show reassuring text: 'We are reading every detail of your CV.' Never a blank screen.</div>
+<div class="dj-unlock">Engage with all 3 to unlock hidden gems</div>
 </div>
-<div class="card">
-<div class="card-stripe" style="background:#0284C7"></div>
-<div class="card-top">
-<div class="card-id">A05</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Partner logos bar below the fold</div>
-<div class="card-feels">"Who else trusts this tool?"</div>
-<div class="card-desc">Row of partner category logos: 'CSE · Cabinets d outplacement · Organismes de prevoyance · Universites.' Even without signed logos, category labels add credibility.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#0284C7"></div>
-<div class="card-top">
-<div class="card-id">A06</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">Accessibility: screen readers, contrast ratios, keyboard nav</div>
-<div class="card-feels">"I have a visual impairment and I cannot use this tool"</div>
-<div class="card-desc">WCAG 2.1 AA minimum. All interactive elements keyboard-focusable. Alt text on hero animation. Contrast ratio 4.5:1 on all text. Skip to main content link. ARIA labels on CTAs.</div>
-</div>
+
+<!-- ROW: BEST MATCHES -->
+<div class="row">
+<div class="row-h"><div class="row-title">Best matches for you</div><div class="row-count">8</div><div class="row-see">See all →</div></div>
+<div class="row-scroll">
+
+<div class="jc"><div class="jc-brand bg-mdm"><div class="jc-logo">MdM</div><div class="jc-coname">Médecins du Monde</div><div class="jc-pct pct-green">92%</div></div><div class="jc-body"><div class="jc-title">Directrice Communication Stratégique</div><div class="jc-meta">Paris 19e · 65-80K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>10/12</span><div class="sk-bar"><div class="sk-fill" style="width:83%;background:#16a34a"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-unicef"><div class="jc-logo">UN</div><div class="jc-coname">UNICEF France</div><div class="jc-pct pct-green">91%</div></div><div class="jc-body"><div class="jc-title">Resp. Communication Institutionnelle</div><div class="jc-meta">Paris 8e · 60-75K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Hybrid</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#16a34a"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-msf"><div class="jc-logo">MSF</div><div class="jc-coname">MSF International</div><div class="jc-pct pct-green">89%</div></div><div class="jc-body"><div class="jc-title">Director of Communications</div><div class="jc-meta">Geneva · 80-100K CHF</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>11/13</span><div class="sk-bar"><div class="sk-fill" style="width:85%;background:#16a34a"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-oxfam"><div class="jc-logo">Ox</div><div class="jc-coname">Oxfam France</div><div class="jc-pct pct-green">87%</div></div><div class="jc-body"><div class="jc-title">Resp. Plaidoyer & Communication</div><div class="jc-meta">Paris 11e · 55-68K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">On-site</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#16a34a"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-wfp"><div class="jc-logo">WFP</div><div class="jc-coname">World Food Programme</div><div class="jc-pct pct-teal">85%</div></div><div class="jc-body"><div class="jc-title">Senior Communications Officer</div><div class="jc-meta">Paris · 70-90K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDD 2yr</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>10/12</span><div class="sk-bar"><div class="sk-fill" style="width:83%;background:#0d9488"></div></div></div></div></div></div>
+
 </div></div>
-<div class="step-group">
-<div class="step-title" style="background:#7C3AED">2 Discover (6 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#7C3AED"></div>
-<div class="card-top">
-<div class="card-id">D01</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P0">P0</div>
-</div>
-<div class="card-title">CV upload fails — error state</div>
-<div class="card-feels">"Something went wrong and I do not know if it is my fault"</div>
-<div class="card-desc">If upload fails: friendly message 'We could not read your file. Try a PDF or Word document under 10MB.' With a retry button. If parsing fails: 'We detected your CV but could not extract all sections. Would you like to proceed with partial analysis?' Never a generic error.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#7C3AED"></div>
-<div class="card-top">
-<div class="card-id">D02</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Word doc with tables/columns that break parsing</div>
-<div class="card-feels">"My CV has a creative layout and the tool cannot read it"</div>
-<div class="card-desc">If parser confidence < 70%: show a warning 'Your CV uses a complex layout. For best results, try a single-column PDF version.' Offer a template download link. Never silently produce garbage results.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#7C3AED"></div>
-<div class="card-top">
-<div class="card-id">D03</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Junior profile (<5 years) — tone and expectations</div>
-<div class="card-feels">"I am early career, this tool seems designed for senior people"</div>
-<div class="card-desc">Adaptive tone only covers 20+ years. Add a junior variant: simpler language, focus on potential not track record. Adapt sub-score expectations — Manager Pass weight is lower for juniors. Show 'entry-level' job row in NextJobs.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#7C3AED"></div>
-<div class="card-top">
-<div class="card-id">D04</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">State persistence — close browser mid-onboarding and return</div>
-<div class="card-feels">"I closed my browser and now I have to start over"</div>
-<div class="card-desc">Save onboarding state after each step. On return: 'Welcome back! You were at step 2. Resume where you left off?' with the last micro-result visible. Never restart from zero.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#7C3AED"></div>
-<div class="card-top">
-<div class="card-id">D05</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Skip option for senior profiles who want results fast</div>
-<div class="card-feels">"I do not want to answer questions, just show me my score"</div>
-<div class="card-desc">After CV upload + first micro-result: 'Skip to full results' link (small, secondary). Senior execs value their time. The micro-result already proved value; let them proceed if they want.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#7C3AED"></div>
-<div class="card-top">
-<div class="card-id">D06</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Gibberish input in open fields (the 'maison a larmor' problem)</div>
-<div class="card-feels">"I misunderstood the question and typed something random"</div>
-<div class="card-desc">Replace ALL open-ended questions with structured multi-choice (6 options + 'Autre'). If 'Autre' is selected, validate input length (min 3 words, max 50). Show placeholder example to guide the answer.</div>
-</div>
+
+<!-- ROW: STRETCH ROLES -->
+<div class="row">
+<div class="row-h"><div class="row-title">Stretch roles worth exploring</div><div class="row-count">6</div><div class="row-see">See all →</div></div>
+<div class="row-scroll">
+
+<div class="jc"><div class="jc-brand bg-bnp"><div class="jc-logo">BNP</div><div class="jc-coname">BNP Paribas Cardif</div><div class="jc-pct pct-teal">78%</div></div><div class="jc-body"><div class="jc-title">Directeur Marketing & Communication</div><div class="jc-meta">Nanterre · 75-95K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>7/10</span><div class="sk-bar"><div class="sk-fill" style="width:70%;background:#0d9488"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-acf"><div class="jc-logo">ACF</div><div class="jc-coname">Action contre la Faim</div><div class="jc-pct pct-teal">76%</div></div><div class="jc-body"><div class="jc-title">Head of Partnerships & Fundraising</div><div class="jc-meta">Paris 10e · 70-85K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Hybrid</div><div class="jc-skill"><span>8/11</span><div class="sk-bar"><div class="sk-fill" style="width:73%;background:#0d9488"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-car"><div class="jc-logo">CF</div><div class="jc-coname">Carrefour Foundation</div><div class="jc-pct pct-amber">72%</div></div><div class="jc-body"><div class="jc-title">Directrice RSE & Engagement</div><div class="jc-meta">Massy · 65-80K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>7/10</span><div class="sk-bar"><div class="sk-fill" style="width:70%;background:#d97706"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-se"><div class="jc-logo">SE</div><div class="jc-coname">Schneider Electric</div><div class="jc-pct pct-amber">68%</div></div><div class="jc-body"><div class="jc-title">VP Communications Europe</div><div class="jc-meta">Rueil · 90-110K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>6/10</span><div class="sk-bar"><div class="sk-fill" style="width:60%;background:#d97706"></div></div></div></div></div></div>
+
 </div></div>
-<div class="step-group">
-<div class="step-title" style="background:#059669">3 Orient (5 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#059669"></div>
-<div class="card-top">
-<div class="card-id">O01</div>
-<div class="card-type type-inconsistency">Inconsistency</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Timeline shows 4 steps in Hub but 7 stations existed — which is it?</div>
-<div class="card-feels">"Confused about how many stages my transition has"</div>
-<div class="card-desc">Resolve: Hub shows 4 PHASES (Resume, Jobs, Applications, Interviews). Each phase contains missions. The 7-station model maps onto these 4 phases. Document the mapping explicitly for the dev team.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#059669"></div>
-<div class="card-top">
-<div class="card-id">O02</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Hub on Day 30 / Day 60 — only Day 1 and Day 2 designed</div>
-<div class="card-feels">"I have been using this for a month and the Hub still feels the same"</div>
-<div class="card-desc">Design 4 Hub states: Day 1 (orientation), Day 2-7 (gamification appears), Day 8-30 (pipeline view: X applications, Y interviews), Day 30+ (negotiation mode: salary benchmarks, talking points).</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#059669"></div>
-<div class="card-top">
-<div class="card-id">O03</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Notification center — where do weekly reports and whispers live?</div>
-<div class="card-feels">"I saw a notification but cannot find it again"</div>
-<div class="card-desc">Small bell icon in topbar. Dropdown shows: weekly reports, whisper history, system messages (new job matches, score changes). Badge count for unread. Simple list, no inbox complexity.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#059669"></div>
-<div class="card-top">
-<div class="card-id">O04</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">The 'Coach' tab — what IS it?</div>
-<div class="card-feels">"I tapped Coach and nothing happened"</div>
-<div class="card-desc">Define Coach: either (a) AI chatbot for career questions, (b) resource library (articles, templates, checklists), or (c) connection to human advisor. Pick ONE for V1. If not ready, show 'Coming in Phase 2' with a preview of what it will be. Never an empty tab.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#059669"></div>
-<div class="card-top">
-<div class="card-id">O05</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Score is 90+ — first action 'fix your CV' does not apply</div>
-<div class="card-feels">"The tool says fix my CV but my CV is already excellent"</div>
-<div class="card-desc">Adaptive mission waterfall: if all sub-scores >75, skip CV improvement. First action becomes 'Explore your top 5 matching jobs' or 'Your profile is strong — start applying.' Celebrate the high score.</div>
-</div>
+
+<!-- ROW: NEW THIS WEEK -->
+<div class="row">
+<div class="row-h"><div class="row-title">New this week</div><div class="row-count">4</div><div class="row-see">See all →</div></div>
+<div class="row-scroll">
+
+<div class="jc"><div class="jc-brand bg-acf"><div class="jc-logo">ACF</div><div class="jc-coname">Action contre la Faim</div><div class="jc-pct pct-teal">84%</div></div><div class="jc-body"><div class="jc-title">Head of Partnerships & Development</div><div class="jc-meta">Paris · 70-85K€ · 2d ago</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 2d</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#0d9488"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-edf"><div class="jc-logo">EDF</div><div class="jc-coname">EDF</div><div class="jc-pct pct-amber">71%</div></div><div class="jc-body"><div class="jc-title">Responsable Communication RSE</div><div class="jc-meta">La Défense · 60-72K€ · Today</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Hybrid</div><div class="jc-skill"><span>7/10</span><div class="sk-bar"><div class="sk-fill" style="width:70%;background:#d97706"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-afd"><div class="jc-logo">AFD</div><div class="jc-coname">AFD</div><div class="jc-pct pct-teal">79%</div></div><div class="jc-body"><div class="jc-title">Chargée Communication Internationale</div><div class="jc-meta">Paris 12e · 50-62K€ · 3d ago</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDD 18m</div><div class="jc-tag">Remote 1d</div><div class="jc-skill"><span>8/10</span><div class="sk-bar"><div class="sk-fill" style="width:80%;background:#0d9488"></div></div></div></div></div></div>
+
 </div></div>
-<div class="step-group">
-<div class="step-title" style="background:#92400e">4 Understand (6 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#92400e"></div>
-<div class="card-top">
-<div class="card-id">U01</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Benchmarking fallback when cohort < 50</div>
-<div class="card-feels">"Where do I stand compared to others?"</div>
-<div class="card-desc">If cohort < 50: hide benchmarking line entirely. Replace with general context: 'Scores above 80 are considered strong for this experience level.' Never show unreliable small-sample data.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#92400e"></div>
-<div class="card-top">
-<div class="card-id">U02</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Score Theatre on slow connection — loading / skeleton</div>
-<div class="card-feels">"The page is blank for 5 seconds and I think it is broken"</div>
-<div class="card-desc">Skeleton state: pulsing gray circle where the score will appear + 'Preparing your analysis...' text. If >8 seconds: 'Taking longer than usual. Your CV is complex — we are being thorough.' Never blank.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#92400e"></div>
-<div class="card-top">
-<div class="card-id">U03</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Score page on SECOND visit — static version not designed</div>
-<div class="card-feels">"I came back and the animation played again (or the page looks different)"</div>
-<div class="card-desc">Second visit: score appears directly (0.5s fade-in), no Theatre. Score ring is static at 73. Bars are pre-filled. Levers show current state (applied or not). 'Last scored 2 days ago. Re-score?' link.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#92400e"></div>
-<div class="card-top">
-<div class="card-id">U04</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Before/after radar overlay on re-score — no mockup exists</div>
-<div class="card-feels">"I improved my CV and want to see the visual difference"</div>
-<div class="card-desc">Design the dual radar: old score in 30% opacity gray, new score in brand color. Each axis that improved shows green '+X'. Each regression shows red '-X'. Animation: new radar draws from center outward over 1.5 seconds.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#92400e"></div>
-<div class="card-top">
-<div class="card-id">U05</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">PDF Score Report — no mockup of what the PDF looks like</div>
-<div class="card-feels">"My advisor asked for a report and I need to share something professional"</div>
-<div class="card-desc">Design the 1-page PDF: score hero + radar + top 3 fixes + action plan. Branded with CareerNEXT logo + partner logo. Footer: 'Generated by CareerNEXT for [Name] on [Date].' Shareable with advisor.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#92400e"></div>
-<div class="card-top">
-<div class="card-id">U06</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">All 7 sub-scores are >80 — success state, no levers needed</div>
-<div class="card-feels">"My CV is great! Now what?"</div>
-<div class="card-desc">If all sub-scores >80: skip lever cards. Show celebration: 'Your CV is in excellent shape across all dimensions.' CTA changes to: 'See your top matching jobs' and 'Download your score report.' Focus shifts to job application.</div>
-</div>
+
+<!-- ROW: REMOTE FIRST -->
+<div class="row">
+<div class="row-h"><div class="row-title">Remote-first</div><div class="row-count">5</div><div class="row-see">See all →</div></div>
+<div class="row-scroll">
+
+<div class="jc"><div class="jc-brand bg-msf"><div class="jc-logo">MSF</div><div class="jc-coname">MSF International</div><div class="jc-pct pct-green">89%</div></div><div class="jc-body"><div class="jc-title">Director of Communications</div><div class="jc-meta">Remote EU · 80-100K CHF</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Full remote</div><div class="jc-skill"><span>11/13</span><div class="sk-bar"><div class="sk-fill" style="width:85%;background:#16a34a"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-ig"><div class="jc-logo">IG</div><div class="jc-coname">International Growth</div><div class="jc-pct pct-teal">82%</div></div><div class="jc-body"><div class="jc-title">Head of Brand & Communications</div><div class="jc-meta">Remote EU · 70-90K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Full remote</div><div class="jc-skill"><span>9/11</span><div class="sk-bar"><div class="sk-fill" style="width:82%;background:#0d9488"></div></div></div></div></div></div>
+
+<div class="jc"><div class="jc-brand bg-se"><div class="jc-logo">SE</div><div class="jc-coname">Schneider Electric</div><div class="jc-pct pct-amber">68%</div></div><div class="jc-body"><div class="jc-title">VP Communications Europe</div><div class="jc-meta">Remote 3d · 90-110K€</div></div><div class="jc-reveal"><div class="jc-reveal-inner"><div class="jc-tag">CDI</div><div class="jc-tag">Remote 3d</div><div class="jc-skill"><span>6/10</span><div class="sk-bar"><div class="sk-fill" style="width:60%;background:#d97706"></div></div></div></div></div></div>
+
 </div></div>
-<div class="step-group">
-<div class="step-title" style="background:#be185d">5 Improve (6 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#be185d"></div>
-<div class="card-top">
-<div class="card-id">I01</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P0">P0</div>
+
 </div>
-<div class="card-title">Pricing page — she clicks 'Unlock' and sees what?</div>
-<div class="card-feels">"I want to pay but I do not know how much it costs or what I get"</div>
-<div class="card-desc">Design the pricing page: Free tier (score + 2 sub-scores + 1 fix) vs Premium (all 7 + all fixes + ghost CV + PDF + benchmarking). Show monthly price, CSE activation code field, and 'Start free trial' option. Transparent, no surprises.</div>
+
+<div class="bnav">
+<div class="bn"><span class="bn-icon">⊞</span>Hub</div>
+<div class="bn"><span class="bn-icon">☰</span>Resume <span class="bn-badge">73</span></div>
+<div class="bn on"><span class="bn-icon">◎</span>Jobs <span class="bn-badge">12</span></div>
+<div class="bn"><span class="bn-icon">⛨</span>Coach</div>
 </div>
-<div class="card">
-<div class="card-stripe" style="background:#be185d"></div>
-<div class="card-top">
-<div class="card-id">I02</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P1">P1</div>
+
 </div>
-<div class="card-title">CSE activation code entry — where in the flow?</div>
-<div class="card-feels">"My CSE gave me a code but I cannot find where to enter it"</div>
-<div class="card-desc">Two entry points: (1) on pricing page, 'Have an activation code?' field, (2) on first freemium gate encounter, the blur overlay includes 'Enter your CSE code' alongside 'Start free trial.' Code validates instantly, unlocks premium.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#be185d"></div>
-<div class="card-top">
-<div class="card-id">I03</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">After payment — what is the first thing she sees?</div>
-<div class="card-feels">"I just paid, I want to feel the value immediately"</div>
-<div class="card-desc">Unlock animation: blurred CV preview de-blurs with a satisfying sweep (left to right, 1 second). All 7 sub-scores fade in simultaneously. Sound: improvement chime (opt-in). Text: 'Full analysis unlocked. Let us start with your biggest lever.' Auto-scrolls to Lever 1.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#be185d"></div>
-<div class="card-top">
-<div class="card-id">I04</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Ghost CV overlay — the actual comparison interaction</div>
-<div class="card-feels">"I uploaded a new version and want to see what changed"</div>
-<div class="card-desc">Design the overlay: left column = old CV sections, right = new. Changed sections highlighted. Per-dimension delta badges: 'ATS: 71 → 84 (+13)' in green. Option: opacity slider to blend old/new. Dismiss returns to current CV view.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#be185d"></div>
-<div class="card-top">
-<div class="card-id">I05</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">AI-suggested rewrite UI — modal, inline, or panel?</div>
-<div class="card-feels">"The tool suggested a rewrite and I want to accept it"</div>
-<div class="card-desc">Inline: below the original bullet, a glass card shows the AI suggestion with 'Accept' and 'Edit' buttons. Accept replaces the text in a preview (not the actual CV — she still re-uploads). Edit opens an inline text field. Never a modal that blocks the page.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#be185d"></div>
-<div class="card-top">
-<div class="card-id">I06</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">CV is in English — language detection and adaptation</div>
-<div class="card-feels">"My CV is in English but the interface is French"</div>
-<div class="card-desc">Detect CV language from parser. If English: show sub-score explanations with English examples. Quick Fix keywords from English-language job market. Allow interface to stay French while CV analysis adapts to the document language.</div>
-</div>
-</div></div>
-<div class="step-group">
-<div class="step-title" style="background:#ea580c">6 Explore (6 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#ea580c"></div>
-<div class="card-top">
-<div class="card-id">E01</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Job detail panel — no actual mockup exists</div>
-<div class="card-feels">"I clicked a job card and want to understand this opportunity"</div>
-<div class="card-desc">Slide-in panel from right: header (title + company + salary + match %), match analysis ('10/12 skills — gaps: grant writing, advocacy'), competitiveness ('top 15% of 34 candidates'), requirements list with checkmarks, and 3 action buttons.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#ea580c"></div>
-<div class="card-top">
-<div class="card-id">E02</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">One-click apply — AI cover letter editing UI</div>
-<div class="card-feels">"I want to apply but need to review the letter first"</div>
-<div class="card-desc">Second slide-in panel (or same panel, scrolled): AI-generated letter with editable text field. Company + role pre-filled. Highlighted sections: 'We matched your experience in X to their requirement for Y.' Edit inline. Send button + Download PDF button.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#ea580c"></div>
-<div class="card-top">
-<div class="card-id">E03</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">After she applies — confirmation + pipeline view</div>
-<div class="card-feels">"I applied! Now what? Where do I track this?"</div>
-<div class="card-desc">Confirmation overlay: 'Application sent to Medecins du Monde!' with confetti particles (subtle). Below: 'Track this application in your Hub.' Hub gains a pipeline section: Applied → Interviewing → Offer → Signed. Card per application.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#ea580c"></div>
-<div class="card-top">
-<div class="card-id">E04</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">'Adapt my CV for this job' — flow from NextJobs back to Studio</div>
-<div class="card-feels">"This job needs skills I have not highlighted in my CV"</div>
-<div class="card-desc">Click 'Adapt my CV' on job detail → Studio opens with job-specific ATS panel: 'For this job, add advocacy and grant writing.' The Studio knows which job she came from and tailors keyword suggestions to that specific listing.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#ea580c"></div>
-<div class="card-top">
-<div class="card-id">E05</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Empty state — niche sector with <5 matching jobs</div>
-<div class="card-feels">"There are almost no jobs for me, this tool is useless"</div>
-<div class="card-desc">If matches < 5: 'Your profile is specialized. We found 3 strong matches. We are also monitoring 12 companies in your sector for new openings — enable notifications?' Plus: 'Broaden your search' suggestions (adjacent sectors, remote roles).</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#ea580c"></div>
-<div class="card-top">
-<div class="card-id">E06</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">Salary data source — where do ranges come from?</div>
-<div class="card-feels">"Are these salary ranges accurate or made up?"</div>
-<div class="card-desc">Tooltip on salary: 'Based on 47 similar postings in IDF this quarter (source: France Travail + LinkedIn data).' Transparency builds trust. If source is estimated, say so: 'Estimated from sector averages.'</div>
-</div>
-</div></div>
-<div class="step-group">
-<div class="step-title" style="background:#d97706">7 Return (5 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#d97706"></div>
-<div class="card-top">
-<div class="card-id">R01</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Career DJ email template — not designed</div>
-<div class="card-feels">"I got an email but it looks generic"</div>
-<div class="card-desc">Design the daily email: '3 new jobs for you today' with 3 minimal cards (title + company + match %). CTA: 'See your Daily 3 in CareerNEXT.' Branded, mobile-responsive, single-column. Unsubscribe at bottom.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#d97706"></div>
-<div class="card-top">
-<div class="card-id">R02</div>
-<div class="card-type type-miss-state">Missing state</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Day 30 with 5 applications in pipeline — what does this look like?</div>
-<div class="card-feels">"I have been applying for weeks and need to track my progress"</div>
-<div class="card-desc">Hub evolves: pipeline Kanban replaces the first action card. Columns: Applied (3) → Interviewing (1) → Offer (0) → Signed (0). Each card shows company + role + days since application. Whisper: 'No response after 14 days? Follow up.'</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#d97706"></div>
-<div class="card-top">
-<div class="card-id">R03</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Interview prep module — mentioned but ZERO specification</div>
-<div class="card-feels">"I have an interview tomorrow and the tool promised to help me prepare"</div>
-<div class="card-desc">Design the interview prep screen: company research card (pulled from job listing), common questions for this role, AI-generated talking points from CV + job match, mock interview mode (text-based Q&A). Accessible from the pipeline card.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#d97706"></div>
-<div class="card-top">
-<div class="card-id">R04</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Negotiation resources — mentioned but ZERO specification</div>
-<div class="card-feels">"I got an offer but do not know if the salary is fair"</div>
-<div class="card-desc">Salary benchmark card: 'For this role in IDF with your experience: median 72K, range 65-85K.' Negotiation talking points generated from CV strengths. Checklist: benefits to negotiate beyond salary (remote days, training budget, title).</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#d97706"></div>
-<div class="card-top">
-<div class="card-id">R05</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">Transition Certificate — mentioned but ZERO specification</div>
-<div class="card-feels">"I succeeded and want proof of my journey"</div>
-<div class="card-desc">Downloadable PDF: 'Anne-Laure Schuler completed her career transition with CareerNEXT. Score: 73 → 91. 12 applications. 3 interviews. Signed CDI at Medecins du Monde.' Branded. Shareable on LinkedIn. The feel-good ending.</div>
-</div>
-</div></div>
-<div class="step-group">
-<div class="step-title" style="background:#64748b">Edge cases (5 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#64748b"></div>
-<div class="card-top">
-<div class="card-id">X01</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Pure B2C visitor — no CSE, found on Google. What changes?</div>
-<div class="card-feels">"I am paying out of my own pocket, not through an employer"</div>
-<div class="card-desc">No partner banner. Landing shows standard hero. Pricing page is the conversion path (not CSE code). Trial period (7 days free?). Different value prop: 'Invest in your career for the price of a dinner.'</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#64748b"></div>
-<div class="card-top">
-<div class="card-id">X02</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Entire journey on mobile (375px) — Score Theatre, Netflix rows, Studio</div>
-<div class="card-feels">"I only have my phone and the experience should be the same quality"</div>
-<div class="card-desc">Audit every screen at 375px. Score Theatre must work without phone frame. Netflix rows must scroll smoothly with touch. Studio detail panel must be full-screen on mobile. Bottom nav must be thumb-reachable. Test on iOS Safari + Chrome Android.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#64748b"></div>
-<div class="card-top">
-<div class="card-id">X03</div>
-<div class="card-type type-edge">Edge case</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">RGPD right to be forgotten — where is the delete button?</div>
-<div class="card-feels">"I want all my data removed permanently"</div>
-<div class="card-desc">Account settings: 'Delete my account and all data' button. Confirmation modal: 'This will permanently delete your CV, score history, applications, and all personal data. This cannot be undone.' 30-day grace period before hard delete.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#64748b"></div>
-<div class="card-top">
-<div class="card-id">X04</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">CSE Advisor experience — Advisor Mirror is barely specified</div>
-<div class="card-feels">"I am an advisor tracking 30 candidates and need an overview"</div>
-<div class="card-desc">Design the advisor dashboard: candidate list (name, score, trend arrow, last login, applications count), click to drill-down (read-only score page), assign missions, export CSV. Filter by date range, score range, activity status.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#64748b"></div>
-<div class="card-top">
-<div class="card-id">X05</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">Candidate succeeds and signs — offboarding flow</div>
-<div class="card-feels">"I signed a contract! What happens to my account?"</div>
-<div class="card-desc">Celebration screen with confetti. 'Congratulations! You did it.' Option: generate Transition Certificate, share on LinkedIn, keep account active for future transitions (dormant mode), or delete data. The positive ending matters.</div>
-</div>
-</div></div>
-<div class="step-group">
-<div class="step-title" style="background:#dc2626">Business model (6 tickets)</div>
-<div class="cards">
-<div class="card">
-<div class="card-stripe" style="background:#dc2626"></div>
-<div class="card-top">
-<div class="card-id">B01</div>
-<div class="card-type type-conversion">Conversion</div>
-<div class="card-pri pri-P0">P0</div>
-</div>
-<div class="card-title">Pricing page — NEVER designed</div>
-<div class="card-feels">"I want to pay but there is no clear pricing anywhere"</div>
-<div class="card-desc">Design the pricing page with 2-3 tiers. Free: score + 2 sub-scores + 1 fix + blurred preview. Premium: everything + ghost CV + PDF + Career DJ + one-click apply. Enterprise/CSE: bulk pricing + Advisor Mirror. Clean, Stripe-style layout.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#dc2626"></div>
-<div class="card-top">
-<div class="card-id">B02</div>
-<div class="card-type type-conversion">Conversion</div>
-<div class="card-pri pri-P1">P1</div>
-</div>
-<div class="card-title">Trial vs paid vs CSE-provided — how does she know her tier?</div>
-<div class="card-feels">"I do not know what I am paying for or if my CSE covers this"</div>
-<div class="card-desc">Account badge in topbar: 'Free' / 'Premium' / 'CSE — Renault.' Settings page shows: current plan, what is included, upgrade/downgrade options. If CSE-provided: 'Offered by your employer through [CSE name].'</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#dc2626"></div>
-<div class="card-top">
-<div class="card-id">B03</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Account settings — profile, password, notifications, data export</div>
-<div class="card-feels">"I want to change my email or turn off notifications"</div>
-<div class="card-desc">Standard settings page: profile (name, email, password), notification preferences (Career DJ email, weekly report, push), data export (download all my data as JSON/CSV), account tier, delete account. Essential for RGPD compliance.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#dc2626"></div>
-<div class="card-top">
-<div class="card-id">B04</div>
-<div class="card-type type-miss-flow">Missing flow</div>
-<div class="card-pri pri-P2">P2</div>
-</div>
-<div class="card-title">Re-engagement email sequence — she signed up but does not return</div>
-<div class="card-feels">"I forgot about this tool after the first visit"</div>
-<div class="card-desc">Email sequence: Day 1 (welcome + score summary), Day 3 ('Your score could be 88 — here is how'), Day 7 ('3 new jobs match your profile'), Day 14 ('Your streak is at risk'). Each with a single CTA back to the relevant screen.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#dc2626"></div>
-<div class="card-top">
-<div class="card-id">B05</div>
-<div class="card-type type-miss-interaction">Missing interaction</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">Referral mechanism — 'Recommend to a colleague'</div>
-<div class="card-feels">"This tool helped me, I want to share it with someone in the same situation"</div>
-<div class="card-desc">Share button on success screens (score improvement, application sent, contract signed). Generates a personal referral link. 'Invite a colleague — they get 7 days free, you get 1 month extended.' Simple viral loop.</div>
-</div>
-<div class="card">
-<div class="card-stripe" style="background:#dc2626"></div>
-<div class="card-top">
-<div class="card-id">B06</div>
-<div class="card-type type-miss-screen">Missing screen</div>
-<div class="card-pri pri-P3">P3</div>
-</div>
-<div class="card-title">Help / FAQ / Support — no support channel specified</div>
-<div class="card-feels">"Something is not working and I do not know who to contact"</div>
-<div class="card-desc">Help icon in topbar or settings. FAQ page covering: 'How is my score calculated?', 'Is my data safe?', 'How do I delete my account?', 'My CV was not parsed correctly.' Contact form or chat for issues beyond FAQ. Response SLA shown.</div>
-</div>
-</div></div>
 </body></html>
