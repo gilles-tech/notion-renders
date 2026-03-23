@@ -1,104 +1,304 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-.timeline-wrap{padding:1rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.metro{position:relative;min-width:900px;height:340px}
-.track{position:absolute;top:80px;left:60px;right:60px;height:4px;background:var(--color-border-tertiary);border-radius:2px}
-.track-fill{height:100%;background:linear-gradient(90deg,#16A34A,#00B4D8);border-radius:2px;transition:width .6s ease;width:38%}
-.station{position:absolute;top:58px;text-align:center;cursor:pointer;transition:transform .2s}
-.station:hover{transform:translateY(-2px)}
-.dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--color-border-tertiary);background:var(--color-background-primary);display:flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:16px;font-weight:500;color:var(--color-text-secondary);transition:all .3s;margin:0 auto}
-.dot.done{border-color:#16A34A;background:#16A34A;color:#fff}
-.dot.current{border-color:#00B4D8;background:var(--color-background-primary);color:#00B4D8;box-shadow:0 0 0 4px rgba(0,180,216,0.15)}
-.dot.locked{opacity:.4}
-.sname{font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--color-text-primary);margin-top:10px;white-space:nowrap}
-.sdesc{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);margin-top:3px;max-width:110px;margin-left:auto;margin-right:auto;line-height:1.3}
-.missions{position:absolute;top:170px;left:0;right:0;padding:0 40px}
-.mission-card{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px 18px;display:none}
-.mission-card.active{display:block}
-.mission-title{font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px}
-.mission-item{font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:5px 0;display:flex;align-items:center;gap:8px}
-.mi-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px}
-.mi-check.done{border-color:#16A34A;background:#16A34A;color:#fff}
-.badge{display:inline-block;font-family:var(--font-sans);font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;margin-left:6px}
-.badge-xp{background:rgba(0,180,216,0.12);color:#0284C7}
-.scroll-hint{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-top:8px}
-</style>
+:root{--bg:#f8fafc;--card:#fff;--text:#0f172a;--sub:#64748b;--muted:#94a3b8;--border:#e2e8f0;--primary:#00B4D8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--purple:#7C3AED}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.app{max-width:540px;margin:0 auto;min-height:100vh}
 
-<div style="padding:1rem 0">
-<div class="timeline-wrap">
-<div class="metro">
-  <div class="track"><div class="track-fill"></div></div>
-  
-  <div class="station" style="left:40px" onclick="showMission(0)">
-    <div class="dot done">&#10003;</div>
-    <div class="sname">Découverte</div>
-    <div class="sdesc">Upload CV, onboarding</div>
-  </div>
-  
-  <div class="station" style="left:170px" onclick="showMission(1)">
-    <div class="dot done">&#10003;</div>
-    <div class="sname">Optimisation</div>
-    <div class="sdesc">Améliorer le score</div>
-  </div>
-  
-  <div class="station" style="left:300px" onclick="showMission(2)">
-    <div class="dot current">3</div>
-    <div class="sname">Exploration</div>
-    <div class="sdesc">Découvrir le marché</div>
-  </div>
-  
-  <div class="station" style="left:430px" onclick="showMission(3)">
-    <div class="dot locked">4</div>
-    <div class="sname">Candidatures</div>
-    <div class="sdesc">Postuler</div>
-  </div>
-  
-  <div class="station" style="left:560px" onclick="showMission(4)">
-    <div class="dot locked">5</div>
-    <div class="sname">Entretiens</div>
-    <div class="sdesc">Préparer, pratiquer</div>
-  </div>
-  
-  <div class="station" style="left:690px" onclick="showMission(5)">
-    <div class="dot locked">6</div>
-    <div class="sname">Négociation</div>
-    <div class="sdesc">Salaire, conditions</div>
-  </div>
-  
-  <div class="station" style="left:820px" onclick="showMission(6)">
-    <div class="dot locked">7</div>
-    <div class="sname">Signé !</div>
-    <div class="sdesc">Certificat</div>
-  </div>
-  
-  <div class="missions">
-    <div class="mission-card" id="m0">
-      <div class="mission-title">Découverte — Terminé &#10003;</div>
-      <div class="mission-item"><div class="mi-check done">&#10003;</div>Uploader votre CV <span class="badge badge-xp">+50 XP</span></div>
-      <div class="mission-item"><div class="mi-check done">&#10003;</div>Compléter l'onboarding <span class="badge badge-xp">+50 XP</span></div>
-      <div class="mission-item"><div class="mi-check done">&#10003;</div>Voir votre score <span class="badge badge-xp">+100 XP</span></div>
-    </div>
-    <div class="mission-card active" id="m2">
-      <div class="mission-title">Exploration marché — En cours</div>
-      <div class="mission-item"><div class="mi-check done">&#10003;</div>Consulter 20 offres <span class="badge badge-xp">+25 XP</span></div>
-      <div class="mission-item"><div class="mi-check">&#8226;</div>Sauvegarder 5 offres <span class="badge badge-xp">+15 XP</span></div>
-      <div class="mission-item"><div class="mi-check">&#8226;</div>Postuler à 1 offre <span class="badge badge-xp">+75 XP</span></div>
-    </div>
-    <div class="mission-card" id="m3">
-      <div class="mission-title">Candidatures — Verrouillé</div>
-      <div class="mission-item"><div class="mi-check">&#8226;</div>Postuler à 5 offres</div>
-      <div class="mission-item"><div class="mi-check">&#8226;</div>Générer 3 lettres de motivation</div>
-    </div>
-  </div>
-</div>
-</div>
-<div class="scroll-hint">&#8592; Faire défiler pour voir toutes les étapes &#8594;</div>
+/* ═══ TOPBAR ═══ */
+.top{display:flex;align-items:center;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+.back{font-size:13px;color:var(--sub);cursor:pointer;display:flex;align-items:center;gap:4px}
+.top-title{flex:1;text-align:center;font-size:14px;font-weight:500}
+.top-r{font-size:12px;color:var(--primary);font-weight:500;cursor:pointer}
+
+/* ═══ CHAPTER 1: SCORE HERO ═══ */
+.ch1{padding:32px 24px 28px;text-align:center;background:var(--card);border-bottom:1px solid var(--border)}
+.score-ring{width:140px;height:140px;margin:0 auto 16px;position:relative}
+.score-ring svg{width:100%;height:100%}
+.score-ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.ring-bg{stroke:var(--border)}
+.ring-fill{stroke:var(--primary);transform:rotate(-90deg);transform-origin:center;stroke-dasharray:408;stroke-dashoffset:110}
+.score-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:42px;font-weight:500;color:var(--text)}
+.score-label{font-size:12px;color:var(--muted);margin-bottom:12px}
+.bench{display:inline-flex;align-items:center;gap:6px;background:#f0f9ff;padding:6px 14px;border-radius:20px;font-size:11px;color:#0284C7;font-weight:500;margin-bottom:12px}
+.bench-dot{width:6px;height:6px;border-radius:50%;background:#0284C7}
+.qualify{font-size:13px;color:var(--sub);line-height:1.5;max-width:380px;margin:0 auto}
+.qualify strong{color:var(--text);font-weight:500}
+.scroll-hint{margin-top:16px;font-size:10px;color:var(--muted);animation:bounce 2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ═══ CHAPTER 2: PROFILE SHAPE ═══ */
+.ch2{padding:24px 24px 20px}
+.ch-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px}
+.ch-sub{font-size:11px;color:var(--muted);margin-bottom:16px}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;cursor:pointer;transition:all .2s;border:1px solid transparent}
+.bar-row:hover{background:var(--card);border-color:var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.bar-name{width:110px;flex-shrink:0;font-size:11px;color:var(--sub);font-weight:500}
+.bar-track{flex:1;height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.bar-val{width:32px;font-size:13px;font-weight:600;text-align:right}
+.bar-arrow{width:16px;font-size:10px;color:var(--muted)}
+.bg{color:var(--green)}.bo{color:var(--amber)}.br{color:var(--red)}
+.bar-detail{display:none;padding:12px 14px;margin:-2px 0 4px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;line-height:1.6;color:var(--sub)}
+.bar-detail strong{color:var(--text)}
+.bar-detail .fix{color:#0284C7;font-weight:500;margin-top:6px;display:block}
+.bar-row.open+.bar-detail{display:block}
+
+/* ═══ CHAPTER 3: IMPROVEMENT PLAN ═══ */
+.ch3{padding:24px}
+.plan-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 16px;background:linear-gradient(135deg,rgba(0,180,216,0.06),rgba(124,58,237,0.04));border-radius:12px}
+.plan-ring{width:52px;height:52px;position:relative;flex-shrink:0}
+.plan-ring svg{width:100%;height:100%}
+.plan-ring circle{fill:none;stroke-width:5;stroke-linecap:round}
+.pr-bg{stroke:var(--border)}.pr-old{stroke:var(--muted);opacity:.3;stroke-dasharray:157;stroke-dashoffset:43}
+.pr-new{stroke:var(--green);stroke-dasharray:157;stroke-dashoffset:19;transform:rotate(-90deg);transform-origin:center}
+.plan-nums{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.plan-old{font-size:9px;color:var(--muted);text-decoration:line-through}
+.plan-new{font-size:14px;font-weight:600;color:var(--green)}
+.plan-text{flex:1}
+.plan-headline{font-size:14px;font-weight:600;color:var(--text)}
+.plan-meta{font-size:11px;color:var(--sub);margin-top:2px}
+
+.lever{margin-bottom:10px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card);transition:all .2s}
+.lever:hover{border-color:rgba(0,180,216,0.2);box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+.lever-top{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer}
+.lever-rank{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.lr1{background:#dcfce7;color:#166534}.lr2{background:#dbeafe;color:#1e40af}.lr3{background:#fef3c7;color:#92400e}
+.lever-info{flex:1}
+.lever-title{font-size:12.5px;font-weight:500;color:var(--text)}
+.lever-effort{font-size:10px;color:var(--muted);margin-top:1px}
+.lever-impact{text-align:right}
+.lever-pts{font-size:16px;font-weight:600}
+.lever-pts-label{font-size:9px;color:var(--muted)}
+.lever-expand{display:none;padding:0 16px 14px}
+.lever.open .lever-expand{display:block}
+.lever-explain{font-size:11px;color:var(--sub);line-height:1.6;margin-bottom:8px}
+.lever-ba{background:#fafbfc;border-radius:8px;padding:10px 12px;font-size:10.5px;margin-bottom:8px}
+.lever-before{color:var(--muted);text-decoration:line-through;margin-bottom:3px}
+.lever-after{color:var(--green);font-weight:500}
+.lever-cta{font-size:11px;color:var(--primary);font-weight:500;cursor:pointer}
+
+/* ═══ CHAPTER 4: TAKE ACTION ═══ */
+.ch4{padding:20px 24px 24px}
+.actions{display:flex;gap:10px;margin-bottom:20px}
+.act{flex:1;padding:14px 12px;border-radius:12px;text-align:center;cursor:pointer;transition:all .2s;border:1px solid var(--border);background:var(--card)}
+.act:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.05)}
+.act-icon{font-size:20px;margin-bottom:6px}
+.act-label{font-size:11px;font-weight:500;color:var(--text)}
+.act-desc{font-size:9px;color:var(--muted);margin-top:2px}
+.act-primary{background:var(--primary);border-color:var(--primary)}
+.act-primary .act-label,.act-primary .act-desc,.act-primary .act-icon{color:#fff}
+
+/* Supplementary data */
+.supp{padding:0 24px 24px}
+.supp-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;font-weight:600}
+.exp-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.exp-stat{padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--sub);flex:1;min-width:100px}
+.exp-stat strong{display:block;font-size:14px;color:var(--text);margin-bottom:1px}
+.exp-context{font-size:9px;color:var(--primary);font-weight:500;margin-top:2px}
+
+/* ═══ BOTTOM NAV ═══ */
+.bnav{display:flex;background:var(--card);border-top:1px solid var(--border);padding:10px 0 6px;position:sticky;bottom:0}
+.bn{flex:1;text-align:center;font-size:9px;color:var(--muted);cursor:pointer;padding:2px}
+.bn.on{color:var(--primary)}
+.bn-icon{font-size:16px;display:block;margin-bottom:1px}
+.bn-badge{font-size:7.5px;background:var(--primary);color:#fff;padding:1px 5px;border-radius:3px}
+</style></head><body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="top">
+<div class="back">← Resume Studio</div>
+<div class="top-title">Resume Score</div>
+<div class="top-r">PDF ↓</div>
 </div>
 
-<script>
-function showMission(idx) {
-  document.querySelectorAll('.mission-card').forEach(c => c.classList.remove('active'));
-  const el = document.getElementById('m'+idx);
-  if(el) el.classList.add('active');
-}
-</script>
+<!-- ═══ CHAPTER 1: SCORE HERO ═══ -->
+<div class="ch1">
+<div class="score-ring">
+<svg viewBox="0 0 140 140"><circle class="ring-bg" cx="70" cy="70" r="65"/><circle class="ring-fill" cx="70" cy="70" r="65"/></svg>
+<div class="score-num">73</div>
+</div>
+<div class="score-label">Recruitment Score</div>
+<div class="bench"><div class="bench-dot"></div>Top 35% of 234 Communication professionals in Île-de-France</div>
+<div class="qualify">Your CV is <strong>above average</strong>. Three improvements could bring you to <strong>88</strong> — that's top 15% territory.</div>
+<div class="scroll-hint">↓ See your profile</div>
+</div>
+
+<!-- ═══ CHAPTER 2: YOUR PROFILE SHAPE ═══ -->
+<div class="ch2">
+<div class="ch-title">Your profile shape</div>
+<div class="ch-sub">Ordered by score. Click any dimension to understand it.</div>
+<div class="bars">
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">Profile Quality</div>
+<div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--green)"></div></div>
+<div class="bar-val bg">90</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> Completeness — experiences, education, skills, languages, structure.<br><strong>Verdict:</strong> 8 experiences, 4 degrees, 12 skills, 3 languages. One of the most complete profiles analyzed.<br><span class="fix">✓ No action needed — this is excellent.</span></div>
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">ATS Pass</div>
+<div class="bar-track"><div class="bar-fill" style="width:87%;background:var(--green)"></div></div>
+<div class="bar-val bg">87</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> Probability of passing Applicant Tracking System filters — keywords, format, headers.<br><strong>Verdict:</strong> Good keyword density, ATS-compatible PDF. Minor gaps in trending terms.<br><span class="fix">Quick win: add "institutional strategy" + "public relations" → could push above 92%.</span></div>
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">Readability</div>
+<div class="bar-track"><div class="bar-fill" style="width:73%;background:var(--amber)"></div></div>
+<div class="bar-val bo">73</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> 6-second scan quality — headers, format consistency, bullet structure, length.<br><strong>Verdict:</strong> Summary too long (4 lines, target 2). Some bullets start with nouns. Date format inconsistent.<br><span class="fix">Fix: shorten summary, start bullets with action verbs, standardize dates.</span></div>
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">Market Readiness</div>
+<div class="bar-track"><div class="bar-fill" style="width:61%;background:var(--amber)"></div></div>
+<div class="bar-val bo">61</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> Alignment with current demand — trending skills, salary, geographic match.<br><strong>Verdict:</strong> Core skills stable but not trending. Market demands digital-first skills (SEA/SEO, automation) absent from CV.<br><span class="fix">Add "digital strategy", "data-driven communication" — in 67% of Director postings.</span></div>
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">Recruiter Pass</div>
+<div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--red)"></div></div>
+<div class="bar-val br">43</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> 10-second recruiter scan — seniority signals, terminology, career progression.<br><strong>Verdict:</strong> Titles don't signal seniority. "Portage salarial" confuses recruiters. Trajectory appears lateral.<br><span class="fix">Reframe: "Directrice Communication (15+ ans)". Add "Career Highlights" section.</span></div>
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">Human Pass</div>
+<div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--red)"></div></div>
+<div class="bar-val br">41</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> 30-second human scan — unique value, storytelling, personal brand, achievements.<br><strong>Verdict:</strong> Reads as responsibilities, not achievements. No quantified results. Generic summary.<br><span class="fix">"Managed partnerships" → "Secured 12 partnerships generating €2.3M, +18% YoY" = +15 points.</span></div>
+
+<div class="bar-row" onclick="this.classList.toggle('open')">
+<div class="bar-name">Manager Pass</div>
+<div class="bar-track"><div class="bar-fill" style="width:28%;background:var(--red)"></div></div>
+<div class="bar-val br">28</div>
+<div class="bar-arrow">›</div>
+</div>
+<div class="bar-detail"><strong>What it measures:</strong> Detailed review — quantified impact, leadership evidence, budget/team/results.<br><strong>Verdict:</strong> Zero metrics in entire CV. No budgets, team sizes, ROI. Manager sees activities, no evidence of impact. <strong>#1 problem.</strong><br><span class="fix">HIGHEST PRIORITY: Add to 3 recent roles — team size, budget, revenue. "Piloted €500K budget, 23% cost reduction."</span></div>
+
+</div>
+</div>
+
+<!-- ═══ CHAPTER 3: YOUR IMPROVEMENT PLAN ═══ -->
+<div class="ch3">
+<div class="plan-header">
+<div class="plan-ring">
+<svg viewBox="0 0 52 52"><circle class="pr-bg" cx="26" cy="26" r="23"/><circle class="pr-new" cx="26" cy="26" r="23"/></svg>
+<div class="plan-nums"><div class="plan-old">73</div><div class="plan-new">88</div></div>
+</div>
+<div class="plan-text">
+<div class="plan-headline">3 actions. 45 minutes. 73 → 88.</div>
+<div class="plan-meta">That's top 15% in your sector. Ordered by impact.</div>
+</div>
+</div>
+
+<div class="lever open" onclick="this.classList.toggle('open')">
+<div class="lever-top">
+<div class="lever-rank lr1">1</div>
+<div class="lever-info"><div class="lever-title">Add quantified metrics</div><div class="lever-effort">⚡ 15 minutes · Manager Pass + Human Pass</div></div>
+<div class="lever-impact"><div class="lever-pts bg">+17</div><div class="lever-pts-label">points</div></div>
+</div>
+<div class="lever-expand">
+<div class="lever-explain">Your 3 most recent roles have zero numbers. Hiring managers spend 4.2× longer on CVs with metrics. This single change has the highest score impact.</div>
+<div class="lever-ba">
+<div class="lever-before">✗ Managed institutional partnerships and developed communication strategies for multiple stakeholders</div>
+<div class="lever-after">✓ Secured 12 institutional partnerships generating €2.3M in annual funding, +18% YoY. Led 6-person team across 3 countries.</div>
+</div>
+<div class="lever-cta">Open Resume Studio to apply this fix →</div>
+</div>
+</div>
+
+<div class="lever" onclick="this.classList.toggle('open')">
+<div class="lever-top">
+<div class="lever-rank lr2">2</div>
+<div class="lever-info"><div class="lever-title">Optimize keywords for ATS</div><div class="lever-effort">⚡ 15 minutes · ATS Pass + Market Readiness</div></div>
+<div class="lever-impact"><div class="lever-pts" style="color:#1e40af">+8</div><div class="lever-pts-label">points</div></div>
+</div>
+<div class="lever-expand">
+<div class="lever-explain">Your CV matches 62% of keywords in matching job descriptions. Three missing terms appear in 70%+ of postings for your target role.</div>
+<div class="lever-ba">
+<div class="lever-before">Missing from your CV:</div>
+<div class="lever-after">+ "institutional strategy" (78% of jobs) · + "public relations" (74%) · + "budget management" (71%)</div>
+</div>
+<div class="lever-cta">See keyword suggestions →</div>
+</div>
+</div>
+
+<div class="lever" onclick="this.classList.toggle('open')">
+<div class="lever-top">
+<div class="lever-rank lr3">3</div>
+<div class="lever-info"><div class="lever-title">Rewrite summary &amp; fix structure</div><div class="lever-effort">⚡ 15 minutes · Readability + Recruiter Pass</div></div>
+<div class="lever-impact"><div class="lever-pts bo">+5</div><div class="lever-pts-label">points</div></div>
+</div>
+<div class="lever-expand">
+<div class="lever-explain">Summary is 4 lines (target: 2). 5 of 12 bullets start with nouns. Date formats inconsistent. Add "Directrice (15+ ans)" to signal seniority.</div>
+<div class="lever-ba">
+<div class="lever-before">✗ Summary: 4 lines describing responsibilities and experience areas across multiple sectors...</div>
+<div class="lever-after">✓ 15+ years directing communication strategies for international NGOs. €2.3M in partnerships. 12 institutional partners across 3 continents.</div>
+</div>
+<div class="lever-cta">See AI-suggested rewrite →</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ CHAPTER 4: TAKE ACTION ═══ -->
+<div class="ch4">
+<div class="actions">
+<div class="act act-primary">
+<div class="act-icon">✎</div>
+<div class="act-label">Improve my CV</div>
+<div class="act-desc">Apply the 3 levers</div>
+</div>
+<div class="act">
+<div class="act-icon">◎</div>
+<div class="act-label">See matching jobs</div>
+<div class="act-desc">12 jobs match</div>
+</div>
+<div class="act">
+<div class="act-icon">↓</div>
+<div class="act-label">Download report</div>
+<div class="act-desc">PDF for advisor</div>
+</div>
+</div>
+</div>
+
+<!-- SUPPLEMENTARY DATA (for analytical candidates) -->
+<div class="supp">
+<div class="supp-title">Experience profile</div>
+<div class="exp-stats">
+<div class="exp-stat"><strong>24.8</strong>Total years<div class="exp-context">Positions you as senior executive</div></div>
+<div class="exp-stat"><strong>8</strong>Positions<div class="exp-context">Rich breadth of experience</div></div>
+<div class="exp-stat"><strong>4</strong>Degrees<div class="exp-context">Including MBA Dauphine</div></div>
+<div class="exp-stat"><strong>3</strong>Languages<div class="exp-context">FR · EN · ES</div></div>
+</div>
+<div class="supp-title">Market intelligence</div>
+<div class="exp-stats">
+<div class="exp-stat"><strong>12/25</strong>Job openings<div class="exp-context">In your sector this week</div></div>
+<div class="exp-stat"><strong>65-85K€</strong>Salary range<div class="exp-context">For your experience level</div></div>
+<div class="exp-stat"><strong>67%</strong>Remote demand<div class="exp-context">In your sector filter</div></div>
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+<div class="bn"><span class="bn-icon">⊞</span>Hub</div>
+<div class="bn on"><span class="bn-icon">☰</span>Resume <span class="bn-badge">73</span></div>
+<div class="bn"><span class="bn-icon">◎</span>Jobs <span class="bn-badge">12</span></div>
+<div class="bn"><span class="bn-icon">⛨</span>Coach</div>
+</div>
+
+</div>
+</body></html>
