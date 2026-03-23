@@ -1,373 +1,124 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-.rs-wrap{position:relative;overflow:hidden;border-radius:var(--border-radius-lg);min-height:620px}
-.rs-bg{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.2}
-.b1{width:350px;height:350px;background:#00B4D8;top:-80px;right:-60px}
-.b2{width:280px;height:280px;background:#7C3AED;bottom:-60px;left:-40px}
-.b3{width:180px;height:180px;background:#06D6A0;top:50%;left:50%;opacity:.12}
-@media(prefers-color-scheme:dark){.blob{opacity:.1}}
-.rs-inner{position:relative;z-index:1;display:flex;flex-direction:column;height:100%}
-
-.topbar{display:flex;align-items:center;padding:12px 20px;background:rgba(255,255,255,0.4);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:0.5px solid rgba(255,255,255,0.3)}
-@media(prefers-color-scheme:dark){.topbar{background:rgba(30,30,36,0.4);border-bottom-color:rgba(255,255,255,0.06)}}
-.tb-logo{font-family:var(--font-sans);font-size:16px;font-weight:500;color:#00B4D8}
-.tb-r{margin-left:auto;display:flex;align-items:center;gap:8px}
-.lang-sw{display:flex;overflow:hidden;border-radius:8px;border:0.5px solid rgba(0,0,0,0.08)}
-@media(prefers-color-scheme:dark){.lang-sw{border-color:rgba(255,255,255,0.1)}}
-.lang-b{font-family:var(--font-sans);font-size:10px;padding:4px 9px;cursor:pointer;background:transparent;color:var(--color-text-secondary);border:none;transition:all .2s}
-.lang-b.on{background:linear-gradient(135deg,#00B4D8,#0090ad);color:#fff}
-.tb-user{font-family:var(--font-sans);font-size:11px;color:var(--color-text-secondary)}
-.tb-avatar{width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#00B4D8,#7C3AED);display:flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:10px;font-weight:500;color:#fff}
-
-.main{display:flex;flex:1;overflow:hidden}
-
-.sidebar{width:180px;padding:12px;background:rgba(255,255,255,0.25);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-right:0.5px solid rgba(255,255,255,0.2);flex-shrink:0;display:flex;flex-direction:column;gap:4px}
-@media(prefers-color-scheme:dark){.sidebar{background:rgba(30,30,36,0.25);border-right-color:rgba(255,255,255,0.04)}}
-.sb-item{font-family:var(--font-sans);font-size:12px;padding:8px 12px;border-radius:10px;color:var(--color-text-secondary);cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s}
-.sb-item:hover{background:rgba(0,180,216,0.06)}
-.sb-item.on{background:rgba(0,180,216,0.1);color:var(--color-text-primary);font-weight:500}
-.sb-icon{width:16px;height:16px;opacity:.5}
-.sb-badge{margin-left:auto;font-size:9px;font-weight:500;padding:2px 6px;border-radius:6px;background:rgba(0,180,216,0.12);color:#0284C7}
-
-.content{flex:1;display:flex;overflow:hidden}
-
-.list-pane{width:55%;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-.detail-pane{width:45%;padding:16px;overflow-y:auto}
-
-.list-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.list-title{font-family:var(--font-sans);font-size:15px;font-weight:500;color:var(--color-text-primary)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-sans);font-weight:500;cursor:pointer;border:none;border-radius:10px;transition:all .2s}
-.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0)}
-.btn-add{margin-left:auto;background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;font-size:11px;padding:7px 14px}
-.btn-add svg{width:12px;height:12px}
-
-.cv-card{
-  background:rgba(255,255,255,0.5);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border:0.5px solid rgba(255,255,255,0.5);
-  border-radius:14px;padding:14px 16px;
-  cursor:pointer;transition:all .25s cubic-bezier(.2,.8,.4,1);
-  position:relative;
-}
-.cv-card:hover{transform:translateY(-2px) scale(1.01);border-color:rgba(0,180,216,0.3)}
-.cv-card.sel{border-color:#00B4D8;border-width:1.5px}
-@media(prefers-color-scheme:dark){.cv-card{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)}}
-.cv-name{font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.cv-title{font-family:var(--font-sans);font-size:11px;color:var(--color-text-secondary);margin-top:2px;line-height:1.4}
-.cv-meta{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
-.cv-tag{font-family:var(--font-sans);font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(0,0,0,0.04);color:var(--color-text-secondary)}
-@media(prefers-color-scheme:dark){.cv-tag{background:rgba(255,255,255,0.06)}}
-.cv-conf{font-family:var(--font-sans);font-size:10px;font-weight:500;padding:3px 8px;border-radius:8px;background:rgba(22,163,74,0.1);color:#16A34A}
-.cv-bottom{display:flex;align-items:center;gap:8px;margin-top:8px}
-.cv-score-pill{display:flex;align-items:center;gap:4px;font-family:var(--font-sans);font-size:11px;font-weight:500;padding:4px 10px;border-radius:8px;background:linear-gradient(135deg,rgba(0,180,216,0.1),rgba(124,58,237,0.1));color:#0284C7}
-.cv-fresh{font-family:var(--font-sans);font-size:10px;color:var(--color-text-tertiary)}
-.cv-fresh.stale{color:var(--color-text-warning)}
-.cv-jobs-link{margin-left:auto;font-family:var(--font-sans);font-size:10px;font-weight:500;color:#00B4D8;cursor:pointer;display:flex;align-items:center;gap:3px}
-
-.detail-glass{
-  background:rgba(255,255,255,0.45);
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border:0.5px solid rgba(255,255,255,0.4);
-  border-radius:16px;padding:18px;height:100%;
-}
-@media(prefers-color-scheme:dark){.detail-glass{background:rgba(30,30,36,0.35);border-color:rgba(255,255,255,0.06)}}
-
-.d-name{font-family:var(--font-sans);font-size:16px;font-weight:500;color:var(--color-text-primary)}
-.d-title{font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);margin-top:2px;line-height:1.4}
-.d-section{margin-top:14px}
-.d-label{font-family:var(--font-sans);font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-
-.constellation{width:100%;height:160px;background:rgba(0,0,0,0.02);border-radius:12px;overflow:hidden;position:relative}
-@media(prefers-color-scheme:dark){.constellation{background:rgba(255,255,255,0.02)}}
-.const-svg{width:100%;height:100%}
-.sk-node{cursor:pointer;transition:opacity .2s}
-.sk-node:hover{opacity:.7}
-.sk-label{font-family:var(--font-sans)}
-
-.d-summary{font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);line-height:1.5}
-.d-expand{font-family:var(--font-sans);font-size:11px;color:#00B4D8;cursor:pointer;font-weight:500}
-
-.d-row{display:flex;gap:8px;flex-wrap:wrap}
-.d-chip{font-family:var(--font-sans);font-size:10px;padding:4px 10px;border-radius:8px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border:0.5px solid rgba(0,0,0,0.04);color:var(--color-text-secondary)}
-@media(prefers-color-scheme:dark){.d-chip{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.06)}}
-
-.d-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.btn-score{background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;font-size:12px;padding:9px 18px}
-.btn-detail{background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border:0.5px solid rgba(0,0,0,0.06);color:var(--color-text-secondary);font-size:12px;padding:9px 18px}
-@media(prefers-color-scheme:dark){.btn-detail{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08)}}
-
-.ghost-overlay{margin-top:12px;background:rgba(0,180,216,0.04);border-radius:12px;padding:12px;border:0.5px solid rgba(0,180,216,0.1)}
-.ghost-title{font-family:var(--font-sans);font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.ghost-row{display:flex;align-items:center;gap:8px;padding:3px 0;font-family:var(--font-sans);font-size:11px}
-.ghost-dim{color:var(--color-text-secondary);width:80px}
-.ghost-old{color:var(--color-text-tertiary);width:30px;text-align:right}
-.ghost-arrow{color:var(--color-text-tertiary);width:16px;text-align:center}
-.ghost-new{font-weight:500;width:30px;text-align:right}
-.ghost-delta{font-size:10px;font-weight:500;padding:1px 6px;border-radius:6px}
-.delta-up{background:rgba(22,163,74,0.1);color:#16A34A}
-.delta-down{background:rgba(220,38,38,0.1);color:#DC2626}
-
-.auto-score-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(22,163,74,0.06);border-radius:10px;margin-bottom:8px;font-family:var(--font-sans);font-size:11px;color:var(--color-text-info)}
-.auto-score-bar svg{width:14px;height:14px;flex-shrink:0}
-.auto-spinner{width:14px;height:14px;border:2px solid rgba(0,180,216,0.2);border-top-color:#00B4D8;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.empty-state{text-align:center;padding:60px 20px;display:none}
-.empty-state.show{display:block}
-.empty-icon{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,rgba(0,180,216,0.1),rgba(124,58,237,0.1));display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
-.empty-icon svg{width:24px;height:24px;color:var(--color-text-tertiary);opacity:.5}
-.empty-title{font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.empty-desc{font-family:var(--font-sans);font-size:12px;color:var(--color-text-tertiary);margin-top:4px;line-height:1.4}
-
-.view-tabs{display:flex;gap:6px;justify-content:center;padding:10px 0 4px;position:relative;z-index:1;flex-wrap:wrap}
-.vtab{font-family:var(--font-sans);font-size:11px;padding:5px 12px;border-radius:10px;border:0.5px solid var(--color-border-tertiary);background:rgba(255,255,255,0.4);backdrop-filter:blur(8px);color:var(--color-text-secondary);cursor:pointer;transition:all .2s}
-@media(prefers-color-scheme:dark){.vtab{background:rgba(255,255,255,0.04)}}
-.vtab.on{background:linear-gradient(135deg,#00B4D8,#7C3AED);color:#fff;border-color:transparent}
-
-@media(max-width:700px){
-  .main{flex-direction:column}
-  .sidebar{width:100%;flex-direction:row;overflow-x:auto;padding:8px;border-right:none;border-bottom:0.5px solid rgba(255,255,255,0.2)}
-  .content{flex-direction:column}
-  .list-pane{width:100%;max-height:280px}
-  .detail-pane{width:100%}
-}
-@media(max-width:480px){
-  .topbar{padding:10px 12px}
-  .list-pane{padding:10px}
-  .detail-pane{padding:10px}
-}
+.timeline-wrap{padding:1rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.metro{position:relative;min-width:900px;height:340px}
+.track{position:absolute;top:80px;left:60px;right:60px;height:4px;background:var(--color-border-tertiary);border-radius:2px}
+.track-fill{height:100%;background:linear-gradient(90deg,#16A34A,#00B4D8);border-radius:2px;transition:width .6s ease;width:38%}
+.station{position:absolute;top:58px;text-align:center;cursor:pointer;transition:transform .2s}
+.station:hover{transform:translateY(-2px)}
+.dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--color-border-tertiary);background:var(--color-background-primary);display:flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:16px;font-weight:500;color:var(--color-text-secondary);transition:all .3s;margin:0 auto}
+.dot.done{border-color:#16A34A;background:#16A34A;color:#fff}
+.dot.current{border-color:#00B4D8;background:var(--color-background-primary);color:#00B4D8;box-shadow:0 0 0 4px rgba(0,180,216,0.15)}
+.dot.locked{opacity:.4}
+.sname{font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--color-text-primary);margin-top:10px;white-space:nowrap}
+.sdesc{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);margin-top:3px;max-width:110px;margin-left:auto;margin-right:auto;line-height:1.3}
+.missions{position:absolute;top:170px;left:0;right:0;padding:0 40px}
+.mission-card{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px 18px;display:none}
+.mission-card.active{display:block}
+.mission-title{font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px}
+.mission-item{font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:5px 0;display:flex;align-items:center;gap:8px}
+.mi-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px}
+.mi-check.done{border-color:#16A34A;background:#16A34A;color:#fff}
+.badge{display:inline-block;font-family:var(--font-sans);font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;margin-left:6px}
+.badge-xp{background:rgba(0,180,216,0.12);color:#0284C7}
+.scroll-hint{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-top:8px}
 </style>
 
 <div style="padding:1rem 0">
-<div class="rs-wrap">
-<div class="rs-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
-<div class="rs-inner">
+<div class="timeline-wrap">
+<div class="metro">
+  <div class="track"><div class="track-fill"></div></div>
 
-<div class="topbar">
-  <div class="tb-logo">CareerNEXT</div>
-  <div class="tb-r">
-    <div class="lang-sw"><div class="lang-b on" id="le" onclick="sL('en')">EN</div><div class="lang-b" id="lf" onclick="sL('fr')">FR</div></div>
-    <div class="tb-user" id="tb-u">Gilles Stephan</div>
-    <div class="tb-avatar">GS</div>
-  </div>
-</div>
-
-<div class="main">
-  <div class="sidebar">
-    <div class="sb-item" onclick="sNav(0,this)">
-      <svg class="sb-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      <span id="sb0">NextJobs</span>
-      <span class="sb-badge">4</span>
-    </div>
-    <div class="sb-item on" onclick="sNav(1,this)">
-      <svg class="sb-icon" viewBox="0 0 16 16" fill="none"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 5h4M6 7.5h4M6 10h2.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-      <span id="sb1">Resume Studio</span>
-      <span class="sb-badge">73</span>
-    </div>
+  <div class="station" style="left:40px" onclick="showMission(0)">
+    <div class="dot done">&#10003;</div>
+    <div class="sname">Decouverte</div>
+    <div class="sdesc">Upload CV, onboarding</div>
   </div>
 
-  <div class="content">
-    <div class="list-pane">
-      <div class="list-header">
-        <div class="list-title" id="lt">My resumes</div>
-        <div class="btn btn-add"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg><span id="add-txt">Add a CV</span></div>
-      </div>
+  <div class="station" style="left:170px" onclick="showMission(1)">
+    <div class="dot done">&#10003;</div>
+    <div class="sname">Optimisation</div>
+    <div class="sdesc">Ameliorer le score</div>
+  </div>
 
-      <div class="auto-score-bar" id="auto-bar">
-        <div class="auto-spinner"></div>
-        <span id="auto-txt">Auto-scoring in progress... Results in ~30 seconds</span>
-      </div>
+  <div class="station" style="left:300px" onclick="showMission(2)">
+    <div class="dot current">3</div>
+    <div class="sname">Exploration</div>
+    <div class="sdesc">Decouvrir le marche</div>
+  </div>
 
-      <div class="cv-card sel" onclick="selCV(0,this)" id="cv0">
-        <div class="cv-name">Anne-Laure SCHULER</div>
-        <div class="cv-title" id="cv0-t">Director of Communication & International Development</div>
-        <div class="cv-meta">
-          <span class="cv-tag" id="cv0-loc">Asnieres-sur-Seine</span>
-          <span class="cv-tag">20/03/2026</span>
-          <span class="cv-tag">PDF</span>
-          <span class="cv-conf">95% confidence</span>
-        </div>
-        <div class="cv-meta" style="margin-top:6px">
-          <span class="cv-tag">Institutional Communication</span>
-          <span class="cv-tag">Partnerships</span>
-          <span class="cv-tag">Fundraising</span>
-          <span class="cv-tag">Digital</span>
-        </div>
-        <div class="cv-bottom">
-          <div class="cv-score-pill" id="cv0-score">Score: 73/100</div>
-          <div class="cv-fresh" id="cv0-fresh">Updated today</div>
-          <div class="cv-jobs-link" id="cv0-jobs">12 matching jobs <span style="font-size:12px">&#8594;</span></div>
-        </div>
-      </div>
+  <div class="station" style="left:430px" onclick="showMission(3)">
+    <div class="dot locked">4</div>
+    <div class="sname">Candidatures</div>
+    <div class="sdesc">Postuler</div>
+  </div>
 
-      <div class="cv-card" onclick="selCV(1,this)" id="cv1">
-        <div class="cv-name">Anne-Laure SCHULER</div>
-        <div class="cv-title" id="cv1-t">Marketing & Communication Director — Tech focus</div>
-        <div class="cv-meta">
-          <span class="cv-tag" id="cv1-loc">Asnieres-sur-Seine</span>
-          <span class="cv-tag">12/03/2026</span>
-          <span class="cv-tag">Word</span>
-          <span class="cv-conf">92% confidence</span>
-        </div>
-        <div class="cv-meta" style="margin-top:6px">
-          <span class="cv-tag">Digital Marketing</span>
-          <span class="cv-tag">CRM</span>
-          <span class="cv-tag">Innovation</span>
-        </div>
-        <div class="cv-bottom">
-          <div class="cv-score-pill" id="cv1-score">Score: 68/100</div>
-          <div class="cv-fresh stale" id="cv1-fresh">9 days old — consider updating</div>
-          <div class="cv-jobs-link" id="cv1-jobs">8 matching jobs <span style="font-size:12px">&#8594;</span></div>
-        </div>
-      </div>
+  <div class="station" style="left:560px" onclick="showMission(4)">
+    <div class="dot locked">5</div>
+    <div class="sname">Entretiens</div>
+    <div class="sdesc">Preparer, pratiquer</div>
+  </div>
+
+  <div class="station" style="left:690px" onclick="showMission(5)">
+    <div class="dot locked">6</div>
+    <div class="sname">Negociation</div>
+    <div class="sdesc">Salaire, conditions</div>
+  </div>
+
+  <div class="station" style="left:820px" onclick="showMission(6)">
+    <div class="dot locked">7</div>
+    <div class="sname">Signe !</div>
+    <div class="sdesc">Certificat</div>
+  </div>
+
+  <div class="missions">
+    <div class="mission-card" id="m0">
+      <div class="mission-title">Decouverte — Termine &#10003;</div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Uploader votre CV <span class="badge badge-xp">+50 XP</span></div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Completer l'onboarding <span class="badge badge-xp">+50 XP</span></div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Voir votre score <span class="badge badge-xp">+100 XP</span></div>
     </div>
-
-    <div class="detail-pane" id="detail-pane">
-      <div class="detail-glass" id="detail-content">
-        <div class="d-name" id="d-name">Anne-Laure SCHULER</div>
-        <div class="d-title" id="d-title">Director of Communication & International Development — 360 Expertise & Societal Engagement. Digital business influence, digital content production, Technology Innovation CSR, Digital CRM, public organizations.</div>
-
-        <div class="d-section">
-          <div class="d-label" id="dl-skills">Skills constellation</div>
-          <div class="constellation">
-            <svg class="const-svg" viewBox="0 0 400 160">
-              <g class="sk-node"><circle cx="200" cy="80" r="22" fill="rgba(0,180,216,0.15)" stroke="rgba(0,180,216,0.3)" stroke-width="0.5"/><text class="sk-label" x="200" y="83" text-anchor="middle" font-size="9" fill="var(--color-text-primary)" font-weight="500">Communication</text></g>
-              <line x1="222" y1="80" x2="280" y2="50" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
-              <line x1="222" y1="80" x2="290" y2="100" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
-              <line x1="178" y1="80" x2="120" y2="45" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
-              <line x1="178" y1="80" x2="110" y2="110" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
-              <line x1="200" y1="58" x2="200" y2="25" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
-              <line x1="200" y1="102" x2="200" y2="140" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
-              <g class="sk-node"><circle cx="280" cy="50" r="16" fill="rgba(124,58,237,0.12)" stroke="rgba(124,58,237,0.25)" stroke-width="0.5"/><text class="sk-label" x="280" y="53" text-anchor="middle" font-size="8" fill="var(--color-text-secondary)">Partnerships</text></g>
-              <g class="sk-node"><circle cx="290" cy="100" r="14" fill="rgba(124,58,237,0.12)" stroke="rgba(124,58,237,0.25)" stroke-width="0.5"/><text class="sk-label" x="290" y="103" text-anchor="middle" font-size="8" fill="var(--color-text-secondary)">Fundraising</text></g>
-              <g class="sk-node"><circle cx="120" cy="45" r="15" fill="rgba(6,214,160,0.12)" stroke="rgba(6,214,160,0.25)" stroke-width="0.5"/><text class="sk-label" x="120" y="48" text-anchor="middle" font-size="8" fill="var(--color-text-secondary)">Digital</text></g>
-              <g class="sk-node"><circle cx="110" cy="110" r="13" fill="rgba(6,214,160,0.12)" stroke="rgba(6,214,160,0.25)" stroke-width="0.5"/><text class="sk-label" x="110" y="113" text-anchor="middle" font-size="8" fill="var(--color-text-secondary)">CRM</text></g>
-              <g class="sk-node"><circle cx="200" cy="25" r="12" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.25)" stroke-width="0.5"/><text class="sk-label" x="200" y="28" text-anchor="middle" font-size="8" fill="var(--color-text-secondary)">RSE</text></g>
-              <g class="sk-node"><circle cx="200" cy="140" r="11" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.25)" stroke-width="0.5"/><text class="sk-label" x="200" y="143" text-anchor="middle" font-size="7" fill="var(--color-text-secondary)">Influence</text></g>
-            </svg>
-          </div>
-        </div>
-
-        <div class="d-section">
-          <div class="d-label" id="dl-sum">Summary</div>
-          <div class="d-summary" id="d-sum">15+ years in international, digital, and institutional communication. Expertise in influence strategy, partnerships, and major event production. Strong ability to unite stakeholders around shared objectives and deliver high-impact campaigns across sectors.</div>
-        </div>
-
-        <div class="d-section">
-          <div class="d-label" id="dl-edu">Education</div>
-          <div class="d-row">
-            <div class="d-chip">MBA — Digital Marketing & Communication, Paris Dauphine</div>
-            <div class="d-chip">Communication & Media, IFCEM</div>
-          </div>
-        </div>
-
-        <div class="d-section">
-          <div class="d-label" id="dl-lang">Languages</div>
-          <div class="d-row">
-            <div class="d-chip">English — fluent</div>
-            <div class="d-chip">Spanish — advanced</div>
-            <div class="d-chip">Italian — beginner</div>
-          </div>
-        </div>
-
-        <div class="ghost-overlay" id="ghost">
-          <div class="ghost-title"><svg viewBox="0 0 14 14" width="14" height="14" fill="none"><path d="M7 1v12M1 7h12" stroke="#00B4D8" stroke-width="1.5" stroke-linecap="round"/></svg><span id="ghost-t">Version comparison (v1 vs v2)</span></div>
-          <div class="ghost-row"><span class="ghost-dim">ATS Pass</span><span class="ghost-old">71</span><span class="ghost-arrow">&#8594;</span><span class="ghost-new" style="color:#16A34A">84</span><span class="ghost-delta delta-up">+13</span></div>
-          <div class="ghost-row"><span class="ghost-dim">Keywords</span><span class="ghost-old">65</span><span class="ghost-arrow">&#8594;</span><span class="ghost-new" style="color:#16A34A">78</span><span class="ghost-delta delta-up">+13</span></div>
-          <div class="ghost-row"><span class="ghost-dim">Impact</span><span class="ghost-old">58</span><span class="ghost-arrow">&#8594;</span><span class="ghost-new" style="color:#16A34A">72</span><span class="ghost-delta delta-up">+14</span></div>
-          <div class="ghost-row"><span class="ghost-dim">Readability</span><span class="ghost-old">82</span><span class="ghost-arrow">&#8594;</span><span class="ghost-new" style="color:#DC2626">79</span><span class="ghost-delta delta-down">-3</span></div>
-        </div>
-
-        <div class="d-actions">
-          <div class="btn btn-score" id="btn-sc">View full score</div>
-          <div class="btn btn-detail" id="btn-dt">Full detail</div>
-        </div>
-      </div>
-
-      <div class="empty-state" id="empty">
-        <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 7h6M9 11h6M9 15h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        <div class="empty-title" id="em-t">Select a resume</div>
-        <div class="empty-desc" id="em-d">Click on a CV card to see its full profile, skills constellation, and score breakdown here.</div>
-      </div>
+    <div class="mission-card" id="m1">
+      <div class="mission-title">Optimisation — Termine &#10003;</div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Ameliorer le score de +10 pts <span class="badge badge-xp">+100 XP</span></div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Appliquer les 3 Quick Fixes prioritaires <span class="badge badge-xp">+150 XP</span></div>
+    </div>
+    <div class="mission-card active" id="m2">
+      <div class="mission-title">Exploration marche — En cours</div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Consulter 20 offres <span class="badge badge-xp">+25 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Sauvegarder 5 offres <span class="badge badge-xp">+15 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Postuler a 1 offre <span class="badge badge-xp">+75 XP</span></div>
+    </div>
+    <div class="mission-card" id="m3">
+      <div class="mission-title">Candidatures — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Postuler a 5 offres <span class="badge badge-xp">+75 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Generer 3 lettres de motivation <span class="badge badge-xp">+50 XP</span></div>
+    </div>
+    <div class="mission-card" id="m4">
+      <div class="mission-title">Entretiens — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Completer le module preparation entretien <span class="badge badge-xp">+200 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Faire 1 simulation d'entretien <span class="badge badge-xp">+150 XP</span></div>
+    </div>
+    <div class="mission-card" id="m5">
+      <div class="mission-title">Negociation — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Consulter les benchmarks salariaux <span class="badge badge-xp">+50 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Preparer les arguments de negociation <span class="badge badge-xp">+100 XP</span></div>
+    </div>
+    <div class="mission-card" id="m6">
+      <div class="mission-title">Signe ! — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Enregistrer le contrat signe <span class="badge badge-xp">+300 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Generer votre Certificat de Transition <span class="badge badge-xp">+500 XP</span></div>
     </div>
   </div>
 </div>
-
 </div>
-</div>
-
-<div class="view-tabs">
-  <div class="vtab on" onclick="sV(0,this)">Selected state</div>
-  <div class="vtab" onclick="sV(1,this)">Empty state</div>
-  <div class="vtab" onclick="sV(2,this)">Ghost CV comparison</div>
-</div>
+<div class="scroll-hint">&#8592; Faire defiler pour voir toutes les etapes &#8594;</div>
 </div>
 
 <script>
-var lang='en';
-var tx={
-  en:{sb0:"NextJobs",sb1:"Resume Studio",lt:"My resumes",add:"Add a CV",auto:"Auto-scoring in progress... Results in ~30 seconds",
-    cv0t:"Director of Communication & International Development",cv1t:"Marketing & Communication Director — Tech focus",
-    cv0f:"Updated today",cv1f:"9 days old — consider updating",cv0j:"12 matching jobs",cv1j:"8 matching jobs",
-    cv0s:"Score: 73/100",cv1s:"Score: 68/100",
-    dls:"Skills constellation",dlsum:"Summary",dledu:"Education",dllang:"Languages",
-    dsum:"15+ years in international, digital, and institutional communication. Expertise in influence strategy, partnerships, and major event production. Strong ability to unite stakeholders around shared objectives.",
-    ghostt:"Version comparison (v1 vs v2)",btnsc:"View full score",btndt:"Full detail",
-    emt:"Select a resume",emd:"Click on a CV card to see its full profile, skills constellation, and score breakdown here."},
-  fr:{sb0:"NextJobs",sb1:"Resume Studio",lt:"Mes CV",add:"Ajouter un CV",auto:"Scoring automatique en cours... R\u00e9sultats dans ~30 secondes",
-    cv0t:"Directeur Communication et D\u00e9veloppement international",cv1t:"Directrice Marketing & Communication — Focus Tech",
-    cv0f:"Mis \u00e0 jour aujourd\u2019hui",cv1f:"9 jours — pensez \u00e0 mettre \u00e0 jour",cv0j:"12 offres compatibles",cv1j:"8 offres compatibles",
-    cv0s:"Score : 73/100",cv1s:"Score : 68/100",
-    dls:"Constellation des comp\u00e9tences",dlsum:"R\u00e9sum\u00e9",dledu:"Formation",dllang:"Langues",
-    dsum:"15+ ans en communication internationale, digitale et institutionnelle. Expertise en strat\u00e9gie d\u2019influence, partenariats et rayonnement d\u2019\u00e9v\u00e9nements majeurs. Forte capacit\u00e9 \u00e0 f\u00e9d\u00e9rer les parties prenantes.",
-    ghostt:"Comparaison de versions (v1 vs v2)",btnsc:"Voir le score complet",btndt:"D\u00e9tail complet",
-    emt:"S\u00e9lectionnez un CV",emd:"Cliquez sur une carte CV pour voir le profil complet, la constellation des comp\u00e9tences et le d\u00e9tail du score ici."}
-};
-
-function sL(l){
-  lang=l;
-  document.getElementById('le').className='lang-b'+(l==='en'?' on':'');
-  document.getElementById('lf').className='lang-b'+(l==='fr'?' on':'');
-  var t=tx[l];
-  document.getElementById('sb0').textContent=t.sb0;document.getElementById('sb1').textContent=t.sb1;
-  document.getElementById('lt').textContent=t.lt;document.getElementById('add-txt').textContent=t.add;
-  document.getElementById('auto-txt').textContent=t.auto;
-  document.getElementById('cv0-t').textContent=t.cv0t;document.getElementById('cv1-t').textContent=t.cv1t;
-  document.getElementById('cv0-fresh').textContent=t.cv0f;document.getElementById('cv1-fresh').textContent=t.cv1f;
-  document.getElementById('cv0-jobs').innerHTML=t.cv0j+' <span style="font-size:12px">&#8594;</span>';
-  document.getElementById('cv1-jobs').innerHTML=t.cv1j+' <span style="font-size:12px">&#8594;</span>';
-  document.getElementById('cv0-score').textContent=t.cv0s;document.getElementById('cv1-score').textContent=t.cv1s;
-  document.getElementById('dl-skills').textContent=t.dls;document.getElementById('dl-sum').textContent=t.dlsum;
-  document.getElementById('dl-edu').textContent=t.dledu;document.getElementById('dl-lang').textContent=t.dllang;
-  document.getElementById('d-sum').textContent=t.dsum;document.getElementById('ghost-t').textContent=t.ghostt;
-  document.getElementById('btn-sc').textContent=t.btnsc;document.getElementById('btn-dt').textContent=t.btndt;
-  document.getElementById('em-t').textContent=t.emt;document.getElementById('em-d').textContent=t.emd;
+function showMission(idx) {
+  document.querySelectorAll('.mission-card').forEach(function(c){ c.classList.remove('active'); });
+  var el = document.getElementById('m'+idx);
+  if(el) el.classList.add('active');
 }
-
-function selCV(idx, el){
-  document.querySelectorAll('.cv-card').forEach(function(c){c.classList.remove('sel')});
-  el.classList.add('sel');
-  document.getElementById('detail-content').style.display='block';
-  document.getElementById('empty').classList.remove('show');
-}
-
-function sNav(idx,el){
-  document.querySelectorAll('.sb-item').forEach(function(s){s.classList.remove('on')});
-  el.classList.add('on');
-}
-
-function sV(v, el){
-  document.querySelectorAll('.vtab').forEach(function(b){b.classList.remove('on')});
-  el.classList.add('on');
-  var dc=document.getElementById('detail-content');
-  var em=document.getElementById('empty');
-  var gh=document.getElementById('ghost');
-  var ab=document.getElementById('auto-bar');
-  if(v===0){dc.style.display='block';em.classList.remove('show');gh.style.display='none';ab.style.display='none'}
-  if(v===1){dc.style.display='none';em.classList.add('show');ab.style.display='none';gh.style.display='none'}
-  if(v===2){dc.style.display='block';em.classList.remove('show');gh.style.display='block';ab.style.display='flex'}
-}
-document.getElementById('ghost').style.display='none';
-document.getElementById('auto-bar').style.display='none';
 </script>
