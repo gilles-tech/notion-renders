@@ -1,184 +1,124 @@
 <style>
-.sc{font-family:var(--font-sans);padding:1rem 0}
-.sc-head{font-size:13px;color:var(--color-text-secondary);margin-bottom:12px;line-height:1.5}
-.sc-grid{display:flex;flex-direction:column;gap:12px}
-.sc-row{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;transition:all .2s}
-.sc-row:hover{border-color:var(--color-border-secondary)}
-.sc-top{display:flex;align-items:center;gap:10px;cursor:pointer}
-.sc-name{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1}
-.sc-grade{font-size:13px;font-weight:500;padding:3px 10px;border-radius:8px}
-.g-a{background:rgba(22,163,74,0.1);color:#16A34A}
-.g-b{background:rgba(0,180,216,0.1);color:#0284C7}
-.g-c{background:rgba(245,158,11,0.1);color:#B45309}
-.g-d{background:rgba(220,38,38,0.1);color:#DC2626}
-.sc-verdict{font-size:11px;color:var(--color-text-tertiary);margin-left:8px}
-.sc-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
-@media(max-width:500px){.sc-bars{grid-template-columns:1fr 1fr}}
-.sc-bar{display:flex;flex-direction:column;gap:3px}
-.sb-label{font-size:10px;color:var(--color-text-tertiary)}
-.sb-track{height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
-.sb-fill{height:100%;border-radius:3px;transition:width .6s ease}
-.sb-val{font-size:10px;font-weight:500;color:var(--color-text-secondary)}
-.sc-detail{max-height:0;overflow:hidden;transition:max-height .4s ease;margin-top:0}
-.sc-detail.open{max-height:600px;margin-top:10px}
-.sd-section{margin-bottom:8px}
-.sd-title{font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
-.sd-text{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
-.sd-fix{font-size:11px;color:var(--color-text-info);line-height:1.5;margin-top:3px}
-.sd-tag{display:inline-block;font-size:9px;font-weight:500;padding:2px 6px;border-radius:5px;margin:2px 2px 0 0}
-.tag-pass{background:rgba(22,163,74,0.08);color:#16A34A}
-.tag-warn{background:rgba(245,158,11,0.08);color:#B45309}
-.tag-fail{background:rgba(220,38,38,0.08);color:#DC2626}
-.tag-redesign{background:rgba(124,58,237,0.08);color:#7C3AED}
-.sc-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;font-size:10px;color:var(--color-text-tertiary)}
-.sl-item{display:flex;align-items:center;gap:4px}
-.sl-bar{width:20px;height:6px;border-radius:3px}
+*{margin:0;padding:0;box-sizing:border-box}
+.timeline-wrap{padding:1rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.metro{position:relative;min-width:900px;height:340px}
+.track{position:absolute;top:80px;left:60px;right:60px;height:4px;background:var(--color-border-tertiary);border-radius:2px}
+.track-fill{height:100%;background:linear-gradient(90deg,#16A34A,#00B4D8);border-radius:2px;transition:width .6s ease;width:38%}
+.station{position:absolute;top:58px;text-align:center;cursor:pointer;transition:transform .2s}
+.station:hover{transform:translateY(-2px)}
+.dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--color-border-tertiary);background:var(--color-background-primary);display:flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:16px;font-weight:500;color:var(--color-text-secondary);transition:all .3s;margin:0 auto}
+.dot.done{border-color:#16A34A;background:#16A34A;color:#fff}
+.dot.current{border-color:#00B4D8;background:var(--color-background-primary);color:#00B4D8;box-shadow:0 0 0 4px rgba(0,180,216,0.15)}
+.dot.locked{opacity:.4}
+.sname{font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--color-text-primary);margin-top:10px;white-space:nowrap}
+.sdesc{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);margin-top:3px;max-width:110px;margin-left:auto;margin-right:auto;line-height:1.3}
+.missions{position:absolute;top:170px;left:0;right:0;padding:0 40px}
+.mission-card{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px 18px;display:none}
+.mission-card.active{display:block}
+.mission-title{font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px}
+.mission-item{font-family:var(--font-sans);font-size:12px;color:var(--color-text-secondary);padding:5px 0;display:flex;align-items:center;gap:8px}
+.mi-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px}
+.mi-check.done{border-color:#16A34A;background:#16A34A;color:#fff}
+.badge{display:inline-block;font-family:var(--font-sans);font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;margin-left:6px}
+.badge-xp{background:rgba(0,180,216,0.12);color:#0284C7}
+.scroll-hint{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-top:8px}
 </style>
 
-<div class="sc">
-<div class="sc-head">Each screen rated on 8 criteria derived from our expert panels: emotional design, cognitive load, progressive disclosure, glassmorphism consistency, responsiveness, dark mode, EN/FR, and studio-level engagement. Scores 0-10. Click any row to see detailed findings.</div>
+<div style="padding:1rem 0">
+<div class="timeline-wrap">
+<div class="metro">
+  <div class="track"><div class="track-fill"></div></div>
 
-<div class="sc-grid" id="grid"></div>
+  <div class="station" style="left:40px" onclick="showMission(0)">
+    <div class="dot done">&#10003;</div>
+    <div class="sname">Decouverte</div>
+    <div class="sdesc">Upload CV, onboarding</div>
+  </div>
 
-<div class="sc-legend">
-<div class="sl-item"><div class="sl-bar" style="background:#16A34A"></div>Emotional design</div>
-<div class="sl-item"><div class="sl-bar" style="background:#0284C7"></div>Cognitive load</div>
-<div class="sl-item"><div class="sl-bar" style="background:#7C3AED"></div>Engagement</div>
-<div class="sl-item"><div class="sl-bar" style="background:#B45309"></div>Technical (glass/responsive/dark/i18n)</div>
+  <div class="station" style="left:170px" onclick="showMission(1)">
+    <div class="dot done">&#10003;</div>
+    <div class="sname">Optimisation</div>
+    <div class="sdesc">Ameliorer le score</div>
+  </div>
+
+  <div class="station" style="left:300px" onclick="showMission(2)">
+    <div class="dot current">3</div>
+    <div class="sname">Exploration</div>
+    <div class="sdesc">Decouvrir le marche</div>
+  </div>
+
+  <div class="station" style="left:430px" onclick="showMission(3)">
+    <div class="dot locked">4</div>
+    <div class="sname">Candidatures</div>
+    <div class="sdesc">Postuler</div>
+  </div>
+
+  <div class="station" style="left:560px" onclick="showMission(4)">
+    <div class="dot locked">5</div>
+    <div class="sname">Entretiens</div>
+    <div class="sdesc">Preparer, pratiquer</div>
+  </div>
+
+  <div class="station" style="left:690px" onclick="showMission(5)">
+    <div class="dot locked">6</div>
+    <div class="sname">Negociation</div>
+    <div class="sdesc">Salaire, conditions</div>
+  </div>
+
+  <div class="station" style="left:820px" onclick="showMission(6)">
+    <div class="dot locked">7</div>
+    <div class="sname">Signe !</div>
+    <div class="sdesc">Certificat</div>
+  </div>
+
+  <div class="missions">
+    <div class="mission-card" id="m0">
+      <div class="mission-title">Decouverte — Termine &#10003;</div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Uploader votre CV <span class="badge badge-xp">+50 XP</span></div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Completer l'onboarding <span class="badge badge-xp">+50 XP</span></div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Voir votre score <span class="badge badge-xp">+100 XP</span></div>
+    </div>
+    <div class="mission-card" id="m1">
+      <div class="mission-title">Optimisation — Termine &#10003;</div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Ameliorer le score de +10 pts <span class="badge badge-xp">+100 XP</span></div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Appliquer les 3 Quick Fixes prioritaires <span class="badge badge-xp">+150 XP</span></div>
+    </div>
+    <div class="mission-card active" id="m2">
+      <div class="mission-title">Exploration marche — En cours</div>
+      <div class="mission-item"><div class="mi-check done">&#10003;</div>Consulter 20 offres <span class="badge badge-xp">+25 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Sauvegarder 5 offres <span class="badge badge-xp">+15 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Postuler a 1 offre <span class="badge badge-xp">+75 XP</span></div>
+    </div>
+    <div class="mission-card" id="m3">
+      <div class="mission-title">Candidatures — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Postuler a 5 offres <span class="badge badge-xp">+75 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Generer 3 lettres de motivation <span class="badge badge-xp">+50 XP</span></div>
+    </div>
+    <div class="mission-card" id="m4">
+      <div class="mission-title">Entretiens — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Completer le module preparation entretien <span class="badge badge-xp">+200 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Faire 1 simulation d'entretien <span class="badge badge-xp">+150 XP</span></div>
+    </div>
+    <div class="mission-card" id="m5">
+      <div class="mission-title">Negociation — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Consulter les benchmarks salariaux <span class="badge badge-xp">+50 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Preparer les arguments de negociation <span class="badge badge-xp">+100 XP</span></div>
+    </div>
+    <div class="mission-card" id="m6">
+      <div class="mission-title">Signe ! — Verrouille</div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Enregistrer le contrat signe <span class="badge badge-xp">+300 XP</span></div>
+      <div class="mission-item"><div class="mi-check">&#8226;</div>Generer votre Certificat de Transition <span class="badge badge-xp">+500 XP</span></div>
+    </div>
+  </div>
 </div>
+</div>
+<div class="scroll-hint">&#8592; Faire defiler pour voir toutes les etapes &#8594;</div>
 </div>
 
 <script>
-var screens = [
-  {
-    name: "1. Landing page", file: "landing_page_redesign_concept.html",
-    scores: {emotional:8, cognitive:8, disclosure:7, glass:9, responsive:7, dark:9, i18n:9, engagement:7},
-    grade: "B+", verdict: "Solid — needs demo path and scroll storytelling",
-    strengths: "Strong glassmorphism, animated hero score, RGPD trust bar, B2B2C variant, full EN/FR toggle. Gradient accents and blob backgrounds create premium feel. Dual CTA pattern is correct.",
-    gaps: "No demo path for visitors without a CV (critical for Career Dreamer converts). No scroll-driven storytelling below the fold — the 3-step explainer is static and could animate on scroll (Immersive Garden technique). Mobile padding could be tighter at 375px. The hero animation loops but has no pause state — should settle after 2 loops.",
-    fixes: "Add 'Watch a demo' secondary CTA linking to a 60s walkthrough on a fictional profile. Add GSAP ScrollTrigger to the 3-step explainer so steps fade in sequentially on scroll. Add @media(max-width:375px) with tighter padding. After 2 loops, hero settles on 87% with a subtle pulse.",
-    tags: ["pass:Glass/dark/i18n", "pass:Animated hero", "warn:No demo path", "warn:No scroll story", "fix:Add demo + scroll trigger"]
-  },
-  {
-    name: "2. Onboarding chatbot", file: "onboarding_chatbot_glassmorphism.html",
-    scores: {emotional:9, cognitive:9, disclosure:10, glass:8, responsive:5, dark:7, i18n:9, engagement:8},
-    grade: "B+", verdict: "Strong progressive disclosure — weak responsive",
-    strengths: "Progressive disclosure is excellent (micro-results between every question). Glassmorphism bubbles, gradient CTAs, proper EN/FR with all 6 steps translated. Emotional pacing is the best of any screen — gives value before asking. The step-by-step walkthrough tabs are great for team demos.",
-    gaps: "Only 1 responsive breakpoint — at 480px mobile the layout doesn't adapt enough. Max-width: 400px is too rigid — should be fluid. Dark mode only covers 6 elements vs. 14 on landing (missing: slider track, progress bar, context text backgrounds). The file hint under upload button is not translated. Haptic feedback is mentioned in the spec but not implemented in the prototype.",
-    fixes: "Make max-width fluid (min:320px, max:440px). Add 3 more dark mode rules for slider, progress, context. Translate file hint. Add navigator.vibrate() call on score preview step. Add swipe gesture support between steps on mobile (touch events).",
-    tags: ["pass:Progressive disclosure", "pass:EN/FR", "warn:Responsive weak", "warn:Dark mode gaps", "fix:Fluid width + dark + haptic"]
-  },
-  {
-    name: "3. Dashboard Hub", file: "dashboard_hub_redesign.html",
-    scores: {emotional:8, cognitive:10, disclosure:9, glass:6, responsive:4, dark:5, i18n:8, engagement:7},
-    grade: "B-", verdict: "Right concept, needs technical polish",
-    strengths: "The storytelling approach is correct: welcome + score + journey map + first action. Cognitive load is perfect (5 elements on first visit vs. 26 in the wireframe). The mission waterfall logic is sound. The journey map with numbered steps solves the orientation problem.",
-    gaps: "Only 520px max-width — no responsive breakpoints at all. Dark mode coverage is minimal (5 rules vs 14 needed). Glassmorphism is present but lighter than landing/onboarding (fewer backdrop-filter instances). The bottom nav has no touch feedback. The animated score ring works but the number counter has no easing — jumps to final value. The journey map cards have no expand/collapse interaction. No sound design hooks.",
-    fixes: "NEEDS REDESIGN. Add responsive grid (520px mobile, 860px tablet with sidebar, 1100px desktop). Full dark mode pass on every surface. Add card expand/collapse on journey steps. Add cubic-bezier easing to score counter. Add active state animation to bottom nav tabs. Add sound trigger hooks (even if sounds load later).",
-    tags: ["pass:Storytelling concept", "pass:Cognitive load", "fail:No responsive", "fail:Weak dark mode", "redesign:Full responsive + dark + interactions"]
-  },
-  {
-    name: "4. Resume Studio", file: "resume_studio_redesign.html",
-    scores: {emotional:7, cognitive:7, disclosure:7, glass:9, responsive:6, dark:8, i18n:9, engagement:8},
-    grade: "B", verdict: "Feature-rich but slightly overwhelming",
-    strengths: "Skills constellation SVG is unique. Ghost CV comparison overlay is well-implemented. Multi-CV support with score pills and freshness indicators. Auto-score spinner. Bridge to NextJobs on every card. Full EN/FR. Good dark mode coverage. Glassmorphism on all surfaces.",
-    gaps: "The 3-tab view switch (Selected/Empty/Ghost CV) is a demo convenience but confuses the actual UX — in production there's no tab, these are states. The detail panel shows too much at once on first view (constellation + summary + education + languages + ghost overlay + 2 CTAs). Should use progressive disclosure within the panel. The sidebar navigation is too wide at 180px on smaller screens. The SVG constellation uses hardcoded colors (not CSS vars) so won't adapt to dark mode properly.",
-    fixes: "Remove demo tabs — show the selected state only. Apply progressive disclosure to detail panel: show summary + score + top CTA first, then 'Show more' reveals constellation, education, languages. Reduce sidebar to 160px. Convert constellation SVG colors to use CSS-var-compatible fills via class attributes. Add skeleton loading state for auto-score.",
-    tags: ["pass:Skills constellation", "pass:Ghost CV", "pass:EN/FR/dark", "warn:Detail panel too dense", "warn:Demo tabs confuse", "fix:Progressive disclosure in panel"]
-  },
-  {
-    name: "5. Score Theatre (animation)", file: "N/A (inline widget)",
-    scores: {emotional:10, cognitive:9, disclosure:10, glass:7, responsive:6, dark:5, i18n:3, engagement:10},
-    grade: "B", verdict: "Emotionally perfect — needs i18n and dark mode",
-    strengths: "The score reveal animation is the single most emotionally impactful moment in the product. The pulsing loading, number spin, overshoot, particle burst, and qualifying phrase create a genuine 'wow' moment. This is Lusion-level theatrical design applied to a career tool. The stage progress dots are a smart touch.",
-    gaps: "Not translated — all text is hardcoded French. No dark mode at all. The phone frame uses hardcoded border colors. Particle colors are hardcoded. No responsive behavior — fixed 320px phone. The animation plays on every view — should only play on first visit, then show static on return (spec says this but prototype doesn't implement it).",
-    fixes: "NEEDS REDESIGN into a proper responsive component (not a phone frame — that was a demo convenience). Full EN/FR translation. Dark mode pass. Add is_first_view flag: if true, play animation; if false, show score directly with gentle fade. Convert hardcoded colors to CSS vars. Test at 375px and 768px.",
-    tags: ["pass:Emotional peak", "pass:Animation quality", "fail:No i18n", "fail:No dark mode", "fail:Phone frame not responsive", "redesign:Responsive component + i18n + dark"]
-  },
-  {
-    name: "6. Career Constellation", file: "career_constellation_job_explorer.html",
-    scores: {emotional:9, cognitive:8, disclosure:6, glass:2, responsive:2, dark:2, i18n:3, engagement:9},
-    grade: "C", verdict: "Brilliant concept, prototype-quality execution",
-    strengths: "The constellation metaphor is the strongest conceptual innovation in the product. Placing the candidate at center with jobs orbiting by match score inverts the anxiety of job searching. Hover tooltips with match %, skills gaps, and salary are well-structured. The color coding (green 90%+ / teal 75-89% / amber 60-74% / orange <60%) is intuitive.",
-    gaps: "Zero glassmorphism — flat background, no blur, no glass surfaces. Zero dark mode. Zero responsive. Only French job data (should be English-first). No EN/FR toggle. The SVG text uses hardcoded font-family strings. The constellation is static — should have gentle floating animation on nodes. The list/constellation toggle doesn't actually switch views. No keyboard navigation. No touch interaction for mobile (drag to explore).",
-    fixes: "NEEDS FULL REDESIGN. This is the flagship differentiator — it must be production-quality. Glass background with blobs. Dark mode on all surfaces. EN/FR toggle with translated job data. Responsive: on mobile <600px, switch to a horizontal card scroll (Netflix row) since force graphs don't work on touch. Add subtle floating animation (CSS @keyframes). Implement the list toggle. Add touch drag support.",
-    tags: ["pass:Concept is brilliant", "pass:Tooltip design", "fail:No glass/dark/responsive/i18n", "fail:Static nodes", "redesign:Full production rebuild"]
-  },
-  {
-    name: "7. Transition Timeline", file: "transition_timeline_metro_map.html",
-    scores: {emotional:7, cognitive:8, disclosure:8, glass:2, responsive:3, dark:2, i18n:2, engagement:7},
-    grade: "C", verdict: "Good gamification, no design language",
-    strengths: "The metro map metaphor is clear. 7 stations with missions, XP rewards, and done/current/locked states. Clicking stations reveals missions. The checklist interaction feels gamified without being childish. The XP badges are well-placed.",
-    gaps: "Zero glassmorphism. Zero dark mode. Zero EN/FR. Only scrolls horizontally with a text hint — no scroll snap, no indicators. The station dots and cards use hardcoded colors. The missions panel doesn't animate open (just display:block). No sound hooks. The track fill percentage is hardcoded at 38%. No responsive behavior — overflows at 375px.",
-    fixes: "NEEDS FULL REDESIGN. Apply glass surfaces to mission cards and station labels. Full dark mode. Full EN/FR. Add scroll-snap-type: x mandatory. Animate mission panel open (max-height transition). Calculate track fill from actual progress data. On mobile <600px, switch to vertical layout. Add sound trigger on mission completion.",
-    tags: ["pass:Metro map metaphor", "pass:Gamification logic", "fail:No glass/dark/i18n", "fail:No responsive", "redesign:Full production rebuild"]
-  },
-  {
-    name: "8. AI Copilot Whisper", file: "N/A (earlier inline widget)",
-    scores: {emotional:8, cognitive:9, disclosure:9, glass:5, responsive:4, dark:3, i18n:3, engagement:8},
-    grade: "C+", verdict: "Right interaction pattern, needs design system alignment",
-    strengths: "The whisper concept is sound: one contextual nudge per page, dismissable, non-blocking. The 4-variant demo (Score page, NextJobs, Mon Projet, CV ancien) shows the system's flexibility. The dismiss behavior and 'later' option respect user autonomy.",
-    gaps: "The mockup background is flat (no glass). The whisper card itself has no backdrop-filter. Dark mode barely covered. Not translated. The fixed 260px width doesn't adapt. The 4 variant tabs are a demo convenience that won't exist in production.",
-    fixes: "This is a cross-cutting component, not a standalone screen. Define it as a reusable React component with: glass surface, dark mode, responsive width (min:200px, max:280px), EN/FR text from i18n keys, rule-based trigger logic (see spec), dismiss persistence (24h cookie/localStorage), and sound trigger on appearance (optional).",
-    tags: ["pass:Concept + interaction", "warn:Not production-ready", "fix:Define as React component spec"]
-  }
-];
-
-function getColor(v) {
-  if (v >= 8) return '#16A34A';
-  if (v >= 6) return '#0284C7';
-  if (v >= 4) return '#B45309';
-  return '#DC2626';
-}
-
-function getGradeClass(g) {
-  if (g.startsWith('A')) return 'g-a';
-  if (g.startsWith('B')) return 'g-b';
-  if (g.startsWith('C')) return 'g-c';
-  return 'g-d';
-}
-
-function avg(s) {
-  var vals = Object.values(s);
-  return (vals.reduce(function(a,b){return a+b},0) / vals.length).toFixed(1);
-}
-
-var grid = document.getElementById('grid');
-screens.forEach(function(sc, idx) {
-  var el = document.createElement('div');
-  el.className = 'sc-row';
-  
-  var emotional = sc.scores.emotional;
-  var cognitive = sc.scores.cognitive;
-  var engagement = (sc.scores.disclosure + sc.scores.engagement) / 2;
-  var technical = (sc.scores.glass + sc.scores.responsive + sc.scores.dark + sc.scores.i18n) / 4;
-  
-  el.innerHTML = '<div class="sc-top" onclick="toggle('+idx+')">'
-    + '<div class="sc-name">' + sc.name + '</div>'
-    + '<div class="sc-grade ' + getGradeClass(sc.grade) + '">' + sc.grade + ' (' + avg(sc.scores) + '/10)</div>'
-    + '<div class="sc-verdict">' + sc.verdict + '</div>'
-    + '</div>'
-    + '<div class="sc-bars">'
-    + '<div class="sc-bar"><div class="sb-label">Emotional</div><div class="sb-track"><div class="sb-fill" style="width:'+emotional*10+'%;background:#16A34A"></div></div><div class="sb-val">'+emotional+'/10</div></div>'
-    + '<div class="sc-bar"><div class="sb-label">Cognitive load</div><div class="sb-track"><div class="sb-fill" style="width:'+cognitive*10+'%;background:#0284C7"></div></div><div class="sb-val">'+cognitive+'/10</div></div>'
-    + '<div class="sc-bar"><div class="sb-label">Engagement</div><div class="sb-track"><div class="sb-fill" style="width:'+engagement*10+'%;background:#7C3AED"></div></div><div class="sb-val">'+engagement.toFixed(0)+'/10</div></div>'
-    + '<div class="sc-bar"><div class="sb-label">Technical</div><div class="sb-track"><div class="sb-fill" style="width:'+technical*10+'%;background:'+getColor(technical)+'"></div></div><div class="sb-val">'+technical.toFixed(1)+'/10</div></div>'
-    + '</div>'
-    + '<div class="sc-detail" id="det'+idx+'">'
-    + '<div class="sd-section"><div class="sd-title">Strengths</div><div class="sd-text">'+sc.strengths+'</div></div>'
-    + '<div class="sd-section"><div class="sd-title">Gaps identified</div><div class="sd-text">'+sc.gaps+'</div></div>'
-    + '<div class="sd-section"><div class="sd-title">Required fixes</div><div class="sd-fix">'+sc.fixes+'</div></div>'
-    + '<div class="sd-section">' + sc.tags.map(function(t){
-        var parts = t.split(':');
-        var cls = parts[0] === 'pass' ? 'tag-pass' : parts[0] === 'warn' ? 'tag-warn' : parts[0] === 'fail' ? 'tag-fail' : 'tag-redesign';
-        return '<span class="sd-tag '+cls+'">'+parts[1]+'</span>';
-      }).join('') + '</div>'
-    + '</div>';
-  grid.appendChild(el);
-});
-
-function toggle(idx) {
-  var det = document.getElementById('det'+idx);
-  det.classList.toggle('open');
+function showMission(idx) {
+  document.querySelectorAll('.mission-card').forEach(function(c){ c.classList.remove('active'); });
+  var el = document.getElementById('m'+idx);
+  if(el) el.classList.add('active');
 }
 </script>
