@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV France — Modèle Classique Corporate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --gold: #C9A96E;
+    --gold-light: #F5ECD7;
+    --charcoal: #2D2D2D;
+    --gray-700: #4A4A4A;
+    --gray-500: #6B7280;
+    --gray-300: #D1D5DB;
+    --gray-100: #F3F4F6;
+    --white: #FFFFFF;
+    --page-w: 210mm;
+    --page-h: 297mm;
+  }
+
+  @page { size: A4; margin: 0; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 9pt;
+    line-height: 1.45;
+    color: var(--charcoal);
+    background: #E8E8E8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    margin: 20px auto;
+    background: var(--white);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 22px 32px 18px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .photo {
+    width: 72px;
+    height: 90px;
+    border-radius: 4px;
+    border: 2px solid var(--gold);
+    background: var(--gray-500);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7pt;
+    color: var(--gray-300);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .header-content { flex: 1; }
+
+  .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22pt;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .titre-poste {
+    font-size: 10.5pt;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 8pt;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .contact-row span { display: flex; align-items: center; gap: 4px; }
+  .contact-row .dot { color: var(--gold); font-size: 6pt; }
+
+  /* ─── BODY ─── */
+  .body-content {
+    padding: 16px 32px 20px;
+  }
+
+  /* ─── ACCROCHE ─── */
+  .accroche {
+    background: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 8.5pt;
+    color: var(--gray-700);
+    line-height: 1.5;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10pt;
+  }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom: 12px; }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: 3px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 1px;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .exp-item { margin-bottom: 10px; }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1px;
+  }
+
+  .exp-title {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--navy);
+  }
+
+  .exp-dates {
+    font-size: 8pt;
+    color: var(--gray-500);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .exp-company {
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 8.5pt;
+  }
+
+  .exp-company .lieu { font-weight: 400; color: var(--gray-500); }
+
+  .exp-bullets {
+    margin-top: 3px;
+    padding-left: 14px;
+    list-style: none;
+  }
+
+  .exp-bullets li {
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 2px;
+    font-size: 8.5pt;
+    color: var(--gray-700);
+  }
+
+  .exp-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: -12px;
+    color: var(--gold);
+    font-size: 8pt;
+  }
+
+  .metric { font-weight: 600; color: var(--navy); }
+
+  /* ─── FORMATION ─── */
+  .edu-item { margin-bottom: 6px; }
+
+  .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .edu-degree { font-weight: 700; font-size: 9pt; color: var(--navy); }
+  .edu-school { font-size: 8.5pt; color: var(--gray-700); }
+  .edu-detail { font-size: 8pt; color: var(--gray-500); margin-top: 1px; }
+
+  /* ─── COMPETENCES GRID ─── */
+  .competences-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 20px;
+  }
+
+  .comp-group-title {
+    font-weight: 600;
+    font-size: 8pt;
+    color: var(--navy);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .comp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .comp-tag {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: 2px;
+    padding: 1px 6px;
+    font-size: 7.5pt;
+    color: var(--gray-700);
+  }
+
+  /* ─── LANGUES ─── */
+  .langues-list { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+
+  .langue-item { display: flex; align-items: center; gap: 6px; font-size: 8.5pt; }
+
+  .langue-name { font-weight: 600; color: var(--navy); min-width: 60px; }
+
+  .langue-level-bar {
+    display: flex;
+    gap: 2px;
+  }
+
+  .level-dot {
+    width: 10px;
+    height: 5px;
+    border-radius: 1px;
+    background: var(--gray-300);
+  }
+
+  .level-dot.filled { background: var(--gold); }
+
+  .langue-label { font-size: 7.5pt; color: var(--gray-500); }
+
+  /* ─── CERTIFICATIONS ─── */
+  .cert-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 16px;
+  }
+
+  .cert-item {
+    font-size: 8.5pt;
+    display: flex;
+    gap: 4px;
+  }
+
+  .cert-name { font-weight: 500; }
+  .cert-org { color: var(--gray-500); }
+
+  /* ─── BOTTOM ROW ─── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px 20px;
+    margin-top: 4px;
+  }
+
+  .bottom-section-title {
+    font-weight: 600;
+    font-size: 8pt;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+
+  .bottom-content {
+    font-size: 8pt;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--gold) 50%, var(--navy) 100%);
+  }
+
+  .tag-label {
+    font-size: 6.5pt;
+    color: var(--gray-500);
+    text-align: center;
+    padding: 4px 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="header">
+    <div class="photo">Photo<br>35×45</div>
+    <div class="header-content">
+      <div class="name">Prénom NOM</div>
+      <div class="titre-poste">Intitulé du Poste Visé</div>
+      <div class="contact-row">
+        <span>📱 +33 6 XX XX XX XX</span>
+        <span class="dot">◆</span>
+        <span>✉ prenom.nom@email.com</span>
+        <span class="dot">◆</span>
+        <span>📍 Paris, France</span>
+        <span class="dot">◆</span>
+        <span>🔗 linkedin.com/in/prenom-nom</span>
+        <span class="dot">◆</span>
+        <span>🌐 portfolio.com</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-content">
+
+    <!-- ═══ ACCROCHE / RÉSUMÉ PROFESSIONNEL ═══ -->
+    <div class="accroche">
+      Professionnel expérimenté avec [X] années d'expertise en [domaine d'expertise]. Reconnu(e) pour [réalisation clé quantifiée, ex : +40 % de croissance du CA]. Spécialiste en [compétence 1], [compétence 2] et [compétence 3]. Recherche un poste de [intitulé poste cible] pour apporter [proposition de valeur unique].
+    </div>
+
+    <!-- ═══ EXPÉRIENCE PROFESSIONNELLE ═══ -->
+    <div class="section">
+      <div class="section-title">Expérience Professionnelle</div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-title">Intitulé du Poste</div>
+          <div class="exp-dates">MM/AAAA – Présent</div>
+        </div>
+        <div class="exp-company">Nom de l'Entreprise — <span class="lieu">Ville, France</span></div>
+        <ul class="exp-bullets">
+          <li>Piloté [description de l'action] aboutissant à <span class="metric">[résultat quantifié, ex : +35 % de CA]</span></li>
+          <li>Orchestré [projet/initiative] pour une équipe de <span class="metric">[X] personnes</span> sur un périmètre [géographique/fonctionnel]</li>
+          <li>Optimisé [processus/outil] permettant une réduction de <span class="metric">[X] % des coûts</span> en [durée]</li>
+          <li>Déployé [solution/technologie] générant <span class="metric">[X] M€</span> d'économies annuelles</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-title">Intitulé du Poste Précédent</div>
+          <div class="exp-dates">MM/AAAA – MM/AAAA</div>
+        </div>
+        <div class="exp-company">Nom de l'Entreprise — <span class="lieu">Ville, France</span></div>
+        <ul class="exp-bullets">
+          <li>Développé [stratégie/programme] ayant permis <span class="metric">[résultat quantifié]</span></li>
+          <li>Négocié [contrats/partenariats] d'une valeur de <span class="metric">[X] M€</span></li>
+          <li>Lancé [produit/service] avec un ROI de <span class="metric">[X] %</span> dès la première année</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-title">Intitulé du Poste Antérieur</div>
+          <div class="exp-dates">MM/AAAA – MM/AAAA</div>
+        </div>
+        <div class="exp-company">Nom de l'Entreprise — <span class="lieu">Ville, France</span></div>
+        <ul class="exp-bullets">
+          <li>Géré [périmètre] contribuant à <span class="metric">[résultat quantifié]</span></li>
+          <li>Formé <span class="metric">[X]</span> collaborateurs sur [sujet], atteignant [objectif]</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══ FORMATION ═══ -->
+    <div class="section">
+      <div class="section-title">Formation</div>
+
+      <div class="edu-item">
+        <div class="edu-header">
+          <div class="edu-degree">Diplôme (ex : Master, MBA, Ingénieur) — Spécialité</div>
+          <div class="exp-dates">AAAA</div>
+        </div>
+        <div class="edu-school">Nom de l'Établissement — Ville, France</div>
+        <div class="edu-detail">Mention [Très Bien / Bien / Assez Bien] · Mémoire : « Titre du mémoire » · Cours clés : [Cours 1], [Cours 2]</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-header">
+          <div class="edu-degree">Diplôme — Spécialité</div>
+          <div class="exp-dates">AAAA</div>
+        </div>
+        <div class="edu-school">Nom de l'Établissement — Ville, France</div>
+        <div class="edu-detail">Classe préparatoire / Échange international : [Université partenaire, Pays]</div>
+      </div>
+    </div>
+
+    <!-- ═══ COMPÉTENCES ═══ -->
+    <div class="section">
+      <div class="section-title">Compétences</div>
+      <div class="competences-grid">
+        <div>
+          <div class="comp-group-title">Compétences Techniques / Métier</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Compétence 1</span>
+            <span class="comp-tag">Compétence 2</span>
+            <span class="comp-tag">Compétence 3</span>
+            <span class="comp-tag">Compétence 4</span>
+            <span class="comp-tag">Compétence 5</span>
+            <span class="comp-tag">Compétence 6</span>
+          </div>
+        </div>
+        <div>
+          <div class="comp-group-title">Outils & Logiciels</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Outil 1</span>
+            <span class="comp-tag">Outil 2</span>
+            <span class="comp-tag">Outil 3</span>
+            <span class="comp-tag">Outil 4</span>
+            <span class="comp-tag">Outil 5</span>
+          </div>
+        </div>
+        <div>
+          <div class="comp-group-title">Méthodologies & Cadres</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Méthode 1</span>
+            <span class="comp-tag">Méthode 2</span>
+            <span class="comp-tag">Méthode 3</span>
+            <span class="comp-tag">Cadre 1</span>
+          </div>
+        </div>
+        <div>
+          <div class="comp-group-title">Compétences Comportementales</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Leadership</span>
+            <span class="comp-tag">Négociation</span>
+            <span class="comp-tag">Gestion d'équipe</span>
+            <span class="comp-tag">Communication</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LANGUES ═══ -->
+    <div class="section">
+      <div class="section-title">Langues</div>
+      <div class="langues-list">
+        <div class="langue-item">
+          <span class="langue-name">Français</span>
+          <div class="langue-level-bar">
+            <div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div>
+          </div>
+          <span class="langue-label">Langue maternelle</span>
+        </div>
+        <div class="langue-item">
+          <span class="langue-name">Anglais</span>
+          <div class="langue-level-bar">
+            <div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div>
+          </div>
+          <span class="langue-label">C1 — TOEIC 950</span>
+        </div>
+        <div class="langue-item">
+          <span class="langue-name">Espagnol</span>
+          <div class="langue-level-bar">
+            <div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div>
+          </div>
+          <span class="langue-label">B1 — Intermédiaire</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CERTIFICATIONS ═══ -->
+    <div class="section">
+      <div class="section-title">Certifications & Formation Continue</div>
+      <div class="cert-list">
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Organisme, AAAA</span>
+        </div>
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Organisme, AAAA</span>
+        </div>
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Organisme, AAAA</span>
+        </div>
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Plateforme, AAAA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BOTTOM ROW: Engagements, Centres d'intérêt, Informations ═══ -->
+    <div class="bottom-row">
+      <div>
+        <div class="bottom-section-title">Engagement Associatif</div>
+        <div class="bottom-content">
+          <strong>Rôle</strong> — Association, Dates<br>
+          Description brève de la contribution et de l'impact.
+        </div>
+      </div>
+      <div>
+        <div class="bottom-section-title">Centres d'Intérêt</div>
+        <div class="bottom-content">
+          [Activité 1 avec détail pertinent] · [Activité 2] · [Activité 3 démontrant une compétence ou un trait de caractère]
+        </div>
+      </div>
+      <div>
+        <div class="bottom-section-title">Informations Complémentaires</div>
+        <div class="bottom-content">
+          Permis B — Véhicule personnel<br>
+          Mobilité : [Nationale / Internationale / Île-de-France]<br>
+          Affiliations : [Nom de l'association professionnelle]
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tag-label">Modèle 1 · Classique Corporate · Format A4 · Conforme ATS · Norme française</div>
+  <div class="footer"></div>
+</div>
+
+</body>
+</html>
