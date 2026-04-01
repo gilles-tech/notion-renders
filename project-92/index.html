@@ -3,44 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV France — Modèle Moderne Bicolonne</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<title>CV France — Modèle Classique Corporate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --teal: #0D7377;
-    --teal-dark: #095B5E;
-    --teal-light: #E6F4F4;
-    --coral: #E8734A;
-    --coral-light: #FDF0E9;
-    --slate: #1E293B;
-    --gray-700: #374151;
+    --navy: #1B2A4A;
+    --gold: #C9A96E;
+    --gold-light: #F5ECD7;
+    --charcoal: #2D2D2D;
+    --gray-700: #4A4A4A;
     --gray-500: #6B7280;
     --gray-300: #D1D5DB;
-    --gray-200: #E5E7EB;
-    --gray-100: #F9FAFB;
+    --gray-100: #F3F4F6;
     --white: #FFFFFF;
-    --sidebar-w: 68mm;
+    --page-w: 210mm;
+    --page-h: 297mm;
   }
 
   @page { size: A4; margin: 0; }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 8.5pt;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 9pt;
     line-height: 1.45;
-    color: var(--slate);
-    background: #D4D4D4;
+    color: var(--charcoal);
+    background: #E8E8E8;
     -webkit-font-smoothing: antialiased;
   }
 
   .page {
-    width: 210mm;
-    min-height: 297mm;
+    width: var(--page-w);
+    min-height: var(--page-h);
     margin: 20px auto;
     background: var(--white);
     box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    display: flex;
+    padding: 0;
     overflow: hidden;
     position: relative;
   }
@@ -50,282 +49,299 @@
     .page { margin: 0; box-shadow: none; }
   }
 
-  /* ─── SIDEBAR ─── */
-  .sidebar {
-    width: var(--sidebar-w);
-    background: var(--slate);
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy);
     color: var(--white);
-    padding: 0;
-    flex-shrink: 0;
+    padding: 22px 32px 18px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    position: relative;
   }
 
-  .sidebar-photo-zone {
-    background: var(--teal-dark);
-    padding: 20px 16px 14px;
-    text-align: center;
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 2px;
+    background: var(--gold);
   }
 
-  .photo-circle {
+  .photo {
     width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    border: 3px solid var(--coral);
-    background: rgba(255,255,255,0.1);
-    margin: 0 auto 8px;
+    height: 90px;
+    border-radius: 4px;
+    border: 2px solid var(--gold);
+    background: var(--gray-500);
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 7pt;
-    color: rgba(255,255,255,0.5);
+    color: var(--gray-300);
+    text-align: center;
+    line-height: 1.2;
   }
 
-  .sidebar-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 13pt;
+  .header-content { flex: 1; }
+
+  .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22pt;
     font-weight: 600;
-    line-height: 1.15;
-    margin-bottom: 3px;
-  }
-
-  .sidebar-titre {
-    font-size: 7.5pt;
-    font-weight: 300;
-    color: var(--coral);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .sidebar-sections { padding: 12px 14px; flex: 1; }
-
-  .sb-section { margin-bottom: 12px; }
-
-  .sb-title {
-    font-size: 7pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--coral);
-    margin-bottom: 6px;
-    padding-bottom: 3px;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-  }
-
-  .sb-contact-list { list-style: none; }
-  .sb-contact-list li {
-    font-size: 7.5pt;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: flex-start;
-    gap: 5px;
-    color: rgba(255,255,255,0.85);
-    word-break: break-all;
-  }
-  .sb-contact-list .icon { font-size: 8pt; flex-shrink: 0; width: 14px; text-align: center; }
-
-  /* ─── SIDEBAR SKILLS ─── */
-  .sb-skill-group { margin-bottom: 8px; }
-  .sb-skill-group-title {
-    font-size: 7pt;
-    font-weight: 600;
-    color: rgba(255,255,255,0.6);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 3px;
-  }
-
-  .sb-tags { display: flex; flex-wrap: wrap; gap: 3px; }
-  .sb-tag {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 3px;
-    padding: 1px 5px;
-    font-size: 6.5pt;
-    color: rgba(255,255,255,0.8);
-  }
-
-  /* ─── SIDEBAR LANGUES ─── */
-  .sb-langue { margin-bottom: 5px; }
-  .sb-langue-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 7.5pt;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
     margin-bottom: 2px;
   }
-  .sb-langue-name { font-weight: 600; }
-  .sb-langue-level { font-size: 6.5pt; color: rgba(255,255,255,0.55); }
-  .sb-bar { height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; }
-  .sb-bar-fill { height: 100%; border-radius: 2px; background: var(--coral); }
 
-  /* ─── SIDEBAR CERTIFICATIONS ─── */
-  .sb-cert { margin-bottom: 4px; font-size: 7pt; line-height: 1.35; }
-  .sb-cert-name { font-weight: 600; color: var(--white); }
-  .sb-cert-org { color: rgba(255,255,255,0.5); }
+  .titre-poste {
+    font-size: 10.5pt;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
 
-  /* ─── SIDEBAR BOTTOM ─── */
-  .sb-info-item { font-size: 7pt; color: rgba(255,255,255,0.7); margin-bottom: 3px; display: flex; gap: 4px; }
-
-  /* ─── MAIN COLUMN ─── */
-  .main {
-    flex: 1;
-    padding: 20px 24px 16px 22px;
+  .contact-row {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 8pt;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .contact-row span { display: flex; align-items: center; gap: 4px; }
+  .contact-row .dot { color: var(--gold); font-size: 6pt; }
+
+  /* ─── BODY ─── */
+  .body-content {
+    padding: 16px 32px 20px;
   }
 
   /* ─── ACCROCHE ─── */
-  .accroche-box {
-    background: var(--teal-light);
-    border-radius: 6px;
+  .accroche {
+    background: var(--gold-light);
+    border-left: 3px solid var(--gold);
     padding: 10px 14px;
     margin-bottom: 14px;
     font-size: 8.5pt;
-    color: var(--teal-dark);
-    line-height: 1.55;
-    border-left: 4px solid var(--teal);
+    color: var(--gray-700);
+    line-height: 1.5;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10pt;
   }
 
   /* ─── SECTION ─── */
-  .m-section { margin-bottom: 12px; }
+  .section { margin-bottom: 12px; }
 
-  .m-section-title {
-    font-family: 'Playfair Display', serif;
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
     font-size: 11pt;
-    font-weight: 600;
-    color: var(--teal-dark);
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: 3px;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .m-section-title::after {
+  .section-title::before {
     content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--gray-200);
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 1px;
+    transform: rotate(45deg);
+    flex-shrink: 0;
   }
 
   /* ─── EXPERIENCE ─── */
-  .timeline { position: relative; padding-left: 14px; }
+  .exp-item { margin-bottom: 10px; }
 
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 3px;
-    top: 6px;
-    bottom: 6px;
-    width: 1.5px;
-    background: var(--gray-200);
-  }
-
-  .tl-item {
-    position: relative;
-    margin-bottom: 11px;
-  }
-
-  .tl-item::before {
-    content: '';
-    position: absolute;
-    left: -14px;
-    top: 5px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--white);
-    border: 2px solid var(--teal);
-  }
-
-  .tl-item:first-child::before { background: var(--coral); border-color: var(--coral); }
-
-  .tl-header {
+  .exp-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    flex-wrap: wrap;
-    gap: 4px;
+    margin-bottom: 1px;
   }
 
-  .tl-title { font-weight: 700; font-size: 9pt; color: var(--slate); }
+  .exp-title {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--navy);
+  }
 
-  .tl-dates {
-    font-size: 7.5pt;
-    color: var(--white);
-    background: var(--teal);
-    padding: 1px 7px;
-    border-radius: 3px;
-    font-weight: 500;
+  .exp-dates {
+    font-size: 8pt;
+    color: var(--gray-500);
     white-space: nowrap;
+    font-weight: 500;
   }
 
-  .tl-company { font-size: 8pt; color: var(--gray-500); font-weight: 500; margin-bottom: 3px; }
+  .exp-company {
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 8.5pt;
+  }
 
-  .tl-bullets {
-    padding-left: 12px;
+  .exp-company .lieu { font-weight: 400; color: var(--gray-500); }
+
+  .exp-bullets {
+    margin-top: 3px;
+    padding-left: 14px;
     list-style: none;
   }
 
-  .tl-bullets li {
+  .exp-bullets li {
     position: relative;
+    padding-left: 0;
     margin-bottom: 2px;
-    font-size: 8pt;
+    font-size: 8.5pt;
     color: var(--gray-700);
-    line-height: 1.45;
   }
 
-  .tl-bullets li::before {
-    content: '';
+  .exp-bullets li::before {
+    content: '▸';
     position: absolute;
-    left: -10px;
-    top: 5px;
-    width: 4px;
-    height: 4px;
-    background: var(--coral);
-    border-radius: 50%;
+    left: -12px;
+    color: var(--gold);
+    font-size: 8pt;
   }
 
-  .kpi { font-weight: 600; color: var(--teal-dark); }
+  .metric { font-weight: 600; color: var(--navy); }
 
   /* ─── FORMATION ─── */
-  .edu-card {
+  .edu-item { margin-bottom: 6px; }
+
+  .edu-header {
     display: flex;
-    gap: 10px;
-    margin-bottom: 7px;
-    padding: 6px 8px;
-    background: var(--gray-100);
-    border-radius: 4px;
+    justify-content: space-between;
+    align-items: baseline;
   }
 
-  .edu-year {
+  .edu-degree { font-weight: 700; font-size: 9pt; color: var(--navy); }
+  .edu-school { font-size: 8.5pt; color: var(--gray-700); }
+  .edu-detail { font-size: 8pt; color: var(--gray-500); margin-top: 1px; }
+
+  /* ─── COMPETENCES GRID ─── */
+  .competences-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 20px;
+  }
+
+  .comp-group-title {
+    font-weight: 600;
     font-size: 8pt;
-    font-weight: 700;
-    color: var(--teal);
-    min-width: 34px;
-    text-align: center;
-    padding-top: 1px;
+    color: var(--navy);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
-  .edu-body { flex: 1; }
-  .edu-degree { font-weight: 700; font-size: 8.5pt; color: var(--slate); }
-  .edu-school { font-size: 7.5pt; color: var(--gray-500); }
-  .edu-detail { font-size: 7pt; color: var(--gray-500); margin-top: 1px; }
+  .comp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
 
-  /* ─── PROJETS ─── */
-  .project-item { margin-bottom: 6px; }
-  .project-name { font-weight: 600; font-size: 8.5pt; color: var(--slate); }
-  .project-meta { font-size: 7.5pt; color: var(--gray-500); }
-  .project-desc { font-size: 8pt; color: var(--gray-700); margin-top: 1px; }
+  .comp-tag {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: 2px;
+    padding: 1px 6px;
+    font-size: 7.5pt;
+    color: var(--gray-700);
+  }
+
+  /* ─── LANGUES ─── */
+  .langues-list { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+
+  .langue-item { display: flex; align-items: center; gap: 6px; font-size: 8.5pt; }
+
+  .langue-name { font-weight: 600; color: var(--navy); min-width: 60px; }
+
+  .langue-level-bar {
+    display: flex;
+    gap: 2px;
+  }
+
+  .level-dot {
+    width: 10px;
+    height: 5px;
+    border-radius: 1px;
+    background: var(--gray-300);
+  }
+
+  .level-dot.filled { background: var(--gold); }
+
+  .langue-label { font-size: 7.5pt; color: var(--gray-500); }
+
+  /* ─── CERTIFICATIONS ─── */
+  .cert-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 16px;
+  }
+
+  .cert-item {
+    font-size: 8.5pt;
+    display: flex;
+    gap: 4px;
+  }
+
+  .cert-name { font-weight: 500; }
+  .cert-org { color: var(--gray-500); }
+
+  /* ─── BOTTOM ROW ─── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px 20px;
+    margin-top: 4px;
+  }
+
+  .bottom-section-title {
+    font-weight: 600;
+    font-size: 8pt;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+
+  .bottom-content {
+    font-size: 8pt;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
 
   /* ─── FOOTER ─── */
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--gold) 50%, var(--navy) 100%);
+  }
+
   .tag-label {
-    font-size: 6pt;
+    font-size: 6.5pt;
     color: var(--gray-500);
-    text-align: right;
-    padding: 2px 0;
-    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 4px 0;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-top: auto;
   }
 </style>
 </head>
@@ -333,229 +349,226 @@
 
 <div class="page">
 
-  <!-- ═══ SIDEBAR ═══ -->
-  <div class="sidebar">
+  <!-- ═══ HEADER ═══ -->
+  <div class="header">
+    <div class="photo">Photo<br>35×45</div>
+    <div class="header-content">
+      <div class="name">Prénom NOM</div>
+      <div class="titre-poste">Intitulé du Poste Visé</div>
+      <div class="contact-row">
+        <span>📱 +33 6 XX XX XX XX</span>
+        <span class="dot">◆</span>
+        <span>✉ prenom.nom@email.com</span>
+        <span class="dot">◆</span>
+        <span>📍 Paris, France</span>
+        <span class="dot">◆</span>
+        <span>🔗 linkedin.com/in/prenom-nom</span>
+        <span class="dot">◆</span>
+        <span>🌐 portfolio.com</span>
+      </div>
+    </div>
+  </div>
 
-    <div class="sidebar-photo-zone">
-      <div class="photo-circle">Photo</div>
-      <div class="sidebar-name">Prénom NOM</div>
-      <div class="sidebar-titre">Intitulé du Poste Visé</div>
+  <div class="body-content">
+
+    <!-- ═══ ACCROCHE / RÉSUMÉ PROFESSIONNEL ═══ -->
+    <div class="accroche">
+      Professionnel expérimenté avec [X] années d'expertise en [domaine d'expertise]. Reconnu(e) pour [réalisation clé quantifiée, ex : +40 % de croissance du CA]. Spécialiste en [compétence 1], [compétence 2] et [compétence 3]. Recherche un poste de [intitulé poste cible] pour apporter [proposition de valeur unique].
     </div>
 
-    <div class="sidebar-sections">
+    <!-- ═══ EXPÉRIENCE PROFESSIONNELLE ═══ -->
+    <div class="section">
+      <div class="section-title">Expérience Professionnelle</div>
 
-      <!-- COORDONNÉES -->
-      <div class="sb-section">
-        <div class="sb-title">Coordonnées</div>
-        <ul class="sb-contact-list">
-          <li><span class="icon">📱</span> +33 6 XX XX XX XX</li>
-          <li><span class="icon">✉</span> prenom.nom@email.com</li>
-          <li><span class="icon">📍</span> Paris, France</li>
-          <li><span class="icon">🔗</span> linkedin.com/in/prenom-nom</li>
-          <li><span class="icon">🌐</span> portfolio.com</li>
-          <li><span class="icon">💻</span> github.com/prenom</li>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-title">Intitulé du Poste</div>
+          <div class="exp-dates">MM/AAAA – Présent</div>
+        </div>
+        <div class="exp-company">Nom de l'Entreprise — <span class="lieu">Ville, France</span></div>
+        <ul class="exp-bullets">
+          <li>Piloté [description de l'action] aboutissant à <span class="metric">[résultat quantifié, ex : +35 % de CA]</span></li>
+          <li>Orchestré [projet/initiative] pour une équipe de <span class="metric">[X] personnes</span> sur un périmètre [géographique/fonctionnel]</li>
+          <li>Optimisé [processus/outil] permettant une réduction de <span class="metric">[X] % des coûts</span> en [durée]</li>
+          <li>Déployé [solution/technologie] générant <span class="metric">[X] M€</span> d'économies annuelles</li>
         </ul>
       </div>
 
-      <!-- COMPÉTENCES TECHNIQUES -->
-      <div class="sb-section">
-        <div class="sb-title">Compétences Techniques</div>
-        <div class="sb-skill-group">
-          <div class="sb-skill-group-title">Métier</div>
-          <div class="sb-tags">
-            <span class="sb-tag">Compétence 1</span>
-            <span class="sb-tag">Compétence 2</span>
-            <span class="sb-tag">Compétence 3</span>
-            <span class="sb-tag">Compétence 4</span>
-            <span class="sb-tag">Compétence 5</span>
-          </div>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-title">Intitulé du Poste Précédent</div>
+          <div class="exp-dates">MM/AAAA – MM/AAAA</div>
         </div>
-        <div class="sb-skill-group">
-          <div class="sb-skill-group-title">Outils & Logiciels</div>
-          <div class="sb-tags">
-            <span class="sb-tag">Outil 1</span>
-            <span class="sb-tag">Outil 2</span>
-            <span class="sb-tag">Outil 3</span>
-            <span class="sb-tag">Outil 4</span>
-          </div>
-        </div>
-        <div class="sb-skill-group">
-          <div class="sb-skill-group-title">Méthodologies</div>
-          <div class="sb-tags">
-            <span class="sb-tag">Méthode 1</span>
-            <span class="sb-tag">Méthode 2</span>
-            <span class="sb-tag">Méthode 3</span>
-          </div>
-        </div>
+        <div class="exp-company">Nom de l'Entreprise — <span class="lieu">Ville, France</span></div>
+        <ul class="exp-bullets">
+          <li>Développé [stratégie/programme] ayant permis <span class="metric">[résultat quantifié]</span></li>
+          <li>Négocié [contrats/partenariats] d'une valeur de <span class="metric">[X] M€</span></li>
+          <li>Lancé [produit/service] avec un ROI de <span class="metric">[X] %</span> dès la première année</li>
+        </ul>
       </div>
 
-      <!-- COMPÉTENCES COMPORTEMENTALES -->
-      <div class="sb-section">
-        <div class="sb-title">Savoir-Être</div>
-        <div class="sb-tags">
-          <span class="sb-tag">Leadership</span>
-          <span class="sb-tag">Communication</span>
-          <span class="sb-tag">Résolution de problèmes</span>
-          <span class="sb-tag">Gestion d'équipe</span>
-          <span class="sb-tag">Adaptabilité</span>
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-title">Intitulé du Poste Antérieur</div>
+          <div class="exp-dates">MM/AAAA – MM/AAAA</div>
         </div>
-      </div>
-
-      <!-- LANGUES -->
-      <div class="sb-section">
-        <div class="sb-title">Langues</div>
-        <div class="sb-langue">
-          <div class="sb-langue-header">
-            <span class="sb-langue-name">Français</span>
-            <span class="sb-langue-level">Langue maternelle</span>
-          </div>
-          <div class="sb-bar"><div class="sb-bar-fill" style="width:100%"></div></div>
-        </div>
-        <div class="sb-langue">
-          <div class="sb-langue-header">
-            <span class="sb-langue-name">Anglais</span>
-            <span class="sb-langue-level">C1 · TOEIC 950</span>
-          </div>
-          <div class="sb-bar"><div class="sb-bar-fill" style="width:83%"></div></div>
-        </div>
-        <div class="sb-langue">
-          <div class="sb-langue-header">
-            <span class="sb-langue-name">Espagnol</span>
-            <span class="sb-langue-level">B1 · Intermédiaire</span>
-          </div>
-          <div class="sb-bar"><div class="sb-bar-fill" style="width:50%"></div></div>
-        </div>
-      </div>
-
-      <!-- CERTIFICATIONS -->
-      <div class="sb-section">
-        <div class="sb-title">Certifications</div>
-        <div class="sb-cert"><span class="sb-cert-name">Certification 1</span><br><span class="sb-cert-org">Organisme · AAAA</span></div>
-        <div class="sb-cert"><span class="sb-cert-name">Certification 2</span><br><span class="sb-cert-org">Organisme · AAAA</span></div>
-        <div class="sb-cert"><span class="sb-cert-name">Certification 3</span><br><span class="sb-cert-org">Plateforme · AAAA</span></div>
-      </div>
-
-      <!-- INFORMATIONS COMPLÉMENTAIRES -->
-      <div class="sb-section">
-        <div class="sb-title">Informations</div>
-        <div class="sb-info-item">🚗 Permis B — Véhicule</div>
-        <div class="sb-info-item">🌍 Mobilité : Nationale / IDF</div>
-        <div class="sb-info-item">🏛 Affiliation professionnelle</div>
-      </div>
-
-      <!-- CENTRES D'INTÉRÊT -->
-      <div class="sb-section">
-        <div class="sb-title">Centres d'Intérêt</div>
-        <div style="font-size:7pt;color:rgba(255,255,255,0.7);line-height:1.5;">
-          [Activité 1 avec détail] · [Activité 2] · [Activité 3]
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══ MAIN COLUMN ═══ -->
-  <div class="main">
-
-    <!-- ACCROCHE -->
-    <div class="accroche-box">
-      Professionnel expérimenté avec <strong>[X] années</strong> d'expertise en [domaine]. Reconnu(e) pour [réalisation clé quantifiée]. Spécialiste en [compétence 1], [compétence 2] et [compétence 3]. Recherche un poste de <strong>[intitulé poste cible]</strong> pour [proposition de valeur].
-    </div>
-
-    <!-- EXPÉRIENCE PROFESSIONNELLE -->
-    <div class="m-section">
-      <div class="m-section-title">Expérience Professionnelle</div>
-      <div class="timeline">
-
-        <div class="tl-item">
-          <div class="tl-header">
-            <span class="tl-title">Intitulé du Poste</span>
-            <span class="tl-dates">MM/AAAA – Présent</span>
-          </div>
-          <div class="tl-company">Nom de l'Entreprise — Ville, France</div>
-          <ul class="tl-bullets">
-            <li>Piloté [action] aboutissant à <span class="kpi">+35 % de CA</span> sur le périmètre EMEA</li>
-            <li>Orchestré [projet] pour une équipe de <span class="kpi">12 personnes</span> répartie sur 3 pays</li>
-            <li>Optimisé [processus] permettant <span class="kpi">-28 % de coûts opérationnels</span></li>
-            <li>Déployé [solution] générant <span class="kpi">2,3 M€</span> d'économies annuelles</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-header">
-            <span class="tl-title">Intitulé du Poste Précédent</span>
-            <span class="tl-dates">MM/AAAA – MM/AAAA</span>
-          </div>
-          <div class="tl-company">Nom de l'Entreprise — Ville, France</div>
-          <ul class="tl-bullets">
-            <li>Développé [stratégie] ayant permis <span class="kpi">[résultat quantifié]</span></li>
-            <li>Négocié [contrats] d'une valeur de <span class="kpi">[X] M€</span></li>
-            <li>Lancé [produit/service] avec un ROI de <span class="kpi">[X] %</span> en an 1</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-header">
-            <span class="tl-title">Intitulé du Poste Antérieur</span>
-            <span class="tl-dates">MM/AAAA – MM/AAAA</span>
-          </div>
-          <div class="tl-company">Nom de l'Entreprise — Ville, France</div>
-          <ul class="tl-bullets">
-            <li>Géré [périmètre] contribuant à <span class="kpi">[résultat quantifié]</span></li>
-            <li>Formé <span class="kpi">[X] collaborateurs</span> sur [sujet] — adoption <span class="kpi">98 %</span></li>
-          </ul>
-        </div>
-
+        <div class="exp-company">Nom de l'Entreprise — <span class="lieu">Ville, France</span></div>
+        <ul class="exp-bullets">
+          <li>Géré [périmètre] contribuant à <span class="metric">[résultat quantifié]</span></li>
+          <li>Formé <span class="metric">[X]</span> collaborateurs sur [sujet], atteignant [objectif]</li>
+        </ul>
       </div>
     </div>
 
-    <!-- PROJETS CLÉS (optionnel) -->
-    <div class="m-section">
-      <div class="m-section-title">Projets Clés</div>
-      <div class="project-item">
-        <span class="project-name">Nom du Projet</span>
-        <span class="project-meta"> — Client/Organisation · Technologies utilisées · Durée</span>
-        <div class="project-desc">Description de la contribution et de l'impact : <span class="kpi">[résultat quantifié]</span></div>
-      </div>
-      <div class="project-item">
-        <span class="project-name">Nom du Projet</span>
-        <span class="project-meta"> — Client/Organisation · Technologies · Durée</span>
-        <div class="project-desc">Description et impact : <span class="kpi">[résultat]</span></div>
-      </div>
-    </div>
+    <!-- ═══ FORMATION ═══ -->
+    <div class="section">
+      <div class="section-title">Formation</div>
 
-    <!-- FORMATION -->
-    <div class="m-section">
-      <div class="m-section-title">Formation</div>
-      <div class="edu-card">
-        <div class="edu-year">AAAA</div>
-        <div class="edu-body">
-          <div class="edu-degree">Diplôme (Master, MBA, Ingénieur) — Spécialité</div>
-          <div class="edu-school">Nom de l'Établissement — Ville, France</div>
-          <div class="edu-detail">Mention [TB/B/AB] · Mémoire : « Titre » · Cours clés : [Cours 1], [Cours 2]</div>
+      <div class="edu-item">
+        <div class="edu-header">
+          <div class="edu-degree">Diplôme (ex : Master, MBA, Ingénieur) — Spécialité</div>
+          <div class="exp-dates">AAAA</div>
         </div>
+        <div class="edu-school">Nom de l'Établissement — Ville, France</div>
+        <div class="edu-detail">Mention [Très Bien / Bien / Assez Bien] · Mémoire : « Titre du mémoire » · Cours clés : [Cours 1], [Cours 2]</div>
       </div>
-      <div class="edu-card">
-        <div class="edu-year">AAAA</div>
-        <div class="edu-body">
+
+      <div class="edu-item">
+        <div class="edu-header">
           <div class="edu-degree">Diplôme — Spécialité</div>
-          <div class="edu-school">Nom de l'Établissement — Ville, France</div>
-          <div class="edu-detail">Échange : [Université partenaire, Pays]</div>
+          <div class="exp-dates">AAAA</div>
+        </div>
+        <div class="edu-school">Nom de l'Établissement — Ville, France</div>
+        <div class="edu-detail">Classe préparatoire / Échange international : [Université partenaire, Pays]</div>
+      </div>
+    </div>
+
+    <!-- ═══ COMPÉTENCES ═══ -->
+    <div class="section">
+      <div class="section-title">Compétences</div>
+      <div class="competences-grid">
+        <div>
+          <div class="comp-group-title">Compétences Techniques / Métier</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Compétence 1</span>
+            <span class="comp-tag">Compétence 2</span>
+            <span class="comp-tag">Compétence 3</span>
+            <span class="comp-tag">Compétence 4</span>
+            <span class="comp-tag">Compétence 5</span>
+            <span class="comp-tag">Compétence 6</span>
+          </div>
+        </div>
+        <div>
+          <div class="comp-group-title">Outils & Logiciels</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Outil 1</span>
+            <span class="comp-tag">Outil 2</span>
+            <span class="comp-tag">Outil 3</span>
+            <span class="comp-tag">Outil 4</span>
+            <span class="comp-tag">Outil 5</span>
+          </div>
+        </div>
+        <div>
+          <div class="comp-group-title">Méthodologies & Cadres</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Méthode 1</span>
+            <span class="comp-tag">Méthode 2</span>
+            <span class="comp-tag">Méthode 3</span>
+            <span class="comp-tag">Cadre 1</span>
+          </div>
+        </div>
+        <div>
+          <div class="comp-group-title">Compétences Comportementales</div>
+          <div class="comp-tags">
+            <span class="comp-tag">Leadership</span>
+            <span class="comp-tag">Négociation</span>
+            <span class="comp-tag">Gestion d'équipe</span>
+            <span class="comp-tag">Communication</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ENGAGEMENT ASSOCIATIF -->
-    <div class="m-section">
-      <div class="m-section-title">Engagement Associatif</div>
-      <div style="font-size:8pt;color:var(--gray-700);">
-        <strong>Rôle</strong> — Association · Dates · Description brève de la contribution et de l'impact.
+    <!-- ═══ LANGUES ═══ -->
+    <div class="section">
+      <div class="section-title">Langues</div>
+      <div class="langues-list">
+        <div class="langue-item">
+          <span class="langue-name">Français</span>
+          <div class="langue-level-bar">
+            <div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div>
+          </div>
+          <span class="langue-label">Langue maternelle</span>
+        </div>
+        <div class="langue-item">
+          <span class="langue-name">Anglais</span>
+          <div class="langue-level-bar">
+            <div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div>
+          </div>
+          <span class="langue-label">C1 — TOEIC 950</span>
+        </div>
+        <div class="langue-item">
+          <span class="langue-name">Espagnol</span>
+          <div class="langue-level-bar">
+            <div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div>
+          </div>
+          <span class="langue-label">B1 — Intermédiaire</span>
+        </div>
       </div>
     </div>
 
-    <div class="tag-label">Modèle 2 · Moderne Bicolonne · A4 · ATS-compatible · Norme française</div>
+    <!-- ═══ CERTIFICATIONS ═══ -->
+    <div class="section">
+      <div class="section-title">Certifications & Formation Continue</div>
+      <div class="cert-list">
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Organisme, AAAA</span>
+        </div>
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Organisme, AAAA</span>
+        </div>
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Organisme, AAAA</span>
+        </div>
+        <div class="cert-item">
+          <span class="cert-name">Nom de la Certification</span> —
+          <span class="cert-org">Plateforme, AAAA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BOTTOM ROW: Engagements, Centres d'intérêt, Informations ═══ -->
+    <div class="bottom-row">
+      <div>
+        <div class="bottom-section-title">Engagement Associatif</div>
+        <div class="bottom-content">
+          <strong>Rôle</strong> — Association, Dates<br>
+          Description brève de la contribution et de l'impact.
+        </div>
+      </div>
+      <div>
+        <div class="bottom-section-title">Centres d'Intérêt</div>
+        <div class="bottom-content">
+          [Activité 1 avec détail pertinent] · [Activité 2] · [Activité 3 démontrant une compétence ou un trait de caractère]
+        </div>
+      </div>
+      <div>
+        <div class="bottom-section-title">Informations Complémentaires</div>
+        <div class="bottom-content">
+          Permis B — Véhicule personnel<br>
+          Mobilité : [Nationale / Internationale / Île-de-France]<br>
+          Affiliations : [Nom de l'association professionnelle]
+        </div>
+      </div>
+    </div>
+
   </div>
 
+  <div class="tag-label">Modèle 1 · Classique Corporate · Format A4 · Conforme ATS · Norme française</div>
+  <div class="footer"></div>
 </div>
 
 </body>
