@@ -1,32 +1,783 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 20</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            display: flex; justify-content: center; align-items: center; 
-            height: 100vh; margin: 0; background-color: #ffffff; color: #37352f;
-        }
-        .card { 
-            padding: 40px; border-radius: 12px; border: 1px solid #edeef0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; max-width: 400px;
-        }
-        h1 { font-size: 1.5rem; margin-bottom: 10px; }
-        p { color: #6b6b6b; line-height: 1.5; }
-        .tag { 
-            display: inline-block; background: #ebf5fe; color: #2883d7; 
-            padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerNEXT · User Journey Flowchart · Bugs ↑ / Fixes ↓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..600;1,9..144,300..500&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'DM Sans', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --brand: #0284C7;
+    --brand-2: #0369A1;
+    --brand-deep: #075985;
+    --brand-soft: #E0F2FE;
+    --ink: #0F172A;
+    --ink-2: #1E293B;
+    --ink-3: #334155;
+    --muted: #64748B;
+    --muted-2: #94A3B8;
+    --line: #E2E8F0;
+    --line-2: #F1F5F9;
+    --bg: #FAFAF7;
+    --bg-warm: #F5F2EB;
+    --surface: #FFFFFF;
+    --ok: #10B981;
+    --ok-soft: #ECFDF5;
+    --ok-deep: #047857;
+    --warn: #F59E0B;
+    --danger: #EF4444;
+    --danger-soft: #FEF2F2;
+    --danger-deep: #B91C1C;
+    /* user test colors */
+    --u-denis: #7C3AED;
+    --u-nicos: #DC2626;
+    --u-florence: #B8860B;
+    --u-emmanuel: #047857;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.04), 0 2px 6px rgba(15,23,42,0.04);
+    --shadow-md: 0 4px 12px rgba(15,23,42,0.06), 0 12px 32px rgba(15,23,42,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans); background: var(--bg); color: var(--ink);
+    line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 300; letter-spacing: -0.018em; line-height: 1.15; }
+  h1 { font-size: clamp(36px, 4.5vw, 56px); font-weight: 200; }
+  h2 { font-size: 26px; }
+  em { font-style: italic; color: var(--brand); font-weight: 400; }
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--brand-soft); color: var(--brand-2); padding: 1px 5px; border-radius: 4px; }
+  .shell { max-width: 1480px; margin: 0 auto; padding: 0 32px; }
+
+  /* TOPNAV */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+    height: 52px; display: flex; align-items: center;
+  }
+  .topnav-inner {
+    width: 100%; max-width: 1480px; margin: 0 auto;
+    padding: 0 32px; display: flex; align-items: center; gap: 24px;
+  }
+  .brand { font-family: var(--serif); font-size: 16px; font-weight: 500; }
+  .brand span { color: var(--brand); }
+  .topnav-meta {
+    flex: 1; text-align: center;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .topnav-counter {
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .topnav-counter strong { color: var(--ink); }
+
+  /* HERO — compact */
+  .hero {
+    padding: 56px 0 40px;
+    background:
+      radial-gradient(ellipse at top right, var(--brand-soft) 0%, transparent 55%),
+      var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--brand-deep);
+    background: rgba(255,255,255,0.6); padding: 7px 14px; border-radius: 999px;
+    border: 1px solid var(--line); margin-bottom: 22px;
+  }
+  .hero-tag .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand); animation: pulse 2.5s ease infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero h1 { margin-bottom: 18px; max-width: 1100px; line-height: 1.05; }
+  .hero h1 em { font-weight: 200; }
+  .hero-lede {
+    font-family: var(--serif); font-size: 19px; font-weight: 300; font-style: italic;
+    color: var(--ink-2); max-width: 820px; line-height: 1.5; margin-bottom: 28px;
+  }
+
+  /* USER TEST CREDITS STRIP */
+  .credits {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm);
+    max-width: 1100px;
+  }
+  .credit {
+    padding: 0 12px; border-right: 1px solid var(--line);
+  }
+  .credit:last-child { border-right: 0; }
+  .credit-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 700; padding: 2px 7px;
+    border-radius: 999px; margin-bottom: 6px;
+  }
+  .credit[data-u="denis"] .credit-tag { background: rgba(124,58,237,0.12); color: var(--u-denis); }
+  .credit[data-u="nicos"] .credit-tag { background: rgba(220,38,38,0.12); color: var(--u-nicos); }
+  .credit[data-u="florence"] .credit-tag { background: rgba(184,134,11,0.12); color: var(--u-florence); }
+  .credit[data-u="emmanuel"] .credit-tag { background: rgba(4,120,87,0.12); color: var(--u-emmanuel); }
+  .credit-name {
+    font-family: var(--serif); font-size: 14px; font-weight: 500;
+    color: var(--ink); margin-bottom: 2px;
+  }
+  .credit-role {
+    font-size: 11px; color: var(--muted); line-height: 1.4;
+  }
+
+  /* HOW TO READ */
+  .legend {
+    padding: 36px 0;
+    background: var(--ink); color: white;
+    border-bottom: 1px solid var(--line);
+  }
+  .legend-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--brand);
+    margin-bottom: 12px; font-weight: 600;
+  }
+  .legend h2 {
+    color: white; font-weight: 200; max-width: 720px;
+    margin-bottom: 24px; font-style: italic; font-size: 24px;
+  }
+  .legend h2 em { color: var(--brand); }
+  .legend-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  .legend-item {
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+  }
+  .legend-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; margin-bottom: 8px;
+    font-family: var(--mono);
+  }
+  .legend-icon.up { background: rgba(239,68,68,0.18); color: #FCA5A5; }
+  .legend-icon.spine { background: rgba(2,132,199,0.18); color: #93C5FD; }
+  .legend-icon.down { background: rgba(16,185,129,0.18); color: #6EE7B7; }
+  .legend-item h4 {
+    color: white; font-size: 13px; font-weight: 600; margin-bottom: 4px;
+    font-family: var(--sans);
+  }
+  .legend-item p {
+    color: rgba(255,255,255,0.65); font-size: 12px; line-height: 1.55;
+  }
+
+  /* THE FLOWCHART */
+  .flow-section {
+    padding: 56px 0 40px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+  .flow-section .shell { padding-bottom: 20px; }
+  .flow-tag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--brand-deep);
+    margin-bottom: 12px; font-weight: 600;
+  }
+  .flow-section h2 {
+    margin-bottom: 12px; font-weight: 200; max-width: 1000px;
+    font-size: 30px;
+  }
+  .flow-section h2 em { color: var(--brand); font-style: italic; font-weight: 300; }
+  .flow-sub {
+    font-family: var(--serif); font-size: 16px; color: var(--ink-3);
+    max-width: 800px; line-height: 1.55; margin-bottom: 14px; font-weight: 300;
+    font-style: italic;
+  }
+  .scroll-hint {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+    color: var(--muted); padding: 5px 10px;
+    background: var(--bg); border: 1px dashed var(--line);
+    border-radius: 999px;
+  }
+
+  /* FLOWCHART CONTAINER */
+  .flow-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-warm);
+    padding: 32px 0;
+  }
+  .flow-scroll::-webkit-scrollbar { height: 12px; background: var(--bg-warm); }
+  .flow-scroll::-webkit-scrollbar-thumb { background: var(--muted-2); border-radius: 6px; }
+  .flow-scroll::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  .flow {
+    display: flex; align-items: stretch; gap: 0;
+    padding: 0 28px; min-width: max-content;
+  }
+  .flow-step {
+    width: 280px; flex-shrink: 0;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .flow-step + .flow-step { margin-left: 18px; }
+
+  /* The arrow connecting steps (visible between them on the spine row) */
+  .flow-step + .flow-step::before {
+    content: ''; position: absolute;
+    left: -22px; top: 50%; width: 18px; height: 2px;
+    background: var(--brand);
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+  .flow-step + .flow-step::after {
+    content: ''; position: absolute;
+    left: -8px; top: 50%; width: 0; height: 0;
+    border-left: 7px solid var(--brand);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  /* BUGS COLUMN (top) */
+  .flow-bugs {
+    flex: 1;
+    display: flex; flex-direction: column-reverse; gap: 8px;
+    padding-bottom: 20px;
+    position: relative;
+    min-height: 220px;
+  }
+
+  .bug-card {
+    background: var(--surface);
+    border: 1px solid #FCA5A5;
+    border-left: 3px solid var(--danger);
+    border-radius: 7px; padding: 9px 11px;
+    font-size: 11.5px; line-height: 1.45;
+    color: var(--ink-2);
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .bug-card .bug-text strong { color: var(--ink); font-weight: 600; }
+  .bug-attr {
+    margin-top: 5px; padding-top: 5px;
+    border-top: 1px dashed #FCA5A5;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.04em;
+    color: var(--muted); font-weight: 600;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .attr-pill {
+    padding: 1px 5px; border-radius: 3px;
+    font-weight: 700; text-transform: uppercase;
+  }
+  .attr-pill[data-u="denis"] { background: rgba(124,58,237,0.12); color: var(--u-denis); }
+  .attr-pill[data-u="nicos"] { background: rgba(220,38,38,0.12); color: var(--u-nicos); }
+  .attr-pill[data-u="florence"] { background: rgba(184,134,11,0.12); color: var(--u-florence); }
+  .attr-pill[data-u="emmanuel"] { background: rgba(4,120,87,0.12); color: var(--u-emmanuel); }
+  .attr-pill[data-u="audit"] { background: var(--ink); color: white; }
+
+  /* arrow from bug stack to spine */
+  .flow-bugs::after {
+    content: ''; position: absolute;
+    left: 50%; bottom: 0; width: 0; height: 0;
+    border-top: 6px solid var(--danger);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    transform: translateX(-50%);
+  }
+
+  /* SPINE NODE */
+  .flow-node {
+    background: var(--ink); color: white;
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    position: relative; z-index: 2;
+    border: 2px solid var(--brand);
+  }
+  .flow-node-num {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--brand); letter-spacing: 0.1em;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .flow-node h3 {
+    color: white; font-family: var(--serif); font-weight: 400;
+    font-size: 18px; margin-bottom: 4px; line-height: 1.15;
+  }
+  .flow-node-route {
+    font-family: var(--mono); font-size: 9px;
+    color: rgba(255,255,255,0.55); letter-spacing: 0.04em;
+  }
+  .flow-node-severity {
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: flex; justify-content: space-around;
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+  .flow-node-severity .stat strong {
+    display: block; font-family: var(--serif); font-size: 16px;
+    font-weight: 400; line-height: 1;
+  }
+  .flow-node-severity .stat.bugs strong { color: #FCA5A5; }
+  .flow-node-severity .stat.fixes strong { color: #6EE7B7; }
+  .flow-node-severity .stat span { color: rgba(255,255,255,0.5); font-size: 8px; }
+
+  /* P0 / critical badge */
+  .flow-node.p0 {
+    border: 2px solid var(--danger);
+    box-shadow: 0 0 0 4px rgba(239,68,68,0.18), var(--shadow-md);
+  }
+  .flow-node.p0::before {
+    content: 'P0 · CRITICAL';
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--danger); color: white;
+    font-family: var(--mono); font-size: 9px; padding: 2px 8px;
+    border-radius: 999px; font-weight: 700; letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  /* FIXES COLUMN (bottom) */
+  .flow-fixes {
+    flex: 1;
+    display: flex; flex-direction: column; gap: 8px;
+    padding-top: 20px;
+    position: relative;
+    min-height: 220px;
+  }
+  .fix-card {
+    background: var(--surface);
+    border: 1px solid #6EE7B7;
+    border-left: 3px solid var(--ok);
+    border-radius: 7px; padding: 9px 11px;
+    font-size: 11.5px; line-height: 1.45;
+    color: var(--ink-2);
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .fix-card strong { color: var(--ink); font-weight: 600; }
+  .fix-figma {
+    margin-top: 5px; padding-top: 5px;
+    border-top: 1px dashed #6EE7B7;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.04em;
+    color: var(--ok-deep); font-weight: 700;
+  }
+  .fix-figma::before { content: '→ '; }
+
+  /* arrow from spine to fix stack */
+  .flow-fixes::before {
+    content: ''; position: absolute;
+    left: 50%; top: 0; width: 0; height: 0;
+    border-bottom: 6px solid var(--ok);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    transform: translateX(-50%);
+  }
+
+  /* PRIORITY SUMMARY */
+  .summary-section {
+    padding: 70px 0;
+    background: var(--ink); color: white;
+  }
+  .summary-tag {
+    color: var(--brand);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 12px; font-weight: 600;
+  }
+  .summary-section h2 {
+    color: white; font-weight: 200; max-width: 800px;
+    margin-bottom: 12px; font-style: italic; font-size: 30px;
+  }
+  .summary-section h2 em { color: var(--brand); }
+  .summary-lede {
+    font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.65);
+    max-width: 720px; margin-bottom: 40px; line-height: 1.55; font-style: italic; font-weight: 300;
+  }
+  .priority-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .priority-block {
+    padding: 22px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+  }
+  .priority-block.p0 { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.06); }
+  .priority-block.p1 { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.06); }
+  .priority-block.p2 { border-color: rgba(2,132,199,0.4); background: rgba(2,132,199,0.06); }
+  .priority-tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 700;
+    padding: 3px 8px; border-radius: 999px; display: inline-block;
+    margin-bottom: 10px;
+  }
+  .priority-block.p0 .priority-tag { background: var(--danger); color: white; }
+  .priority-block.p1 .priority-tag { background: var(--warn); color: var(--ink); }
+  .priority-block.p2 .priority-tag { background: var(--brand); color: white; }
+  .priority-block h3 {
+    color: white; font-size: 17px; font-weight: 400; margin-bottom: 8px;
+    font-family: var(--serif);
+  }
+  .priority-block ul { list-style: none; padding: 0; margin: 0; }
+  .priority-block li {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 12.5px; color: rgba(255,255,255,0.75); line-height: 1.5;
+    display: grid; grid-template-columns: 18px 1fr; gap: 6px;
+    align-items: start;
+  }
+  .priority-block li:last-child { border-bottom: 0; }
+  .priority-block li::before {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    color: rgba(255,255,255,0.4);
+  }
+  .priority-block.p0 li::before { content: counter(p0); counter-increment: p0; }
+  .priority-block.p1 li::before { content: counter(p1); counter-increment: p1; }
+  .priority-block.p2 li::before { content: counter(p2); counter-increment: p2; }
+  .priority-block.p0 ul { counter-reset: p0; }
+  .priority-block.p1 ul { counter-reset: p1; }
+  .priority-block.p2 ul { counter-reset: p2; }
+  .priority-block li strong { color: white; font-weight: 600; }
+  .priority-block li code {
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85);
+    font-size: 10px; padding: 1px 4px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 50px 0; background: var(--bg); color: var(--ink-3);
+    text-align: center; border-top: 1px solid var(--line);
+  }
+  footer .brand-mark {
+    color: var(--ink); font-size: 18px; font-family: var(--serif);
+    font-weight: 400; margin-bottom: 10px; display: inline-block;
+  }
+  footer .brand-mark span { color: var(--brand); }
+  footer .footer-meta {
+    margin-top: 20px; padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.04em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .credits { grid-template-columns: 1fr 1fr; }
+    .credit { border-right: 0; border-bottom: 1px solid var(--line); padding-bottom: 10px; padding-right: 0; }
+    .legend-grid { grid-template-columns: 1fr; }
+    .priority-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-    <div class="card">
-        <div class="tag">Live Render</div>
-        <h1>Project 20 Interface</h1>
-        <p>This is your custom HTML content for project number 20, hosted on GitHub and rendered perfectly inside Notion.</p>
+
+<!-- TOPNAV -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="brand">CareerNEXT <span>·</span> User Journey Flowchart</div>
+    <div class="topnav-meta">CURRENT PATH · BUGS UP · FIXES DOWN · GROUNDED IN 4 USER TESTS</div>
+    <div class="topnav-counter">↔ scroll horizontally</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="shell">
+    <div class="hero-tag"><span class="dot"></span>DIAGNOSTIC FLOWCHART · BRIEF FOR THE FIGMA REDESIGN</div>
+    <h1>Twelve screens. <em>What's broken</em> at each — straight from four user tests.</h1>
+    <p class="hero-lede">
+      The horizontal spine is the path Anne-Frédérique (and Denis, Nicos, Florence, Emmanuel) actually walk through. Above each screen — the bugs they hit, with their own words attributed. Below — what needs to be in Figma to fix it. Read it like a fishbone with the user journey as the spine.
+    </p>
+    <div class="credits">
+      <div class="credit" data-u="denis">
+        <div class="credit-tag">D · DENIS</div>
+        <div class="credit-name">Denis Collin</div>
+        <div class="credit-role">5 May · senior, 50+ · LinkedIn import test</div>
+      </div>
+      <div class="credit" data-u="nicos">
+        <div class="credit-tag">N · NICOS</div>
+        <div class="credit-name">Nicos Steinkrietzer</div>
+        <div class="credit-role">4 May · transition manager profile</div>
+      </div>
+      <div class="credit" data-u="florence">
+        <div class="credit-tag">F · FLORENCE</div>
+        <div class="credit-name">Florence Netter</div>
+        <div class="credit-role">29 Apr · CV recruiter · expert tester</div>
+      </div>
+      <div class="credit" data-u="emmanuel">
+        <div class="credit-tag">E · EMMANUEL</div>
+        <div class="credit-name">Emmanuel</div>
+        <div class="credit-role">Apr · marketing/commercial profile</div>
+      </div>
     </div>
+  </div>
+</header>
+
+<!-- HOW TO READ -->
+<section class="legend">
+  <div class="shell">
+    <div class="legend-tag">⊙ HOW TO READ THIS FLOWCHART</div>
+    <h2>Three layers per step. <em>Bugs above, screen below, fixes underneath.</em></h2>
+    <div class="legend-grid">
+      <div class="legend-item">
+        <div class="legend-icon up">↑</div>
+        <h4>Top — bugs from user tests</h4>
+        <p>Red cards. Each one cites the user who reported it (D · N · F · E pill). Direct evidence, not speculation.</p>
+      </div>
+      <div class="legend-item">
+        <div class="legend-icon spine">●</div>
+        <h4>Middle — the screen on the path</h4>
+        <p>Black node = one screen in the journey. Connected left-to-right by blue arrows. P0-borderered when critical.</p>
+      </div>
+      <div class="legend-item">
+        <div class="legend-icon down">↓</div>
+        <h4>Bottom — fixes for Figma</h4>
+        <p>Green cards. Each one is a concrete redesign instruction. The "→ Figma" line tells you what frame to draw.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- THE FLOWCHART -->
+<section class="flow-section">
+  <div class="shell">
+    <div class="flow-tag">⊙ THE FLOWCHART · 12 STEPS · 61 BUGS · 58 FIXES</div>
+    <h2>The path Anne-Frédérique walks. <em>Where each step breaks.</em></h2>
+    <p class="flow-sub">Read it left-to-right. Each step's bug column is sourced from a real user test transcript (Denis, Nicos, Florence, Emmanuel) — never speculation. Each fix column is the redesign instruction your team takes to Figma.</p>
+    <div class="scroll-hint">↔ horizontal scroll · 12 steps total · ~3,400px wide</div>
+  </div>
+  <div class="flow-scroll">
+    <div class="flow">
+
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text">Pre-auth signup option missing for email/password — only LinkedIn or Google offered. <strong>"Une barrière à l'entrée significative."</strong></div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">Founding Team mention is jarring at first contact. <strong>"Agaçante en démarrage."</strong></div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Sign-up button "Créer votre compte" appears <strong>twice</strong>, gives impression of repeating the same action.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">LinkedIn-only signup loses ~50% of audience that won't connect their accounts to unknown services.</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div></div>
+  <div class="flow-node">
+    <div class="flow-node-num">STEP 01</div>
+    <h3>Landing</h3>
+    <div class="flow-node-route">/ · pre-auth</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>4</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>4</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Add email/password sign-up</strong> alongside OAuth.</div><div class="fix-figma">Figma: <strong>Sign-up screen</strong></div></div><div class="fix-card"><div class="fix-text">Remove the duplicate "Créer votre compte" button.</div><div class="fix-figma">Figma: <strong>Sign-up screen</strong></div></div><div class="fix-card"><div class="fix-text">Drop "Founding Team" wording from first-contact CTA — keep it for after acceptance only.</div><div class="fix-figma">Figma: <strong>Hero CTA</strong></div></div><div class="fix-card"><div class="fix-text">Add an explicit privacy reassurance line near OAuth buttons ("we don't read your network").</div><div class="fix-figma">Figma: <strong>Sign-up screen</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text"><strong>Page blanche après connexion LinkedIn.</strong> User must refresh manually to recover.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">LinkedIn data is collected via OAuth but <strong>not used anywhere</strong> in the platform afterward.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">"LinkedIn me fait douter" — confidentiality concern, especially when the service creator is unknown.</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div></div>
+  <div class="flow-node p0">
+    <div class="flow-node-num">STEP 02</div>
+    <h3>Auth (LinkedIn / Google)</h3>
+    <div class="flow-node-route">/auth · oauth flow</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>3</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>3</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Fix the blank-page bug</strong> on LinkedIn callback. Likely a redirect or session-init race.</div><div class="fix-figma">Figma: <strong>Auth callback</strong></div></div><div class="fix-card"><div class="fix-text">Use the LinkedIn data: pre-fill profile, headline, experiences, skills <strong>before</strong> asking for CV.</div><div class="fix-figma">Figma: <strong>Profile pre-fill</strong></div></div><div class="fix-card"><div class="fix-text">Add a graceful loading state during OAuth callback (with same narrated steps as CV processing).</div><div class="fix-figma">Figma: <strong>Auth loading screen</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text">"Impression d'accepter deux fois." — duplicate consent UX.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Wall of legal text reads like an EULA at the highest-intent moment.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div><div class="bug-card"><div class="bug-text">"Founding Team" branding is opaque to a first-time user.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div></div>
+  <div class="flow-node">
+    <div class="flow-node-num">STEP 03</div>
+    <h3>ToS / Founding Team</h3>
+    <div class="flow-node-route">/pact · acceptance</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>3</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>3</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Single consent point</strong>, not double. Track which checkbox the user clicked, drop the second screen.</div><div class="fix-figma">Figma: <strong>Consent flow</strong></div></div><div class="fix-card"><div class="fix-text">Replace the wall with a 4-line pact: <em>data stays in France · delete on word · alpha-stage · communications opt-in</em>.</div><div class="fix-figma">Figma: <strong>Pact card</strong></div></div><div class="fix-card"><div class="fix-text">Step indicator at the top: "3 of 4" — user knows they're nearly through.</div><div class="fix-figma">Figma: <strong>Pact card header</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text">"Several minutes searching for a CV." — no warning upfront that a CV is required.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Onboarding question "What is your definition of success?" too open. "<strong>Trop ouverte.</strong>"</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Open-ended chat with <strong>no progress, no time estimate, no save & resume</strong>. Abandonment risk after Q2.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div><div class="bug-card"><div class="bug-text">Question on satisfaction (1-10 scale) feels like market research, not onboarding.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div></div>
+  <div class="flow-node">
+    <div class="flow-node-num">STEP 04</div>
+    <h3>CV upload + onboarding chat</h3>
+    <div class="flow-node-route">/onboarding</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>4</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>4</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Tell users upfront they'll need a CV ready</strong> — banner before login or first chat bubble.</div><div class="fix-figma">Figma: <strong>Pre-onboarding</strong></div></div><div class="fix-card"><div class="fix-text">Tighten the open question into a 4-option multi-select (alliance / pleasure / sharing / performance — Denis used these exact terms).</div><div class="fix-figma">Figma: <strong>Chat onboarding</strong></div></div><div class="fix-card"><div class="fix-text">Add header: <em>"Question N of 7 · ~5 min · save & resume"</em>.</div><div class="fix-figma">Figma: <strong>Chat onboarding header</strong></div></div><div class="fix-card"><div class="fix-text">Replace 1-10 satisfaction with situation-naming: "Was the exit your initiative, theirs, or mutual?"</div><div class="fix-figma">Figma: <strong>Chat onboarding</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text"><strong>"Hello Gilles" debug greeting</strong> shown to every user (hardcoded dev string).</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div><div class="bug-card"><div class="bug-text">"In a moment" with grey skeletons — no ETA, no progress, no story.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div><div class="bug-card"><div class="bug-text">Wait feels broken; users wonder if anything is happening.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div></div>
+  <div class="flow-node p0">
+    <div class="flow-node-num">STEP 05</div>
+    <h3>Loading / Processing</h3>
+    <div class="flow-node-route">/app/project · post-onboarding wait</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>3</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>3</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Use the actual user's first name</strong> from the auth session. Fallback to "Welcome back".</div><div class="fix-figma">Figma: <strong>Loading screen</strong></div></div><div class="fix-card"><div class="fix-text">Replace skeletons with <strong>5 narrated steps</strong>: Reading CV / Mapping ESCO / Calibrating / Computing / Generating.</div><div class="fix-figma">Figma: <strong>Loading screen</strong></div></div><div class="fix-card"><div class="fix-text">Display real-time ETA: "~28 seconds". Update honestly if it slips.</div><div class="fix-figma">Figma: <strong>Loading screen</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text"><strong>49% interpreted as a loading bar</strong>, not project completion. Cognitive miss.</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div><div class="bug-card"><div class="bug-text">Sector and location displayed as <strong>"non défini"</strong>, no way to edit. Forces user to confirm a placeholder.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">Confirming "non défini" raises the score from 45 to 52% — <strong>scoring exploit bug</strong>.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">"Next actions" placed at <strong>bottom of page</strong>, not top. User must hunt for them.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">"Bouton Changer de rôle non intuitif." — "I would never have found it without help."</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div><div class="bug-card"><div class="bug-text">Navigation "flèche avec angle" (top-right) <strong>resets progress</strong>, sends user back to landing.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div></div>
+  <div class="flow-node p0">
+    <div class="flow-node-num">STEP 06</div>
+    <h3>Dashboard / My Project</h3>
+    <div class="flow-node-route">/app/project</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>6</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>5</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text">Reframe "49%" with a label: <strong>"Project setup: 49% complete"</strong> + green checkmarks for done items.</div><div class="fix-figma">Figma: <strong>Dashboard header</strong></div></div><div class="fix-card"><div class="fix-text">Make "non défini" fields <strong>editable inline</strong> (click → input). Reject confirmation if value is null.</div><div class="fix-figma">Figma: <strong>Project info card</strong></div></div><div class="fix-card"><div class="fix-text"><strong>Move the Mission Card (next actions) to the top</strong> of the dashboard, above progress.</div><div class="fix-figma">Figma: <strong>Dashboard layout</strong></div></div><div class="fix-card"><div class="fix-text">Make "Change role" a primary, visible CTA — not hidden in a dropdown.</div><div class="fix-figma">Figma: <strong>Target role bar</strong></div></div><div class="fix-card"><div class="fix-text">Top-right back button: change icon to a clear breadcrumb. Don't reset state on click.</div><div class="fix-figma">Figma: <strong>Topbar nav</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text">LinkedIn data <strong>not used anywhere</strong> despite mandatory OAuth.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text"><strong>Edit indicators missing</strong> — "aucun pictogramme n'invite à vérifier les informations." Users can't guess fields are editable.</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">CV parsing flat: DSM Consulting (3 sub-experiences) parsed sequentially, not hierarchically. User had to re-enter content manually.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">French/English mix on a single experience entry. Looks unfinished.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Dark glassmorphic Skills section breaks the design system — light app, dark widget.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div></div>
+  <div class="flow-node">
+    <div class="flow-node-num">STEP 07</div>
+    <h3>Profile (My Profile)</h3>
+    <div class="flow-node-route">/app/profile</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>5</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>5</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Use LinkedIn data</strong> to pre-populate everything — headline, summary, experiences, skills, education.</div><div class="fix-figma">Figma: <strong>Profile data ingestion</strong></div></div><div class="fix-card"><div class="fix-text">Add a <strong>pencil pictogram</strong> on every editable field. Hover → highlight; click → inline edit.</div><div class="fix-figma">Figma: <strong>Profile fields</strong></div></div><div class="fix-card"><div class="fix-text">Improve CV parser: detect parent companies / divisions and create a hierarchical experience tree.</div><div class="fix-figma">Figma: <strong>CV parser</strong></div></div><div class="fix-card"><div class="fix-text">Single language at any time (FR/EN toggle in topbar). Never mix within an entry.</div><div class="fix-figma">Figma: <strong>I18n system</strong></div></div><div class="fix-card"><div class="fix-text">Rebuild Skills section with a light theme matching the rest of the app + 4-6 signature skills emphasized.</div><div class="fix-figma">Figma: <strong>Skills component</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text"><strong>Leadership 0/25, Cultural fit 2/25</strong> shown without any path to improve them.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">"In fact what I expect is <strong>why I got 0/25 and what I'm missing</strong>." Scores not actionable.</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div><div class="bug-card"><div class="bug-text">7 scoring blocks with redundancy: "Passage humain, recruteur, manager — <strong>les trois sont redondants</strong>."</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Dissonance: 100% Profile Quality but very low on Recruiter Pass + Manager Pass. "Crée une dissonance."</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">Risk of confusion: <strong>score of CV vs score of the person</strong>. Even users who know it's the doc feel judged personally.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">Radar chart not legible spontaneously to a non-expert user.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Orthographic mistake: <strong>"Diplômer ER"</strong> instead of "Diplômé(e)".</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Advice in score blocks too IT-tech-oriented. Doesn't fit marketing/finance/HR profiles.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div></div>
+  <div class="flow-node">
+    <div class="flow-node-num">STEP 08</div>
+    <h3>Score page</h3>
+    <div class="flow-node-route">/app/profile/score</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>8</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>7</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Each sub-score becomes a clickable CTA</strong>: "Leadership 0/25 → BOOST →" opens a fix path.</div><div class="fix-figma">Figma: <strong>Score cards</strong></div></div><div class="fix-card"><div class="fix-text">Show concrete examples <strong>taken from the user's own CV</strong>: "You wrote X — try Y instead."</div><div class="fix-figma">Figma: <strong>Score drill-in</strong></div></div><div class="fix-card"><div class="fix-text"><strong>Reduce 7 blocks to 4 distinct ones</strong>: Profile Quality / Market Readiness / ATS Pass / Story Strength.</div><div class="fix-figma">Figma: <strong>Score architecture</strong></div></div><div class="fix-card"><div class="fix-text">Replace radar chart with a sortable bar list (each row = score + CTA). Radar can stay as decoration only.</div><div class="fix-figma">Figma: <strong>Score visualisation</strong></div></div><div class="fix-card"><div class="fix-text">Add a clarifying header: <em>"This is your CV's score against current market keywords. It's not a judgment of you."</em></div><div class="fix-figma">Figma: <strong>Score page header</strong></div></div><div class="fix-card"><div class="fix-text">Sector-aware advice: detect user's sector (marketing/finance/HR/IT) and rewrite keyword suggestions accordingly.</div><div class="fix-figma">Figma: <strong>Score advice engine</strong></div></div><div class="fix-card"><div class="fix-text">Fix orthographic mistakes — full copy review pass.</div><div class="fix-figma">Figma: <strong>Copy QA</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text">Of 3 suggestions, <strong>only 1 matches</strong> Nicos's profile. "Responsable recrutement" surprising; missing "directeur commercial".</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">Emmanuel (marketing/commercial profile) <strong>received nurse positions</strong> as suggestions.</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div><div class="bug-card"><div class="bug-text">Historical "<strong>army general</strong>" suggestion for a Directrice Générale — same root cause.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div><div class="bug-card"><div class="bug-text">"I don't understand the criteria these come from. <strong>I cannot redefine them.</strong>"</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">"Decorator d'intérieur" suggested without explanation, even though the user's compatible software was the trigger.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div></div>
+  <div class="flow-node p0">
+    <div class="flow-node-num">STEP 09</div>
+    <h3>Target role suggestions</h3>
+    <div class="flow-node-route">/app/job-offers · target</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>5</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>5</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Confidence threshold ≥ 80%</strong> before any suggestion surfaces. If nothing qualifies, honest empty state.</div><div class="fix-figma">Figma: <strong>ESCO matching engine</strong></div></div><div class="fix-card"><div class="fix-text">Show <strong>1 primary + 2 adjacent</strong> max — never more, never absurd.</div><div class="fix-figma">Figma: <strong>Target role page</strong></div></div><div class="fix-card"><div class="fix-text">Each suggestion must show <strong>why it was made</strong> ("matches 5 of 6 signature skills").</div><div class="fix-figma">Figma: <strong>Suggestion cards</strong></div></div><div class="fix-card"><div class="fix-text">Allow users to <strong>type their own target</strong> if none of the suggestions fit.</div><div class="fix-figma">Figma: <strong>Target role input</strong></div></div><div class="fix-card"><div class="fix-text">Footer disclosure: "We filter occupations below 80% match — including 'army general', 'secretary', 'nurse' — to protect your time."</div><div class="fix-figma">Figma: <strong>Target role page footer</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text"><strong>"Aucune sélection disponible, importez ou réanalysez votre CV"</strong> — error shown after the user already did both steps.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">"35 offres · affichées par série de 5 · pagination peu claire." — Emmanuel: <strong>"where are the 45 others?"</strong></div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text"><strong>No filters</strong>: salary, geography, contract type, sector. Results aren't refusable.</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">Match-scoring is unreliable because <strong>the user never defined their target market</strong>.</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">Wrong matches cascade from wrong target: <strong>commercial profile gets "infirmier"</strong>, DG gets "secrétaire de mairie".</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div><div class="bug-card"><div class="bug-text">Only France Travail as source. <strong>APEC missing</strong> — Florence: "la plus grande CVthèque de France."</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">"Outil tutoie l'utilisateur" inconsistently (auto-translation by IP).</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div></div>
+  <div class="flow-node p0">
+    <div class="flow-node-num">STEP 10</div>
+    <h3>Job offers list</h3>
+    <div class="flow-node-route">/app/job-offers</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>7</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>6</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Fix the "Aucune sélection" stale-state bug</strong>. Trigger re-fetch on every CV / target change.</div><div class="fix-figma">Figma: <strong>Offers data pipeline</strong></div></div><div class="fix-card"><div class="fix-text"><strong>Replace pagination with infinite scroll</strong> (or all 35 in one scrollable list, with sticky filter bar).</div><div class="fix-figma">Figma: <strong>Offers list</strong></div></div><div class="fix-card"><div class="fix-text">Add filter bar: <strong>salary range · location radius · contract type · sector · remote</strong>.</div><div class="fix-figma">Figma: <strong>Offers filter component</strong></div></div><div class="fix-card"><div class="fix-text">Each offer card shows <strong>match score + 1-line reason</strong> ("89% · industrial sector · €170-200K").</div><div class="fix-figma">Figma: <strong>Offer cards</strong></div></div><div class="fix-card"><div class="fix-text">Integrate <strong>APEC + Welcome to the Jungle + 15 ATS APIs</strong> as additional sources.</div><div class="fix-figma">Figma: <strong>Offers ingestion</strong></div></div><div class="fix-card"><div class="fix-text">Fix tutoiement / vouvoiement consistency — vouvoiement default for senior B2B audience.</div><div class="fix-figma">Figma: <strong>Tone of voice system</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text"><strong>PDF generation fails</strong> for both Denis and Florence: "Impossible de générer le PDF, veuillez réessayer."</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Second attempt produced an <strong>illegible PDF file</strong>.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">CV generated <strong>in French even though original was English</strong>.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text">CV title wrongly assigned: <strong>"Directeur de cabinet du PDG"</strong> for a senior commercial profile.</div><div class="bug-attr">via <span class="attr-pill" data-u="denis">D</span> Denis</div></div><div class="bug-card"><div class="bug-text"><strong>Black background</strong> on name/title section. "Faire-part de décès." Don't use it.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Page 2 has Centres d'Intérêt while page 1 is incomplete — fill order broken.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">Only one template marked "Selected" — promise of choice broken.</div><div class="bug-attr">via <span class="attr-pill" data-u="audit">A</span> audit</div></div></div>
+  <div class="flow-node p0">
+    <div class="flow-node-num">STEP 11</div>
+    <h3>CV Studio · template + generate</h3>
+    <div class="flow-node-route">/app/resumes/.../cv-generation</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>7</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>7</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text"><strong>Fix PDF generation P0</strong>: investigate Puppeteer / React-PDF pipeline; add error logging; ensure download works on Chrome / Safari / Firefox.</div><div class="fix-figma">Figma: <strong>PDF generation backend</strong></div></div><div class="fix-card"><div class="fix-text">Validate generated PDFs are readable on macOS, Windows, mobile, before user can download.</div><div class="fix-figma">Figma: <strong>PDF QA</strong></div></div><div class="fix-card"><div class="fix-text">Preserve the <strong>CV's original language</strong> on generation. Do not auto-translate user content.</div><div class="fix-figma">Figma: <strong>CV generator</strong></div></div><div class="fix-card"><div class="fix-text">Improve title extraction — pull the headline from the LinkedIn or CV header, not from random text.</div><div class="fix-figma">Figma: <strong>CV parser</strong></div></div><div class="fix-card"><div class="fix-text">Offer <strong>4 templates</strong> with named postures: Classic Executive · Modern Lead · Bicolumn · Editorial. <strong>None with black background.</strong></div><div class="fix-figma">Figma: <strong>Template gallery</strong></div></div><div class="fix-card"><div class="fix-text">Fill page 1 fully before pushing content to page 2. Pagination algorithm review.</div><div class="fix-figma">Figma: <strong>Layout engine</strong></div></div><div class="fix-card"><div class="fix-text">Add design QA on uploaded CVs: detect black bg, color overload, language inconsistency, excessive bandeaux.</div><div class="fix-figma">Figma: <strong>CV design checker</strong></div></div></div>
+</div>
+<div class="flow-step">
+  <div class="flow-bugs"><div class="bug-card"><div class="bug-text">"L'application montre des informations <strong>sans guider l'utilisateur</strong>."</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">"Lacks accompaniment, step-by-step, explanatory pop-ups."</div><div class="bug-attr">via <span class="attr-pill" data-u="nicos">N</span> Nicos</div></div><div class="bug-card"><div class="bug-text">Emmanuel: tool shows what's wrong but <strong>doesn't suggest how to fix</strong>. Observation without action.</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div><div class="bug-card"><div class="bug-text">Hardcoded English strings in source code — translation by IP only.</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">"5/10" overall product rating from Florence — "the foundation is there, the work is finishing."</div><div class="bug-attr">via <span class="attr-pill" data-u="florence">F</span> Florence</div></div><div class="bug-card"><div class="bug-text">All-in-one expectation: users want CV + offers + events + training + calendar in <strong>one platform</strong>, not five.</div><div class="bug-attr">via <span class="attr-pill" data-u="emmanuel">E</span> Emmanuel</div></div></div>
+  <div class="flow-node">
+    <div class="flow-node-num">STEP 12</div>
+    <h3>Cross-cutting / general UX</h3>
+    <div class="flow-node-route">everywhere</div>
+    <div class="flow-node-severity">
+      <div class="stat bugs"><strong>6</strong><span>bugs</span></div>
+      <div class="stat fixes"><strong>6</strong><span>fixes</span></div>
+    </div>
+  </div>
+  <div class="flow-fixes"><div class="fix-card"><div class="fix-text">Add a <strong>first-time onboarding tour</strong> with contextual tooltips on each module's first visit.</div><div class="fix-figma">Figma: <strong>Onboarding system</strong></div></div><div class="fix-card"><div class="fix-text">Wherever a score / metric is shown, <strong>pair it with a recommendation</strong>. Observation → action, every time.</div><div class="fix-figma">Figma: <strong>Design system rule</strong></div></div><div class="fix-card"><div class="fix-text">Fix all hardcoded English strings — proper i18n with FR / EN as first-class options.</div><div class="fix-figma">Figma: <strong>I18n cleanup</strong></div></div><div class="fix-card"><div class="fix-text">Calendar plugin (Google Cal / Outlook) for time-blocked work sessions: "Take 2h on Tuesday to refresh your CV."</div><div class="fix-figma">Figma: <strong>Calendar integration</strong></div></div><div class="fix-card"><div class="fix-text">Coach Connect: human coach option in a premium tier for users who want held accompaniment.</div><div class="fix-figma">Figma: <strong>Coach module</strong></div></div><div class="fix-card"><div class="fix-text">"Surprise me" feature: surface unexpected adjacent roles where user's skills are transferable. (Asked by Florence + Emmanuel.)</div><div class="fix-figma">Figma: <strong>Discovery module</strong></div></div></div>
+</div>    </div>
+  </div>
+</section>
+
+<!-- PRIORITY SUMMARY -->
+<section class="summary-section">
+  <div class="shell">
+    <div class="summary-tag">⊙ READING THE FLOWCHART · WHAT TO FIX FIRST</div>
+    <h2>Three priority bands. <em>Six screens are P0.</em></h2>
+    <p class="summary-lede">Out of 12 screens, 6 are P0 — bugs there destroy trust faster than the rest of the experience can recover it. P1 is the layer of features users explicitly missed. P2 is the polish that turns a working product into a product they recommend.</p>
+
+    <div class="priority-grid">
+      <div class="priority-block p0">
+        <div class="priority-tag">P0 · STOP THE BLEEDING</div>
+        <h3>6 screens · 23 critical bugs</h3>
+        <ul>
+          <li><strong>Step 02 · Auth</strong> — fix LinkedIn blank-page bug, use the data once collected.</li>
+          <li><strong>Step 05 · Loading</strong> — replace \"Hello Gilles\" + skeletons with narrated 5-step process.</li>
+          <li><strong>Step 06 · Dashboard</strong> — make \"non défini\" fields editable; reframe % as completion; lift Mission Card to top.</li>
+          <li><strong>Step 09 · Target</strong> — confidence ≥ 80%; no more <code>army general</code> / <code>infirmier</code> / <code>secrétaire de mairie</code>.</li>
+          <li><strong>Step 10 · Offers</strong> — fix stale-state bug; add filters; integrate APEC; show match scores.</li>
+          <li><strong>Step 11 · CV Studio</strong> — fix PDF generation; offer 4 templates (no black background); preserve original language.</li>
+        </ul>
+      </div>
+      <div class="priority-block p1">
+        <div class="priority-tag">P1 · MAKE IT GUIDE</div>
+        <h3>What users explicitly missed</h3>
+        <ul>
+          <li><strong>Actionable scoring</strong> — every score is a CTA, every gap is a door (Step 08). Scores without paths to fix are observations, not tools.</li>
+          <li><strong>Sector-aware advice</strong> — replace IT-tech vocabulary with marketing / finance / HR / commerce contextualization (Step 08 + Step 11).</li>
+          <li><strong>Edit pictograms everywhere</strong> — users can't guess fields are editable (Step 07). Every editable field gets a pencil icon.</li>
+          <li><strong>First-time onboarding tour</strong> — contextual tooltips on each module's first visit (Step 12).</li>
+          <li><strong>Use LinkedIn data</strong> — pre-populate profile from OAuth (Step 02 → Step 07). Currently collected and ignored.</li>
+        </ul>
+      </div>
+      <div class="priority-block p2">
+        <div class="priority-tag">P2 · FROM WORKING TO RECOMMENDED</div>
+        <h3>The polish that compounds</h3>
+        <ul>
+          <li><strong>Surprise discovery</strong> — surface adjacent roles where skills transfer (Florence + Emmanuel both asked).</li>
+          <li><strong>Calendar integration</strong> — \"take 2h Tuesday to refresh your CV\" (Emmanuel).</li>
+          <li><strong>Coach Connect option</strong> — premium tier with human accompaniment (Emmanuel: \"that's different, that's interesting\").</li>
+          <li><strong>I18n cleanup</strong> — proper FR/EN toggle in topbar; never mix within an entry; consistent vouvoiement for senior B2B.</li>
+          <li><strong>Editorial polish</strong> — fix orthographic mistakes; replace radar charts with sortable lists; tighten CV design QA.</li>
+          <li><strong>One-shot pricing</strong> — Florence: \"students would pay 9.99€ for a single month to redo their CV.\" Add à-la-carte alongside the subscription.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <div class="brand-mark">CareerNEXT <span>·</span> User Journey Flowchart</div>
+    <p>12 screens · 61 bugs · 58 fixes · grounded in 4 user test transcripts · 05 May 2026</p>
+    <div class="footer-meta">
+      DIAGNOSTIC FLOWCHART · BRIEF FOR FIGMA REDESIGN · NEXT STEP: DRAW EACH SCREEN<br>
+      RED CARDS = USER-REPORTED BUGS WITH ATTRIBUTION · GREEN CARDS = WHAT TO BUILD IN FIGMA<br>
+      SCROLL HORIZONTALLY · OPEN ON DESKTOP FOR FULL-WIDTH VIEW
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
